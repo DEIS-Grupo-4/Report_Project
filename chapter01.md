@@ -112,10 +112,10 @@ Buscamos transformar la movilidad urbana en Lima  ofreciendo un transporte rápi
         <span style="font-size:11px; color:#555;">(U20241B885)</span>
       </td>
       <td style="padding: 10px; border: 1px solid #aaa; text-align:center;">
-        <img src="assets/Integrantes/ArnoldProfile.png" alt="Foto de Arnold" style="max-width:80px; border-radius:6px;">
+        <img src="assets/Integrantes/Rosangela-Silva.jpeg" alt="Foto de Arnold" style="max-width:80px; border-radius:6px;">
       </td>
       <td style="padding: 10px; border: 1px solid #aaa; text-align: justify;">
-        Estudiante de Ingeniería de Software. Posee experiencia en ensamblaje, mantenimiento, conectividad y desarrollo de software. Maneja tecnologías como C++, Python, Javascript, SQL, NoSQL, Vue.js, Jenkins y metodologías ágiles. Se distingue por su responsabilidad, proactividad, creatividad y facilidad para el trabajo en equipo.
+        Mi nombre es Rosangela Silva y estoy cursando la carrera de Ingeniería de Software en la Universidad Peruana de Ciencias Aplicadas. Tengo interés en seguir desarrollándome en el área de tecnología y adquirir experiencia a través de la participación en diferentes proyectos. Me gustaría enfocarme en el desarrollo y la creación de soluciones de software, aportando mis conocimientos, aprendiendo junto a mi equipo y asumiendo responsabilidades que contribuyan al cumplimiento de los objetivos del proyecto.
       </td>
     </tr>
   </tbody>
