@@ -67,7 +67,7 @@ Buscamos transformar la movilidad urbana en Lima  ofreciendo un transporte rápi
         <img src="assets/Integrantes/profile.jpeg" alt="Jeff's photo" style="max-width:80px; border-radius:6px;">
       </td>
       <td style="padding: 10px; border: 1px solid #aaa; text-align: justify;">
-        Estudiante de Ingeniería de Software. Se caracteriza por ser un motivador dentro de los equipos y demostrar una fuerte orientación al trabajo en conjunto. Posee interés en integrarse a grandes empresas y desarrollar en el futuro un emprendimiento propio relacionado a la tecnología.
+         Soy un joven de 22 años interesado en desarrollarme profesionalmente en el área de desarrollo Full Stack. Me apasiona aprender sobre nuevas tecnologías y explorar diferentes formas de aplicarlas en proyectos, buscando constantemente mejorar mis conocimientos y habilidades.
       </td>
     </tr>
     <tr>
