@@ -76,10 +76,10 @@ Buscamos transformar la movilidad urbana en Lima  ofreciendo un transporte rápi
         <span style="font-size:11px; color:#555;">U202316162</span>
       </td>
       <td style="padding: 10px; border: 1px solid #aaa; text-align:center;">
-        <img src="assets/Integrantes/Samuel.png" alt="Foto de Samuel" style="max-width:80px; border-radius:6px;">
+        <img src="assets/Integrantes/GiordanoTrejo.jpeg" alt="Foto de Giordano" style="max-width:80px; border-radius:6px;">
       </td>
       <td style="padding: 10px; border: 1px solid #aaa; text-align: justify;">
-        Estudiante de Ingeniería de Software (5to ciclo). Cuenta con experiencia práctica en Javascript, C++, Typescript y React. Es apasionado por la inteligencia artificial, el ajedrez, la música y el fútbol, combinando habilidades técnicas con una perspectiva creativa e interdisciplinaria.
+        Soy un estudiante de Ingeniería de software interesado en aprender más sobre bases de datos SQL y NoSQL, tengo experiencia en desarrollo de software con C++ y Python, actualmente tengo 21 años y espero aprender y mejorar mis habilidades.
       </td>
     </tr>
     <tr>
