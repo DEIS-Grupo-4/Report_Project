@@ -323,37 +323,21 @@ EAC - Student Outcome 4.
                   <td style="border:1px solid #999; padding:8px; vertical-align:top;">
         <strong>Alessandro Franco Sarmiento Mendoza</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>TB1:</b> Reuniones presenciales y virtuales para coordinar el desarrollo del proyecto.</li>
-          <li><b>TP1:</b> Participación oral en planificación del frontend, bounded contexts y estructura del db.json.</li>
-          <li><b>TB2:</b> Coordinación en sesiones técnicas de backend para aplicar DDD y CQRS.</li>
-          <li><b>TF:</b> Reuniones de integración final y validación del informe.</li>
           <li><b>AV1:</b> Realizó reuniones de coordinación equivalentes a las de ciclos anteriores, revisando la planificación del frontend, los bounded contexts y la estructura de datos ya construidos, además de validar junto al equipo la decisión de mantener la arquitectura DDD/CQRS del backend, confirmando su vigencia para el enunciado del curso actual.</li>
           <li><b>TP:</b> [Pendiente]</li>
         </ul>
         <strong>Romero Meza Jhimy Pool</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>TB1:</b> Presentación clara de wireframes, mockups y requerimientos.</li>
-          <li><b>TP1:</b> Explicación del flujo de usuario y validación de pantallas del frontend.</li>
-          <li><b>TB2:</b> Coordinación oral para definir la arquitectura basada en DDD.</li>
-          <li><b>TF:</b> Reuniones de integración y explicación de correcciones del informe.</li>
           <li><b>AV1:</b> Presentó nuevamente ante el equipo los wireframes, mockups y requerimientos originales del proyecto, explicando el flujo de usuario y la arquitectura DDD ya definida, como base para que el nuevo equipo comprendiera el estado real de WeRide antes de continuar su desarrollo.</li>
           <li><b>TP:</b> [Pendiente]</li>
         </ul>
         <strong>Giordano Sebastian Trejo Espejo</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>TB1:</b> Participación en Sprint Planning y presentación de avances.</li>
-          <li><b>TP1:</b> Explicación del flujo y requerimientos de US-24.</li>
-          <li><b>TB2:</b> Exposición del diseño del bounded context de Perfiles.</li>
-          <li><b>TF:</b> Coordinación de integración final y resolución de errores del informe.</li>
           <li><b>AV1:</b> Participó en una sesión de planificación equivalente a un Sprint Planning para retomar el proyecto, exponiendo nuevamente el flujo y los requerimientos de funcionalidades clave (como US-24) y el diseño del bounded context de Perfiles, y colaboró en la resolución de inconsistencias detectadas en el informe heredado.</li>
           <li><b>TP:</b> [Pendiente]</li>
         </ul>
         <strong>Franco Sebastian Laymito Delgado</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>TB1:</b> Coordinación de reuniones y presentación de propuestas de diseño.</li>
-          <li><b>TP1:</b> Participación en planificación del frontend y revisión del db.json.</li>
-          <li><b>TB2:</b> Reuniones técnicas para organización del backend.</li>
-          <li><b>TF:</b> Coordinación oral para validación del despliegue final.</li>
           <li><b>AV1:</b> Coordinó reuniones para retomar las propuestas de diseño ya definidas, participó en la revisión de la planificación del frontend y la estructura de datos, y organizó junto al equipo la verificación del despliegue ya existente del backend.</li>
           <li><b>TP:</b> [Pendiente]</li>
         </ul>
