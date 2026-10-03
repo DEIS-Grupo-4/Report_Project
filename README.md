@@ -349,10 +349,8 @@ EAC - Student Outcome 4.
       </td>
       <td style="border:1px solid #999; padding:8px; vertical-align:top;">
         <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>TB1:</b> Comunicación clara permitió coordinar planificación, user stories y diseño inicial.</li>
-          <li><b>TP1:</b> Coordinación efectiva para construir la Web Application.</li>
-          <li><b>TB2:</b> Comunicación técnica precisa garantizó coherencia en el backend DDD/CQRS.</li>
-          <li><b>TF:</b> Comunicación fluida permitió integrar correctamente todas las funcionalidades.</li>
+          <li><b>AV1:</b> Retomar el proyecto exigió comunicación clara para transferir conocimiento del equipo anterior al nuevo, evitando que se perdiera contexto técnico o de diseño ya validado.</li>
+          <li><b>TP:</b> [Pendiente]</li>
         </ul>
       </td>
     </tr>
