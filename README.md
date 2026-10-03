@@ -356,6 +356,10 @@ EAC - Student Outcome 4.
     </tr>
     <!-- CRITERIO 2 -->
     <tr>
+            <td style="border:1px solid #999; padding:8px; vertical-align:top; font-weight:bold;">
+        Emite juicios informados considerando el impacto de las soluciones de ingeniería de
+        software en contextos globales,económicos, ambientales y sociales
+      </td>
             <td style="border:1px solid #999; padding:8px; vertical-align:top;">
         <strong>Alessandro Franco Sarmiento Mendoza</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
@@ -379,6 +383,12 @@ EAC - Student Outcome 4.
         </ul>
         <strong>Rosangela Silva Hualpa</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
+                <td style="border:1px solid #999; padding:8px; vertical-align:top;">
+        <ul style="margin:4px 0 10px; padding-left:20px;">
+          <li><b>AV1:</b> Evaluar qué documentación conservar y qué actualizar permitió al equipo tomar decisiones informadas sobre el alcance real y el impacto del producto en este nuevo ciclo.</li>
+          <li><b>TP:</b> [Pendiente]</li>
+        </ul>
+      </td>
           <li><b>AV1:</b> Se incorporó al análisis documental del proyecto, revisando los capítulos existentes del informe para identificar el impacto y alcance real del producto WeRide antes de aportar en esta nueva etapa.</li>
           <li><b>TP:</b> [Pendiente]</li>
         </ul>
