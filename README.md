@@ -381,11 +381,9 @@ EAC - Student Outcome 4.
           <li><b>AV1:</b> Revisó y consolidó la documentación de los capítulos I, III y V, así como la documentación de APIs y arquitectura del dominio, evaluando qué partes del informe anterior debían mantenerse o ajustarse para este curso.</li>
           <li><b>TP:</b> [Pendiente]</li>
         </ul>
-        <strong>Rosangela Silva Hualpa</strong>
+               <strong>Rosangela Silva Hualpa</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Se incorporó al análisis documental del proyecto, revisando los capítulos existentes del informe para identificar el impacto y alcance real del producto WeRide antes de aportar en esta nueva etapa.</li>
-          <li><b>TP:</b> [Pendiente]</li>
-          <li><b>AV1:</b> Evaluar qué documentación conservar y qué actualizar permitió al equipo tomar decisiones informadas sobre el alcance real y el impacto del producto en este nuevo ciclo.</li>
           <li><b>TP:</b> [Pendiente]</li>
         </ul>
       </td>
