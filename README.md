@@ -356,46 +356,31 @@ EAC - Student Outcome 4.
     </tr>
     <!-- CRITERIO 2 -->
     <tr>
-      <td style="border:1px solid #999; padding:8px; vertical-align:top; font-weight:bold;">
-        Emite juicios informados considerando el impacto de las soluciones de ingeniería de
-        software en contextos globales,económicos, ambientales y sociales
-      </td>
-      <td style="border:1px solid #999; padding:8px; vertical-align:top;">
+            <td style="border:1px solid #999; padding:8px; vertical-align:top;">
         <strong>Alessandro Franco Sarmiento Mendoza</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>TB1:</b> Documentación de capítulos I, II, IV y V.</li>
-          <li><b>TP1:</b> Redacción de bounded contexts, criterios de aceptación y db.json.</li>
-          <li><b>TB2:</b> Documentación de backend y dominios DDD.</li>
-          <li><b>TF:</b> Ajustes finales al informe y redacción de anexos.</li>
+          <li><b>AV1:</b> Revisó y actualizó la documentación de los capítulos I, II, IV y V, así como los bounded contexts y criterios de aceptación ya redactados, evaluando qué ajustes eran necesarios para alinear el informe heredado con los requisitos del curso actual.</li>
+          <li><b>TP:</b> [Pendiente]</li>
         </ul>
         <strong>Romero Meza Jhimy Pool</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>TB1:</b> Documentación detallada de wireframes, mockups y análisis inicial.</li>
-          <li><b>TP1:</b> Redacción técnica del frontend y flujo de navegación.</li>
-          <li><b>TB2:</b> Documentación del diseño y lógica del backend.</li>
-          <li><b>TF:</b> Redacción final y correcciones del informe.</li>
+          <li><b>AV1:</b> Revisó la documentación técnica de wireframes, mockups, frontend y backend ya elaborada, evaluando su vigencia y aportando contexto histórico al nuevo equipo sobre las decisiones de diseño tomadas originalmente.</li>
+          <li><b>TP:</b> [Pendiente]</li>
         </ul>
         <strong>Giordano Sebastian Trejo Espejo</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>TB1:</b> Documentación de US-05 y commits semánticos.</li>
-          <li><b>TP1:</b> Documentación de pagos y db.json.</li>
-          <li><b>TB2:</b> Documentación del bounded context de perfiles.</li>
-          <li><b>TF:</b> Documentación técnica final y mejoras del informe.</li>
+          <li><b>AV1:</b> Revisó la documentación técnica de US-05, el módulo de pagos y el bounded context de Perfiles, evaluando su impacto en la propuesta de valor del producto antes de continuar su desarrollo en este curso.</li>
+          <li><b>TP:</b> [Pendiente]</li>
         </ul>
         <strong>Franco Sebastian Laymito Delgado</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>TB1:</b> Redacción de capítulos I, III y V.</li>
-          <li><b>TP1:</b> Documentación del frontend y db.json.</li>
-          <li><b>TB2:</b> Documentación de APIs y arquitectura del dominio.</li>
-          <li><b>TF:</b> Revisión y consolidación del informe final.</li>
+          <li><b>AV1:</b> Revisó y consolidó la documentación de los capítulos I, III y V, así como la documentación de APIs y arquitectura del dominio, evaluando qué partes del informe anterior debían mantenerse o ajustarse para este curso.</li>
+          <li><b>TP:</b> [Pendiente]</li>
         </ul>
-      </td>
-      <td style="border:1px solid #999; padding:8px; vertical-align:top;">
+        <strong>Rosangela Silva Hualpa</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>TB1:</b> Documentación base clara que sustentó el proyecto.</li>
-          <li><b>TP1:</b> Redacción técnica precisa para reproducir procesos y pruebas.</li>
-          <li><b>TB2:</b> Documentación sólida del backend y arquitectura.</li>
-          <li><b>TF:</b> Informe final coherente y completo.</li>
+          <li><b>AV1:</b> Se incorporó al análisis documental del proyecto, revisando los capítulos existentes del informe para identificar el impacto y alcance real del producto WeRide antes de aportar en esta nueva etapa.</li>
+          <li><b>TP:</b> [Pendiente]</li>
         </ul>
       </td>
     </tr>
