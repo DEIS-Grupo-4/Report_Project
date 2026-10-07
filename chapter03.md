@@ -6,19 +6,83 @@
 
 A partir del As-Is Scenario Mapping elaborado en el Capítulo II, el equipo construye la versión To-Be para cada User Persona, representando cómo cambiará su experiencia una vez implementada la solución WeRide. El proceso siguió las etapas de preparación, lluvia de ideas individual, revisión grupal, identificación de fases como columnas, y comparación directa con el mapa As-Is para identificar los cambios que ofrece la nueva experiencia.
 
-### To-Be Scenario Map — Persona 1 (Joven Universitario)
+### To-Be Scenario Map — Camila Torres (Joven Universitaria)
 
-[Pendiente: captura del diagrama elaborado en LucidChart/Miro, con las filas Phases, Doing, Thinking, Feeling]
+<table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px;">
+  <thead>
+    <tr style="background:#f2f2f2;">
+      <th style="border:1px solid #999; padding:8px;">Fase</th>
+      <th style="border:1px solid #999; padding:8px;">Descubrimiento</th>
+      <th style="border:1px solid #999; padding:8px;">Búsqueda y reserva</th>
+      <th style="border:1px solid #999; padding:8px;">Uso del vehículo</th>
+      <th style="border:1px solid #999; padding:8px;">Pago y cierre</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Thinking</td>
+      <td style="border:1px solid #999; padding:8px;">"¿Hay una forma más rápida y económica de llegar a la universidad?"</td>
+      <td style="border:1px solid #999; padding:8px;">"Puedo ver en el mapa qué vehículos están disponibles cerca de mí."</td>
+      <td style="border:1px solid #999; padding:8px;">"Me siento segura porque sé el estado de la batería y la ruta."</td>
+      <td style="border:1px solid #999; padding:8px;">"Pagué con Yape/Plin sin necesitar efectivo."</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Doing</td>
+      <td style="border:1px solid #999; padding:8px;">Descarga la app WeRide y revisa el mapa en tiempo real.</td>
+      <td style="border:1px solid #999; padding:8px;">Reserva un scooter/bicicleta cercano y lo desbloquea desde la app.</td>
+      <td style="border:1px solid #999; padding:8px;">Viaja usando el vehículo, con monitoreo IoT activo.</td>
+      <td style="border:1px solid #999; padding:8px;">Finaliza el viaje y paga automáticamente por la app.</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Feeling</td>
+      <td style="border:1px solid #999; padding:8px;">Curiosidad / Interés</td>
+      <td style="border:1px solid #999; padding:8px;">Confianza</td>
+      <td style="border:1px solid #999; padding:8px;">Tranquilidad</td>
+      <td style="border:1px solid #999; padding:8px;">Satisfacción</td>
+    </tr>
+  </tbody>
+</table>
 
-Fases sugeridas: Descubrimiento del servicio → Registro/Login → Búsqueda y reserva de vehículo → Uso del vehículo (viaje) → Finalización y pago → Postventa/fidelización
+Principales cambios respecto al As-Is: tiempos de búsqueda de vehículo reducidos gracias a geolocalización en tiempo real; proceso de desbloqueo simplificado; mayor sensación de seguridad por visibilidad del estado de batería/vehículo; eliminación de incertidumbre sobre disponibilidad y de la dependencia de efectivo.
 
-Principales cambios respecto al As-Is: tiempos de búsqueda de vehículo reducidos gracias a geolocalización en tiempo real; proceso de desbloqueo simplificado; mayor sensación de seguridad por visibilidad del estado de batería/vehículo; eliminación de incertidumbre sobre disponibilidad.
+### To-Be Scenario Map — Luis Salazar (Empresas / B2B)
 
-### To-Be Scenario Map — Persona 2 (Empresa/Organización B2B)
+<table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px;">
+  <thead>
+    <tr style="background:#f2f2f2;">
+      <th style="border:1px solid #999; padding:8px;">Fase</th>
+      <th style="border:1px solid #999; padding:8px;">Evaluación</th>
+      <th style="border:1px solid #999; padding:8px;">Implementación</th>
+      <th style="border:1px solid #999; padding:8px;">Operación diaria</th>
+      <th style="border:1px solid #999; padding:8px;">Seguimiento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Thinking</td>
+      <td style="border:1px solid #999; padding:8px;">"WeRide puede reducir nuestros costos de transporte interno."</td>
+      <td style="border:1px solid #999; padding:8px;">"El plan corporativo es flexible y escalable para todos los colaboradores."</td>
+      <td style="border:1px solid #999; padding:8px;">"Puedo ver en el dashboard cuánto se está usando el servicio."</td>
+      <td style="border:1px solid #999; padding:8px;">"Los reportes de uso justifican la inversión ante gerencia."</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Doing</td>
+      <td style="border:1px solid #999; padding:8px;">Contacta a WeTech y revisa el plan de suscripción corporativa.</td>
+      <td style="border:1px solid #999; padding:8px;">Registra a los colaboradores en la plataforma empresarial.</td>
+      <td style="border:1px solid #999; padding:8px;">Monitorea el uso de la flota desde el dashboard administrativo.</td>
+      <td style="border:1px solid #999; padding:8px;">Analiza métricas de ahorro de tiempo y costos con el equipo directivo.</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Feeling</td>
+      <td style="border:1px solid #999; padding:8px;">Expectativa</td>
+      <td style="border:1px solid #999; padding:8px;">Confianza</td>
+      <td style="border:1px solid #999; padding:8px;">Control</td>
+      <td style="border:1px solid #999; padding:8px;">Satisfacción</td>
+    </tr>
+  </tbody>
+</table>
 
-[Pendiente: captura del diagrama]
-
-Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota mediante dashboard administrativo; reducción de tiempos muertos de gestión; trazabilidad completa de vehículos asignados a colaboradores.
+Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota mediante dashboard administrativo; reducción de tiempos muertos de gestión y de costos por taxis/estacionamiento; trazabilidad completa de vehículos asignados a colaboradores; reemplazo de la frustración inicial por control y confianza en la solución.
 
 ---
 
@@ -519,16 +583,6 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
   </tbody>
 </table>
 
-## 3.4. Impact Mapping.
-
-Un mapa de impacto es una técnica colaborativa y visual de planificación estratégica que alinea los objetivos de un proyecto con las acciones necesarias para alcanzarlos. En esta sección , el equipo presenta los mapas de impacto realizados.
-
-
-![User Persona](assets/chapter03/Impact%20map%203.png)
-
-![User Persona](assets/chapter03/Impact%20map%202%20(1).png)
-
-
 ## 3.3. Product Backlog
 
 | N° Orden | User Story ID | Título                                   | Descripción                                                                                                    | Story points |
@@ -555,3 +609,12 @@ Un mapa de impacto es una técnica colaborativa y visual de planificación estra
 | 20       | US-20         | Desbloqueo de vehículo desde la app      | Como usuario, quiero desbloquear el vehículo directamente desde la aplicación.                                 | 3            |
 | 21       | US-21         | Ver estado de desbloqueo                 | Como usuario, quiero ver el estado de desbloqueo del vehículo en tiempo real.                                  | 2            |
 | 22       | US-22         | Desbloqueo programado                    | Como usuario, quiero programar el desbloqueo de un vehículo para una hora específica y asegurar su disponibilidad. | 5            |
+
+## 3.4. Impact Mapping.
+
+Un mapa de impacto es una técnica colaborativa y visual de planificación estratégica que alinea los objetivos de un proyecto con las acciones necesarias para alcanzarlos. En esta sección , el equipo presenta los mapas de impacto realizados.
+
+
+![User Persona](assets/chapter03/Impact%20map%203.png)
+
+![User Persona](assets/chapter03/Impact%20map%202%20(1).png)
