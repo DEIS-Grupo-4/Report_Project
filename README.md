@@ -391,7 +391,7 @@ EAC - Student Outcome 4.
       <td style="border:1px solid #999; padding:8px; vertical-align:top;">
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Evaluar qué documentación conservar y qué actualizar permitió al equipo tomar decisiones informadas sobre el alcance real y el impacto del producto en este nuevo ciclo.</li>
-          <li><b>TP:</b> [Pendiente]</li>
+                    <li><b>TP:</b> Documentar explícitamente el riesgo de no migrar al stack sugerido por el curso, junto con las condiciones de uso y privacidad del servicio, permitió emitir un juicio informado sobre las implicancias técnicas, legales y sociales del producto WeRide.</li>
         </ul>
       </td>
         </ul>
