@@ -880,8 +880,8 @@ A continuación, se adjuntan las capturas de evidencia de los insights del repos
 * Insight Report
   ![InsightR](assets/chapter05/insightR.png)
 
-## 5.2.3. Sprint 4
-### 5.2.3.1.Sprint Planning 4.
+## 5.2.4. Sprint 4
+### 5.2.4.1.Sprint Planning 4.
 Para el sprint 4, el equipo realizó el sprint planning meeting para la distribución de tareas y revisión de errores a corregir. El resumen se mostrará a continuación:
 
 <table>
@@ -957,7 +957,7 @@ Para el sprint 4, el equipo realizó el sprint planning meeting para la distribu
 </table>
 
 
-### 5.2.3.2. Aspect Leaders and Collaborators.
+### 5.2.4.2. Aspect Leaders and Collaborators.
 
 Durante este Sprint, el equipo se enfocó en el **diseño visual, maquetación y despliegue de la Landing Page** de **Smart Stay**, junto con la implementación inicial del soporte multilenguaje y la adaptación responsiva del sitio web.  
 Para optimizar el trabajo colaborativo, se elaboró la **Matriz de Liderazgo y Colaboración (LACX)**, donde se asignan los roles de **Líder (L)** y **Colaborador (C)** en los principales aspectos del Sprint.
@@ -969,9 +969,9 @@ Para optimizar el trabajo colaborativo, se elaboró la **Matriz de Liderazgo y C
 | **Seminario Castillo ,Diego Vicente**   | [@DiegoSeminario](https://github.com/DiegoSeminario)     | C                                                        | C                                                                         | C                                                     | L                                   |
 | **Morales Sosa, Arnold Gabriel**        | [@Arnold-TI](https://github.com/Arnold-TI)           | C                                                        | C                                                                         | C                                                     | L                                   |
 | **Castro Pariona, Jefferson Ernesto**   | [@JeffersonCastroPariona](https://github.com/JeffersonCastroPariona)                              | C                                                        | L                                                                         | L                                                     |                                     |
-### 5.2.3.3.Sprint Backlog 4.
+### 5.2.4.3.Sprint Backlog 4.
 
-### 5.2.3.3 Sprint Backlog — Sprint 4 (WeRide)
+### 5.2.4.3 Sprint Backlog — Sprint 4 (WeRide)
 
 | ID   | Título (HU)                                | Descripción (resumen)                                                                 | Story Points | Est. (hrs) | Assigned To                                        | Status      |
 |------|--------------------------------------------|----------------------------------------------------------------------------------------|:------------:|:----------:|----------------------------------------------------|-------------|
@@ -994,7 +994,7 @@ Para optimizar el trabajo colaborativo, se elaboró la **Matriz de Liderazgo y C
 
 
 
-### 5.2.3.4.Development Evidence for Sprint Review.
+### 5.2.4.4.Development Evidence for Sprint Review.
 | **Repository**  | **Branch**            | **Commit ID**                            | **Author**        | **Time ago** |
 |-----------------|-----------------------|------------------------------------------|-------------------|--------------|
 | Backend-WeRide | master                | d92fe801832a83b5b698f5b24639effd021daaf7 | samuelbonifacio015 | 1 days ago   |
@@ -1007,9 +1007,9 @@ Para optimizar el trabajo colaborativo, se elaboró la **Matriz de Liderazgo y C
 
 
 <!-- ========================= -->
-<!-- 5.2.3.5 Execution Evidence -->
+<!-- 5.2.4.5 Execution Evidence -->
 <!-- ========================= -->
-<h3 id="5-2-3-5">5.2.3.5. Execution Evidence for Sprint Review</h3>
+<h3 id="5-2-4-5">5.2.4.5. Execution Evidence for Sprint Review</h3>
 
 En el Sprint 4 se completó la integración final entre Frontend y Backend, se corrigieron errores críticos identificados en pruebas de staging, se pulió la landing page y se realizó el despliegue del backend real en una máquina virtual en Azure. Las funcionalidades validadas end-to-end incluyen: registro/login con JWT, visualización de vehículos, flujo de reserva y ejecución de viajes simulados. Se generaron evidencias visuales (capturas) y un video de demostración que muestra la navegación y los flujos principales.</p>
 
@@ -1032,9 +1032,9 @@ En el Sprint 4 se completó la integración final entre Frontend y Backend, se c
 <hr>
 
 <!-- =================================== -->
-<!-- 5.2.3.6 Services Documentation -->
+<!-- 5.2.4.6 Services Documentation -->
 <!-- =================================== -->
-<h3 id="5-2-3-6">5.2.3.6. Services Documentation Evidence for Sprint Review</h3>
+<h3 id="5-2-4-6">5.2.4.6. Services Documentation Evidence for Sprint Review</h3>
 
 En este Sprint se completó y publicó la documentación OpenAPI (Swagger) de los endpoints incluidos en el alcance: auth, vehicles, bookings y trips. A continuación se presenta una tabla resumen con los endpoints más relevantes, acciones soportadas, ejemplos de llamada y ejemplo de respuesta. Al final se indican enlaces y commits relacionados con la documentación generada.</p>
 
@@ -1117,9 +1117,9 @@ En este Sprint se completó y publicó la documentación OpenAPI (Swagger) de lo
 </table>
 
 <!-- ============================== -->
-<!-- 5.2.3.7 Software Deployment Evidence -->
+<!-- 5.2.4.7 Software Deployment Evidence -->
 <!-- ============================== -->
-<h3 id="5-2-3-7">5.2.3.7. Software Deployment Evidence for Sprint Review</h3>
+<h3 id="5-2-4-7">5.2.4.7. Software Deployment Evidence for Sprint Review</h3>
 
 <p>Durante este Sprint se desplegó el backend en una máquina virtual en Azure (VM) para disponer de un entorno real que permita realizar pruebas de integración reales con persistencia en MySQL. A continuación se documentan los pasos clave, comandos ejecutados y evidencias (capturas) que deben incluirse en el informe.</p>
 
@@ -1212,9 +1212,9 @@ sudo systemctl reload nginx
 
 
 <!-- ================================== -->
-<!-- 5.2.3.8 Team Collaboration Insights -->
+<!-- 5.2.4.8 Team Collaboration Insights -->
 <!-- ================================== -->
-<h3 id="5-2-3-8">5.2.3.8. Team Collaboration Insights during Sprint</h3>
+<h3 id="5-2-4-8">5.2.4.8. Team Collaboration Insights during Sprint</h3>
 
 El equipo ejecutó actividades coordinadas para entregar la integración y despliegue final. Se trabajó con GitHub (issues, PRs, branches), reuniones diarias de seguimiento (standups), revisión de código y pruebas colaborativas en staging y producción. A continuación se presentan los principales insights y métricas a documentar en el informe.</p>
 
@@ -1236,7 +1236,7 @@ El equipo ejecutó actividades coordinadas para entregar la integración y despl
   
 </ul>
 
-## 5.2.4. Acuerdo de Servicio - SaaS (Terms and Conditions)
+## 5.2.5. Acuerdo de Servicio - SaaS (Terms and Conditions)
 
 El siguiente acuerdo de servicio rige el uso de la plataforma **WeRide** por parte de los usuarios registrados (conductores/arrendatarios de vehículos de micromovilidad eléctrica).
 
