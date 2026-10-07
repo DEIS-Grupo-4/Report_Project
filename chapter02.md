@@ -673,6 +673,84 @@ El User Journey Mapping se desarrolló para comprender la experiencia de los usu
 
   ![LuisSalazar](assets//Chapter04/EmpathyMapping/Luis_Salazar.png)  
 
+### 2.3.5. As-Is Scenario Mapping.
+
+El As-Is Scenario Mapping representa el recorrido actual del usuario (sin WeRide), construido a partir del User Journey Mapping y el Empathy Mapping ya elaborados para cada segmento.
+
+**Segmento 1: Camila Torres (Joven Universitaria)**
+
+<table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px;">
+  <thead>
+    <tr style="background:#f2f2f2;">
+      <th style="border:1px solid #999; padding:8px;">Fase</th>
+      <th style="border:1px solid #999; padding:8px;">Frustración</th>
+      <th style="border:1px solid #999; padding:8px;">No puede participar</th>
+      <th style="border:1px solid #999; padding:8px;">Interés</th>
+      <th style="border:1px solid #999; padding:8px;">Intriga</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Thinking (meta)</td>
+      <td style="border:1px solid #999; padding:8px;">Ahorrar tiempo en traslados entre casa, universidad y trabajo.</td>
+      <td style="border:1px solid #999; padding:8px;">Usar transporte económico y seguro.</td>
+      <td style="border:1px solid #999; padding:8px;">Usar un medio de transporte seguro.</td>
+      <td style="border:1px solid #999; padding:8px;">Disminuir su huella de carbono.</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Doing (problema)</td>
+      <td style="border:1px solid #999; padding:8px;">Tráfico que la retrasa.</td>
+      <td style="border:1px solid #999; padding:8px;">Transporte incómodo e inseguro.</td>
+      <td style="border:1px solid #999; padding:8px;">Falta de efectivo para pagar.</td>
+      <td style="border:1px solid #999; padding:8px;">Poca disponibilidad de opciones rápidas cerca de su ubicación.</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Feeling (emoción)</td>
+      <td style="border:1px solid #999; padding:8px;">Aburrimiento (boredom)</td>
+      <td style="border:1px solid #999; padding:8px;">Serenidad (serenity)</td>
+      <td style="border:1px solid #999; padding:8px;">Aceptación (acceptance)</td>
+      <td style="border:1px solid #999; padding:8px;">Éxtasis (ecstasy)</td>
+    </tr>
+  </tbody>
+</table>
+
+**Segmento 2: Luis Salazar (Empresas / B2B)**
+
+<table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px;">
+  <thead>
+    <tr style="background:#f2f2f2;">
+      <th style="border:1px solid #999; padding:8px;">Fase</th>
+      <th style="border:1px solid #999; padding:8px;">Frustración</th>
+      <th style="border:1px solid #999; padding:8px;">No puede participar</th>
+      <th style="border:1px solid #999; padding:8px;">Interés</th>
+      <th style="border:1px solid #999; padding:8px;">Intriga</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Thinking (meta)</td>
+      <td style="border:1px solid #999; padding:8px;">Reducir la congestión vehicular alrededor del centro empresarial en San Isidro.</td>
+      <td style="border:1px solid #999; padding:8px;">Ofrecer beneficios de movilidad sostenible a los colaboradores.</td>
+      <td style="border:1px solid #999; padding:8px;">Aumentar la eficiencia en el uso del tiempo de los empleados al reducir traslados.</td>
+      <td style="border:1px solid #999; padding:8px;">Disminuir su huella de carbono.</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Doing (problema)</td>
+      <td style="border:1px solid #999; padding:8px;">Alta congestión vehicular que afecta la puntualidad y productividad de los empleados.</td>
+      <td style="border:1px solid #999; padding:8px;">Retrasos frecuentes de los empleados debido a la saturación del tráfico.</td>
+      <td style="border:1px solid #999; padding:8px;">Costos elevados por uso de taxis y estacionamientos.</td>
+      <td style="border:1px solid #999; padding:8px;">Dificultad para implementar una solución escalable y accesible para todos los empleados.</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #999; padding:8px; font-weight:bold;">Feeling (emoción)</td>
+      <td style="border:1px solid #999; padding:8px;">Ira (anger)</td>
+      <td style="border:1px solid #999; padding:8px;">Aprensión (apprehension)</td>
+      <td style="border:1px solid #999; padding:8px;">Serenidad (serenity)</td>
+      <td style="border:1px solid #999; padding:8px;">Aceptación (acceptance)</td>
+    </tr>
+  </tbody>
+</table>
+
 ## 2.4. Big Picture Event Storming.
 El **Event Storming** modela de forma secuencial el ciclo completo de uso de la plataforma de micromovilidad eléctrica. Se identifican las interacciones entre usuarios, administradores, sistemas externos ***(IoT, GPS, pasarela de pagos)*** y el sistema de negocio.
   Se muestra cómo la plataforma conecta en un mismo flujo las necesidades de movilidad del usuario, los procesos de pago y seguridad, asegurando un ecosistema completo de micromovilidad urbana.
