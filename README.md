@@ -284,6 +284,7 @@ Adicionalmente, se realizaron mejoras completas al informe, ajustándolo a los r
     - [5.2.4.6. Services Documentation Evidence for Sprint Review](/chapter05.md#5246-services-documentation-evidence-for-sprint-review)
     - [5.2.4.7. Software Deployment Evidence for Sprint Review](/chapter05.md#5247-software-deployment-evidence-for-sprint-review)
     - [5.2.4.8. Team Collaboration Insights during Sprint](/chapter05.md#5248-team-collaboration-insights-during-sprint)
+  - [5.2.5. Acuerdo de Servicio - SaaS (Terms and Conditions)](/chapter05.md#525-acuerdo-de-servicio---saas-terms-and-conditions)
 - [5.3. Validation Interviews](/chapter05.md#53-validation-interviews)
   - [5.3.1. Diseño de Entrevistas](/chapter05.md#531-diseño-de-entrevistas)
   - [5.3.1. Registro de Entrevistas](/chapter05.md#532-registro-de-entrevistas)
@@ -324,7 +325,7 @@ EAC - Student Outcome 4.
         <strong>Alessandro Franco Sarmiento Mendoza</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Realizó reuniones de coordinación equivalentes a las de ciclos anteriores, revisando la planificación del frontend, los bounded contexts y la estructura de datos ya construidos, además de validar junto al equipo la decisión de mantener la arquitectura DDD/CQRS del backend, confirmando su vigencia para el enunciado del curso actual.</li>
-          <li><b>TP:</b> [Pendiente]</li>
+                    <li><b>TP:</b> Lideró la elaboración de los artefactos faltantes de Needfinding (As-Is y To-Be Scenario Mapping) y la revisión estructural del informe (corrección de numeración y jerarquía del Capítulo V), asumiendo la responsabilidad de mantener la trazabilidad y coherencia del documento ante el equipo y el docente.</li>
         </ul>
         <strong>Romero Meza Jhimy Pool</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
@@ -350,7 +351,7 @@ EAC - Student Outcome 4.
       <td style="border:1px solid #999; padding:8px; vertical-align:top;">
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Retomar el proyecto exigió comunicación clara para transferir conocimiento del equipo anterior al nuevo, evitando que se perdiera contexto técnico o de diseño ya validado.</li>
-          <li><b>TP:</b> [Pendiente]</li>
+                    <li><b>TP:</b> La corrección oportuna de inconsistencias de numeración y la documentación transparente de decisiones técnicas (como mantener Java/Spring Boot) evitaron que errores de trazabilidad o decisiones no justificadas afectaran la evaluación del informe.</li>
         </ul>
       </td>
     </tr>
@@ -364,7 +365,7 @@ EAC - Student Outcome 4.
         <strong>Alessandro Franco Sarmiento Mendoza</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Revisó y actualizó la documentación de los capítulos I, II, IV y V, así como los bounded contexts y criterios de aceptación ya redactados, evaluando qué ajustes eran necesarios para alinear el informe heredado con los requisitos del curso actual.</li>
-          <li><b>TP:</b> [Pendiente]</li>
+                    <li><b>TP:</b> Evaluó el impacto de mantener la arquitectura Java + Spring Boot ya desplegada en producción frente a migrar a ASP.NET Core, documentando los riesgos técnicos y de cronograma de dicha decisión; además, redactó la sección de Términos y Condiciones (SaaS) considerando el impacto legal y social del tratamiento de datos personales conforme a la Ley N° 29733.</li>
         </ul>
         <strong>Romero Meza Jhimy Pool</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
