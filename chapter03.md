@@ -1,6 +1,28 @@
 # Capítulo III: Requirements Specification
 
-## 3.1.User Stories.
+## 3.1. To-Be Scenario Mapping
+
+### Introducción
+
+A partir del As-Is Scenario Mapping elaborado en el Capítulo II, el equipo construye la versión To-Be para cada User Persona, representando cómo cambiará su experiencia una vez implementada la solución WeRide. El proceso siguió las etapas de preparación, lluvia de ideas individual, revisión grupal, identificación de fases como columnas, y comparación directa con el mapa As-Is para identificar los cambios que ofrece la nueva experiencia.
+
+### To-Be Scenario Map — Persona 1 (Joven Universitario)
+
+[Pendiente: captura del diagrama elaborado en LucidChart/Miro, con las filas Phases, Doing, Thinking, Feeling]
+
+Fases sugeridas: Descubrimiento del servicio → Registro/Login → Búsqueda y reserva de vehículo → Uso del vehículo (viaje) → Finalización y pago → Postventa/fidelización
+
+Principales cambios respecto al As-Is: tiempos de búsqueda de vehículo reducidos gracias a geolocalización en tiempo real; proceso de desbloqueo simplificado; mayor sensación de seguridad por visibilidad del estado de batería/vehículo; eliminación de incertidumbre sobre disponibilidad.
+
+### To-Be Scenario Map — Persona 2 (Empresa/Organización B2B)
+
+[Pendiente: captura del diagrama]
+
+Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota mediante dashboard administrativo; reducción de tiempos muertos de gestión; trazabilidad completa de vehículos asignados a colaboradores.
+
+---
+
+## 3.2. User Stories.
 
 ### Lista de Épicas
 
@@ -497,7 +519,7 @@
   </tbody>
 </table>
 
-## 3.2. Impact Mapping.
+## 3.4. Impact Mapping.
 
 Un mapa de impacto es una técnica colaborativa y visual de planificación estratégica que alinea los objetivos de un proyecto con las acciones necesarias para alcanzarlos. En esta sección , el equipo presenta los mapas de impacto realizados.
 
