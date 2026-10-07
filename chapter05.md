@@ -134,6 +134,12 @@ esta manera, nuestra página estará disponible en línea y accesible para todos
 Utilizaremos Vercel para alojar nuestra Web Application.
 Para lograrlo, configuraremos un proyecto en Vercel y conectaremos nuestro repositorio de GitHub. Vercel se encargará de la construcción y el despliegue de nuestra aplicación automáticamente cada vez que realicemos un push a la rama principal.
 
+##### Web Services (Backend):
+
+Utilizaremos una máquina virtual (VM) en Microsoft Azure para alojar nuestro Backend de Web Services. El despliegue se realiza de forma manual mediante acceso SSH, configurando el servicio como un proceso **systemd** y exponiéndolo a través de un reverse proxy con **nginx**. El detalle completo de los comandos, configuración y evidencias de este despliegue se documenta en la sección 5.2.3 (Sprint 3).
+
+**Nota de decisión técnica:** El enunciado del curso sugiere el uso de ASP.NET Core y C# para el desarrollo del backend. Sin embargo, el equipo decidió continuar con el stack **Java 17 + Spring Boot + MySQL**, ya que corresponde a la arquitectura DDD/CQRS implementada y validada en el ciclo anterior del proyecto. Migrar a ASP.NET Core implicaría reescribir desde cero los bounded contexts, los controladores REST y la capa de persistencia ya desplegada y probada en producción (Azure VM), lo cual representa un riesgo alto para los plazos del curso sin un beneficio funcional adicional para el producto.
+
 
 ---
 
@@ -1230,7 +1236,29 @@ El equipo ejecutó actividades coordinadas para entregar la integración y despl
   
 </ul>
 
+## 5.2.4. Acuerdo de Servicio - SaaS (Terms and Conditions)
 
+El siguiente acuerdo de servicio rige el uso de la plataforma **WeRide** por parte de los usuarios registrados (conductores/arrendatarios de vehículos de micromovilidad eléctrica).
+
+**1. Aceptación de los Términos.** Al registrarse y utilizar la plataforma WeRide (landing page, aplicación web y servicios backend asociados), el usuario acepta íntegramente los presentes Términos y Condiciones. El uso continuado del servicio implica la aceptación de cualquier actualización posterior de este acuerdo.
+
+**2. Descripción del Servicio.** WeRide es una plataforma SaaS que conecta a usuarios con vehículos de micromovilidad eléctrica (bicicletas y scooters) disponibles para alquiler de corto plazo, permitiendo la búsqueda, reserva, desbloqueo y pago del servicio a través de la aplicación web.
+
+**3. Registro de Usuario.** El usuario debe proporcionar información veraz y actualizada durante el proceso de registro (nombre, correo electrónico, método de pago). El usuario es responsable de mantener la confidencialidad de sus credenciales de acceso.
+
+**4. Uso del Servicio.** El usuario se compromete a utilizar los vehículos de forma responsable, respetando las normas de tránsito vigentes y las condiciones de uso indicadas en la aplicación. Queda prohibido el uso del vehículo para fines distintos al traslado personal o su cesión a terceros no registrados.
+
+**5. Tarifas y Pagos.** Las tarifas aplicables (por tiempo de uso, plan o membresía) se muestran en la aplicación antes de confirmar cada reserva. Los cobros se procesan a través del método de pago registrado por el usuario al momento de finalizar cada viaje.
+
+**6. Responsabilidad y Seguridad.** WeRide no se hace responsable por daños derivados del uso indebido del vehículo o el incumplimiento de las normas de tránsito por parte del usuario. El usuario es responsable de reportar cualquier desperfecto del vehículo antes de iniciar su uso.
+
+**7. Privacidad de Datos.** El tratamiento de los datos personales del usuario se rige conforme a la Ley N° 29733 - Ley de Protección de Datos Personales del Perú. WeRide no comparte la información personal de sus usuarios con terceros sin su consentimiento, salvo requerimiento legal.
+
+**8. Cancelaciones y Reembolsos.** [Pendiente: política de cancelación a definir por el equipo]
+
+**9. Modificaciones del Servicio.** WeRide se reserva el derecho de modificar, suspender o descontinuar funcionalidades del servicio, notificando a los usuarios con antelación razonable cuando el cambio afecte sus condiciones de uso.
+
+**10. Legislación Aplicable.** Este acuerdo se rige por las leyes de la República del Perú. Cualquier controversia derivada de su interpretación o cumplimiento será resuelta conforme a la legislación peruana vigente.
 
 ## 5.3 Validation Interviews
 
