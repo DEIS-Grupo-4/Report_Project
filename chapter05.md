@@ -1696,7 +1696,7 @@ Los errores serán puntuados tomando en cuenta la siguiente escala de severidad
 
 <a href="https://www.youtube.com/watch?v=UVP-NVpaT6Y" target="_blank" rel="noopener">Ver Video del Producto</a>
 
-Capítulo VI: Product Verification & Validation  
+# Capítulo VI: Product Verification & Validation  
 
 La verificación y validación del producto **WeRide** tiene como finalidad comprobar que los componentes implementados cumplen con los requisitos funcionales definidos para la gestión de cuentas de usuario y la administración de planes. Para ello, se establece una estrategia de pruebas organizada en cuatro niveles: pruebas unitarias, pruebas de integración, pruebas basadas en comportamiento (BDD) y pruebas de sistema.
 
@@ -1706,23 +1706,23 @@ Las pruebas unitarias se implementan utilizando **JUnit 5** y **Mockito**, lo qu
 
 6.1. Testing Suites & Validation  
 
-La verificación y validación del producto **WeRide** tiene como finalidad comprobar que los componentes implementados cumplen con los requisitos funcionales definidos para la gestión de cuentas de usuario y la administración de planes[4]. Para ello, se establece una estrategia de pruebas organizada en cuatro niveles: pruebas unitarias, pruebas de integración, pruebas basadas en comportamiento (BDD) y pruebas de sistema[4].
+La verificación y validación del producto **WeRide** tiene como finalidad comprobar que los componentes implementados cumplen con los requisitos funcionales definidos para la gestión de cuentas de usuario y la administración de planes. Para ello, se establece una estrategia de pruebas organizada en cuatro niveles: pruebas unitarias, pruebas de integración, pruebas basadas en comportamiento (BDD) y pruebas de sistema.
 
-En esta etapa, el alcance de las pruebas comprende dos *bounded contexts* del backend: **IAM (Identity and Access Management)** y **Plans**[4]. El *bounded context* IAM gestiona el registro de cuentas y la autenticación de usuarios mediante credenciales, mientras que Plans permite crear, actualizar y eliminar planes disponibles en la plataforma[4].
+En esta etapa, el alcance de las pruebas comprende dos *bounded contexts* del backend: **IAM (Identity and Access Management)** y **Plans*. El *bounded context* IAM gestiona el registro de cuentas y la autenticación de usuarios mediante credenciales, mientras que Plans permite crear, actualizar y eliminar planes disponibles en la plataforma.
 
-Las pruebas unitarias se implementan utilizando **JUnit 5** y **Mockito**, lo que permite verificar la lógica de los servicios de aplicación de manera aislada[5][6]. Para las pruebas de integración y de sistema, se considera la interacción entre los componentes de la aplicación, los endpoints REST y la persistencia de datos en la base de datos[5]. Los escenarios BDD permiten especificar el comportamiento esperado de las funcionalidades mediante criterios comprensibles para los desarrolladores y los responsables del producto[5]. La ejecución y los resultados de cada prueba se registran para demostrar el cumplimiento de los criterios de aceptación correspondientes[5].
+Las pruebas unitarias se implementan utilizando **JUnit 5** y **Mockito**, lo que permite verificar la lógica de los servicios de aplicación de manera aislada. Para las pruebas de integración y de sistema, se considera la interacción entre los componentes de la aplicación, los endpoints REST y la persistencia de datos en la base de datos. Los escenarios BDD permiten especificar el comportamiento esperado de las funcionalidades mediante criterios comprensibles para los desarrolladores y los responsables del producto. La ejecución y los resultados de cada prueba se registran para demostrar el cumplimiento de los criterios de aceptación correspondientes.
 
 
 
 6.1.1. Core Entities Unit Tests.
 
-Las pruebas unitarias tienen como objetivo verificar el comportamiento de los servicios de aplicación de los *bounded contexts* IAM y Plans de manera independiente de la base de datos y de otros componentes externos. Para ello, se emplean objetos simulados (*mocks*) que permiten controlar las respuestas de las dependencias y comprobar los resultados de cada operación[6].
+Las pruebas unitarias tienen como objetivo verificar el comportamiento de los servicios de aplicación de los *bounded contexts* IAM y Plans de manera independiente de la base de datos y de otros componentes externos. Para ello, se emplean objetos simulados (*mocks*) que permiten controlar las respuestas de las dependencias y comprobar los resultados de cada operación.
 
-Se utiliza el patrón **Arrange–Act–Assert (AAA)**, que organiza cada prueba en tres etapas: preparación de los datos y dependencias, ejecución del método evaluado y validación del resultado obtenido[6].
+Se utiliza el patrón **Arrange–Act–Assert (AAA)**, que organiza cada prueba en tres etapas: preparación de los datos y dependencias, ejecución del método evaluado y validación del resultado obtenido.
 
 #### **A. Pruebas unitarias del bounded context IAM**
 
-El servicio `AccountCommandServiceImpl` concentra las operaciones de registro e inicio de sesión[7]. Para el registro, verifica la existencia previa del nombre de usuario, aplica el servicio de *hashing* a la contraseña y coordina la creación de la cuenta y su perfil asociado[7]. Para el inicio de sesión, verifica las credenciales y solicita la generación del token de autenticación cuando estas son válidas.
+El servicio `AccountCommandServiceImpl` concentra las operaciones de registro e inicio de sesión. Para el registro, verifica la existencia previa del nombre de usuario, aplica el servicio de *hashing* a la contraseña y coordina la creación de la cuenta y su perfil asociado. Para el inicio de sesión, verifica las credenciales y solicita la generación del token de autenticación cuando estas son válidas.
 
 Las dependencias `AccountRepository`, `HashingService`, `TokenService` y `ProfileContextFacade` se simulan mediante **Mockito** para evaluar la lógica del servicio sin requerir una conexión real a la base de datos.
 
@@ -1730,19 +1730,19 @@ Las dependencias `AccountRepository`, `HashingService`, `TokenService` y `Profil
 
 | ID Caso de prueba  | Escenario                                       | Resultado esperado                                                                                                                                                        |
 | ------------------ | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **IAM-UT-01**[8] | Inicio de sesión con usuario inexistente[8]   | Se envían credenciales de un usuario que no está registrado. El servicio lanza una excepción con el mensaje `User not found`[8].                                        |
-| **IAM-UT-02**[8] | Inicio de sesión con contraseña incorrecta[8] | El usuario existe, pero la contraseña no coincide con el hash almacenado. El servicio lanza una excepción con el mensaje `Invalid credentials` y no genera un token. |
-| **IAM-UT-03**[9] | Inicio de sesión exitoso                   | El usuario existe y la contraseña es válida. El servicio devuelve la cuenta y el token JWT generado[9].                                                                 |
-| **IAM-UT-04**[9] | Registro con nombre de usuario existente[9]   | Se intenta registrar una cuenta cuyo nombre de usuario ya está registrado. El servicio lanza una excepción con el mensaje `User already exists`.                     |
-| **IAM-UT-05**[9] | Registro exitoso                           | Se registra una cuenta nueva y se crea el perfil asociado. El servicio devuelve la cuenta creada y actualizada con su identificador de perfil.                       |
+| **IAM-UT-01** | Inicio de sesión con usuario inexistente   | Se envían credenciales de un usuario que no está registrado. El servicio lanza una excepción con el mensaje `User not found`.                                        |
+| **IAM-UT-02** | Inicio de sesión con contraseña incorrecta | El usuario existe, pero la contraseña no coincide con el hash almacenado. El servicio lanza una excepción con el mensaje `Invalid credentials` y no genera un token. |
+| **IAM-UT-03** | Inicio de sesión exitoso                   | El usuario existe y la contraseña es válida. El servicio devuelve la cuenta y el token JWT generado[9].                                                                 |
+| **IAM-UT-04** | Registro con nombre de usuario existente   | Se intenta registrar una cuenta cuyo nombre de usuario ya está registrado. El servicio lanza una excepción con el mensaje `User already exists`.                     |
+| **IAM-UT-05** | Registro exitoso                           | Se registra una cuenta nueva y se crea el perfil asociado. El servicio devuelve la cuenta creada y actualizada con su identificador de perfil.                       |
 
 *Fuente: Elaboración propia.*
 
 Los casos `IAM-UT-01`, `IAM-UT-02` e `IAM-UT-03` permiten verificar los principales escenarios del inicio de sesión. Los casos `IAM-UT-04` e `IAM-UT-05` evalúan el comportamiento del registro, incluyendo la prevención de usuarios duplicados y la coordinación con el *bounded context* Profile.
 
-&gt; `[INSERTAR IMAGEN AQUÍ: Captura de pantalla de la consola de ejecución de pruebas (JUnit 5 / IntelliJ IDEA / VS Code) que muestre la ejecución exitosa en verde (100% Passed) de la suite de pruebas unitarias de IAM (IAM-UT-01 a IAM-UT-05).]`
 
----
+![localtime](assets/chapter05/unitTest/unit-test-iam.png)
+
 
 #### **B. Pruebas unitarias del bounded context Plans**
 
@@ -1762,8 +1762,8 @@ El servicio `PlanCommandServiceImpl` administra las operaciones principales de l
 
 Estos casos permiten comprobar las rutas principales de ejecución de `PlanCommandServiceImpl`, incluyendo el tratamiento de identificadores inexistentes[13]. En conjunto con las pruebas de IAM, constituyen la base para verificar el comportamiento de los servicios de aplicación de los dos *bounded contexts* considerados[13].
 
-&gt; `[INSERTAR IMAGEN AQUÍ: Captura de pantalla del Test Runner mostrando la ejecución exitosa en verde (100% Passed) de la suite de pruebas unitarias de Plans (PLN-UT-01 a PLN-UT-05).]`
-6.1.2. Core Integration Tests.
+![localtime](assets/chapter05/unitTest/unit-test-plans.png)
+### 6.1.2. Core Integration Tests.
 
 Las pruebas de integración verifican que los controladores REST API, los servicios de aplicación y la capa de persistencia interactúen correctamente entre sí dentro del entorno de la aplicación. A diferencia de las pruebas unitarias, estas pruebas evalúan la integración con la base de datos relacional y el procesamiento de peticiones HTTP en los endpoints expuestos.
 
@@ -1781,6 +1781,7 @@ Para llevar a cabo estas pruebas, se utiliza el entorno de prueba web de **Sprin
 *Fuente: Elaboración propia.*
 
 &gt; `[INSERTAR IMAGEN AQUÍ: Captura de pantalla de la consola de pruebas o reporte de integración (Spring Boot Test Runner / Postman Newman) confirmando la respuesta HTTP exitosa (200 OK / 201 Created) y la persistencia de datos en la base de datos de pruebas.]`
+
 6.1.3. Core Behavior-Driven Development  
 Las pruebas basadas en comportamiento (BDD) permiten validar las funcionalidades desde la perspectiva de las historias de usuario y las reglas de negocio[2]. Los escenarios se definen en lenguaje formal **Gherkin** utilizando la sintaxis `Given-When-Then` (Dado - Cuando - Entonces) e integrados con la herramienta **Cucumber / SpecFlow**.
 
@@ -1850,10 +1851,11 @@ A continuación se presentan las evidencias de commits realizados en el reposito
 | `startup-weride/weride-e2e-testing`     | `feature/system-tests`      | `q4r5s6t` | `test: implement Playwright E2E system tests for web platform`           | Automated full E2E user flows for user sign-in and plan selection.                    | 08/10/2026   |
 
 *Fuente: Elaboración propia.*
-Capítulo VII: DevOps Practices
-7.1. Continuous Integration
-7.1.1. Tools and Practices.
-7.1.2. Build & Test Suite Pipeline Components
+
+# Capítulo VII: DevOps Practices
+## 7.1. Continuous Integration
+### 7.1.1. Tools and Practices.
+### 7.1.2. Build & Test Suite Pipeline Components
 
 ## Conclusiones
 - El proyecto de micromovilidad eléctrica compartida responde a necesidades reales de movilidad en áreas urbanas peruanas: congestión, tiempos de traslado elevados, y demanda por alternativas más económicas y sostenibles. La combinación de scooters, bicicletas y motos eléctricas gestionadas desde una única plataforma web representa una propuesta con alto potencial de adopción, especialmente en segmentos juveniles y corporativos.
