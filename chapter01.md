@@ -64,7 +64,7 @@ Buscamos transformar la movilidad urbana en Lima  ofreciendo un transporte rápi
         <span style="font-size:11px; color:#555;">U202215537</span>
       </td>
       <td style="padding: 10px; border: 1px solid #aaa; text-align:center;">
-        <img src="assets/Integrantes/profile.jpeg" alt="Jeff's photo" style="max-width:80px; border-radius:6px;">
+        <img src="assets/Integrantes/Imagen1.jpg" alt="Foto de Alessandro Sarmiento" style="max-width:80px; border-radius:6px;">
       </td>
       <td style="padding: 10px; border: 1px solid #aaa; text-align: justify;">
          Soy un joven de 22 años interesado en desarrollarme profesionalmente en el área de desarrollo Full Stack. Me apasiona aprender sobre nuevas tecnologías y explorar diferentes formas de aplicarlas en proyectos, buscando constantemente mejorar mis conocimientos y habilidades.
