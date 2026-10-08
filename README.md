@@ -394,8 +394,6 @@ EAC - Student Outcome 4.
                     <li><b>TP:</b> Documentar explícitamente el riesgo de no migrar al stack sugerido por el curso, junto con las condiciones de uso y privacidad del servicio, permitió emitir un juicio informado sobre las implicancias técnicas, legales y sociales del producto WeRide.</li>
         </ul>
       </td>
-        </ul>
-      </td>
     </tr>
 
   </tbody>
