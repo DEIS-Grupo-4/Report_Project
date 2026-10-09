@@ -96,8 +96,6 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <th>ID</th>
       <th>Título</th>
       <th>Descripción</th>
-      <th>Criterios de aceptación</th>
-      <th>EpicID</th>
     </tr>
   </thead>
   <tbody>
@@ -109,8 +107,6 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
           <li>Como usuario de la aplicación, quiero acceder con mi información para hacer uso de las características disponibles.</li>
         </ul>
       </td>
-      <td>No corresponde</td>
-      <td>No corresponde</td>
     </tr>
     <tr>
       <td>EP02</td>
@@ -120,8 +116,6 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
           <li>Como usuario de la aplicación, quiero que las funcionalidades principales que me ofrece el servicio sean funcionales.</li>
         </ul>
       </td>
-      <td>No corresponde</td>
-      <td>No corresponde</td>
     </tr>
     <tr>
       <td>EP03</td>
@@ -131,8 +125,6 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
           <li>Como usuario, quiero gestionar mis métodos de pago y suscripciones para acceder a los servicios y planes de la aplicación.</li>
         </ul>
       </td>
-      <td>No corresponde</td>
-      <td>No corresponde</td>
     </tr>
     <tr>
       <td>EP04</td>
@@ -142,8 +134,6 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
           <li>Como usuario de la aplicación, quiero acceder al mapa de la aplicación para realizar la reserva de vehículos y seguimiento de rutas.</li>
         </ul>
       </td>
-      <td>No corresponde</td>
-      <td>No corresponde</td>
     </tr>
     <tr>
       <td>EP05</td>
@@ -153,8 +143,6 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
           <li>Como usuario, quiero visualizar y gestionar mis trayectos en el mapa, incluyendo detalles del vehículo, ruta y estado del viaje.</li>
         </ul>
       </td>
-      <td>No corresponde</td>
-      <td>No corresponde</td>
     </tr>
     <tr>
       <td>EP06</td>
@@ -164,8 +152,6 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
           <li>Como usuario, quiero reservar vehículos y recibir notificaciones sobre el estado y fin de mi reserva para asegurar disponibilidad.</li>
         </ul>
       </td>
-      <td>No corresponde</td>
-      <td>No corresponde</td>
     </tr>
     <tr>
       <td>EP07</td>
@@ -175,9 +161,36 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
           <li>Como usuario, quiero desbloquear y acceder a los vehículos de forma ágil mediante tecnologías como QR para mejorar la experiencia de inicio de viaje.</li>
         </ul>
       </td>
-      <td>No corresponde</td>
-      <td>No corresponde</td>
     </tr>
+    <tr>
+      <td>EP08</td>
+      <td>Landing page y soporte</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como visitante o usuario, quiero conocer WeRide y contactar a soporte para decidir usar el servicio y resolver mis dudas.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>EP09</td>
+      <td>Administración de la plataforma</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como administrador o agente de soporte, quiero gestionar flota, planes y reportes para mantener el servicio disponible.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>EP10</td>
+      <td>Calidad, pruebas y automatización</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como equipo de desarrollo, queremos pruebas automáticas e integración continua para entregar software confiable.</li>
+        </ul>
+      </td>
+    </tr>
+
+    
   </tbody>
 </table>
 
@@ -253,7 +266,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Datos de usuario</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario quiero poder crear un perfil para colocar mis datos.</li>
+          <li>Como usuario nuevo, quiero crear mi perfil con mis datos para que la app personalice mi experiencia.</li>
         </ul>
       </td>
       <td>
@@ -270,7 +283,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Página Principal</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario quiero poder ver una pantalla principal estética que me atraiga a usar el servicio.</li>
+          <li>Como usuario, quiero ver una pantalla principal clara con accesos rápidos para llegar rápido a reservar un vehículo.</li>
         </ul>
       </td>
       <td>
@@ -288,7 +301,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Gestión y personalización de perfil</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario quiero acceder a mi perfil para administrar mi cuenta.</li>
+          <li>Como usuario, quiero administrar mi cuenta y mi perfil para mantener mis datos actualizados.</li>
         </ul>
       </td>
       <td>
@@ -306,7 +319,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Gestión y visualización de vehículos en Garaje</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario quiero acceder al Garaje para gestionar los vehículos disponibles.</li>
+          <li>Como usuario, quiero ver los vehículos del Garaje para elegir el que mejor se ajuste a mi viaje.</li>
         </ul>
       </td>
       <td>
@@ -324,7 +337,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Filtrado de vehículos en Garaje</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario quiero filtrar los vehículos disponibles en el Garaje por tipo.</li>
+          <li>Como usuario, quiero filtrar los vehículos por tipo, precio, disponibilidad o marca para encontrar rápidamente el adecuado.</li>
         </ul>
       </td>
       <td>
@@ -342,7 +355,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Selección y pago de planes</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario quiero visualizar los diferentes planes disponibles.</li>
+          <li>Como usuario, quiero comparar los planes disponibles para elegir el que más me conviene.</li>
         </ul>
       </td>
       <td>
@@ -378,7 +391,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Seleccionar ubicación para ver vehículos cercanos disponibles</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario, al seleccionar una ubicación del mapa quiero ver los vehículos cercanos disponibles.</li>
+          <li>Como usuario, quiero ver los vehículos cercanos a la ubicación que elijo en el mapa para reservar el más cercano.</li>
         </ul>
       </td>
       <td>
@@ -396,7 +409,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Visualización de viaje en mapa</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario quiero ver mi trayecto actual en el mapa, junto con información relevante del vehículo.</li>
+          <li>Como usuario en viaje, quiero ver mi trayecto y los datos del vehículo para controlar la batería y el tiempo restante.</li>
         </ul>
       </td>
       <td>
@@ -482,7 +495,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Crear una reserva</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario, quiero reservar un vehículo desde la app.</li>
+          <li>Como usuario, quiero reservar un vehículo desde la app para asegurar su disponibilidad.</li>
         </ul>
       </td>
       <td>
@@ -500,7 +513,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Notificación de inicio y vencimiento</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario, quiero recibir notificaciones cuando mi reserva esté activa y cuando esté por expirar.</li>
+          <li>Como usuario con reserva, quiero recibir notificaciones cuando mi reserva esté activa y por expirar para no perderla.</li>
         </ul>
       </td>
       <td>
@@ -518,7 +531,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Desbloqueo de vehículo con QR</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario, quiero desbloquear el vehículo escaneando un QR.</li>
+          <li>Como usuario con reserva activa, quiero desbloquear el vehículo escaneando un QR para iniciar mi viaje sin pasos adicionales.</li>
         </ul>
       </td>
       <td>
@@ -535,7 +548,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Desbloqueo de vehículo desde la app</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario, quiero desbloquear el vehículo directamente desde la aplicación.</li>
+          <li>Como usuario con reserva activa, quiero desbloquear el vehículo desde la app para iniciar mi viaje cuando no puedo escanear el QR.</li>
         </ul>
       </td>
       <td>
@@ -552,7 +565,7 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
       <td>Ver estado de desbloqueo</td>
       <td>
         <ul style="margin:0; padding-left:18px;">
-          <li>Como usuario, quiero ver el estado de desbloqueo del vehículo en tiempo real.</li>
+          <li>Como usuario, quiero ver el estado del desbloqueo en tiempo real para saber cuándo puedo empezar a conducir.</li>
         </ul>
       </td>
       <td>
@@ -578,8 +591,285 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
           <li><b>Escenario 2:</b> Programación fallida<br><b>Given</b> que el usuario intenta programar el desbloqueo<br><b>When</b> el vehículo no está disponible en la hora seleccionada<br><b>Then</b> el sistema muestra un mensaje de error y sugiere otras opciones.</li>
         </ul>
       </td>
-      <td>EP07</td>
+      <td>EP-07</td>
     </tr>
+    <!-- US-23 -->
+    <tr>
+      <td>US-23</td>
+      <td>Finalizar viaje</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como usuario en viaje, quiero finalizar mi viaje desde la app para dejar el vehículo bloqueado y cerrar el cobro.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Finalización exitosa<br><b>Given</b> que el usuario tiene un viaje activo<br><b>When</b> presiona "Finalizar viaje" dentro de una estación virtual<br><b>Then</b> el sistema bloquea el vehículo, registra la hora de fin y muestra el resumen del viaje.</li>
+          <li><b>Escenario 2:</b> Finalización fuera de zona<br><b>Given</b> que el usuario tiene un viaje activo<br><b>When</b> intenta finalizar fuera de una estación virtual<br><b>Then</b> el sistema muestra un aviso de posible penalización y le pide dirigirse a una estación.</li>
+        </ul>
+      </td>
+      <td>EP-05</td>
+    </tr>
+    <!-- US-24 -->
+    <tr>
+      <td>US-24</td>
+      <td>Pago en línea (sandbox)</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como usuario, quiero pagar mi viaje o plan con Yape/Plin (modo sandbox) para completar el cobro sin usar efectivo.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Pago exitoso<br><b>Given</b> que el usuario tiene un pago pendiente<br><b>When</b> confirma el pago con un método válido de prueba<br><b>Then</b> el sistema registra la transacción como pagada y muestra el comprobante.</li>
+          <li><b>Escenario 2:</b> Pago rechazado<br><b>Given</b> que el usuario intenta pagar<br><b>When</b> el método de pago es rechazado<br><b>Then</b> el sistema muestra el motivo y permite reintentar con otro método.</li>
+          <li><b>Escenario 3:</b> Error de conexión<br><b>Given</b> que el usuario confirma el pago<br><b>When</b> se pierde la conexión durante el proceso<br><b>Then</b> el sistema informa que el pago no se completó y no genera un cobro duplicado.</li>
+        </ul>
+      </td>
+      <td>EP-03</td>
+    </tr>
+    <!-- US-25-->
+    <tr>
+      <td>US-25</td>
+      <td>Archivo db.json para pruebas locales</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como desarrollador, quiero un archivo db.json con usuarios, vehículos y reservas para probar el frontend sin depender del backend.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Lectura exitosa<br><b>Given</b> que el servidor simulado (json-server) está levantado<br><b>When</b> el frontend consulta /vehicles<br><b>Then</b> recibe la lista de vehículos simulados en formato JSON.</li>
+          <li><b>Escenario 2:</b> Recurso inexistente<br><b>Given</b> que el servidor simulado está levantado<br><b>When</b> el frontend consulta un recurso inexistente<br><b>Then</b> el servidor responde 404.</li>
+        </ul>
+      </td>
+      <td>EP-10</td>
+    </tr>
+    <!-- US-26-->
+    <tr>
+      <td>US-26</td>
+      <td>Pruebas de integración del flujo completo</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como equipo de desarrollo, queremos verificar el flujo registro, login, reserva y viaje para detectar fallos de integración antes del despliegue.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Flujo completo exitoso<br><b>Given</b> que existe un usuario de prueba y un vehículo disponible<br><b>When</b> se ejecuta el flujo completo de registro, login, reserva y viaje<br><b>Then</b> cada paso responde con el código esperado y los datos quedan persistidos.</li>
+          <li><b>Escenario 2:</b> Acceso sin token<br><b>Given</b> que el flujo se ejecuta sin token<br><b>When</b> se llama a un endpoint protegido<br><b>Then</b> la API responde 401.</li>
+        </ul>
+      </td>
+      <td>EP-10</td>
+    </tr>
+    <!-- US-27-->
+    <tr>
+      <td>US-27</td>
+      <td>Landing page informativa</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como visitante, quiero ver una landing page clara con beneficios, planes y pasos de uso para decidir si me registro en WeRide.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Visualización exitosa<br><b>Given</b> que el visitante entra a la landing page<br><b>When</b> la página termina de cargar<br><b>Then</b> ve las secciones de beneficios, pasos de uso y un botón para registrarse.</li>
+          <li><b>Escenario 2:</b> Visualización en móvil<br><b>Given</b> que el visitante abre la landing desde un celular<br><b>When</b> la página carga<br><b>Then</b> el diseño se adapta al tamaño de pantalla sin perder contenido.</li>
+        </ul>
+      </td>
+      <td>EP-08</td>
+    </tr>
+    <!-- US-28-->
+    <tr>
+      <td>US-28</td>
+      <td>Contactar con soporte</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como usuario, quiero contactar a soporte desde la landing o la app para resolver mis dudas rápidamente.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Envío exitoso<br><b>Given</b> que el usuario abre el formulario de contacto<br><b>When</b> envía nombre, correo y mensaje válidos<br><b>Then</b> el sistema confirma el envío del mensaje.</li>
+          <li><b>Escenario 2:</b> Campos incompletos<br><b>Given</b> que el usuario abre el formulario de contacto<br><b>When</b> deja campos obligatorios vacíos<br><b>Then</b> el sistema marca los campos faltantes y no envía el mensaje.</li>
+        </ul>
+      </td>
+      <td>EP-08</td>
+    </tr>
+    <!-- US-29-->
+    <tr>
+      <td>US-29</td>
+      <td>Administrar flota de vehículos</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como administrador de flota, quiero registrar, editar y dar de baja vehículos para mantener actualizado el catálogo disponible.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Registro de vehículo exitoso<br><b>Given</b> que el administrador está autenticado<br><b>When</b> registra un vehículo con datos válidos<br><b>Then</b> el vehículo aparece en el catálogo con estado disponible.</li>
+          <li><b>Escenario 2:</b> Placa duplicada<br><b>Given</b> que ya existe un vehículo con la misma placa<br><b>When</b> el administrador intenta registrar otro con esa placa<br><b>Then</b> el sistema rechaza el registro e indica que la placa está duplicada.</li>
+          <li><b>Escenario 3:</b> Baja con reserva activa<br><b>Given</b> que un vehículo tiene una reserva activa<br><b>When</b> el administrador intenta darlo de baja<br><b>Then</b> el sistema impide la baja y explica el motivo.</li>
+        </ul>
+      </td>
+      <td>EP-09</td>
+    </tr>
+    <!-- US-30-->
+    <tr>
+      <td>US-30</td>
+      <td>Monitorear estado de vehículos</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como administrador de flota, quiero ver batería, ubicación y estado de cada vehículo para planificar recargas y mantenimiento.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Visualización del estado<br><b>Given</b> que el administrador abre el panel de flota<br><b>When</b> el panel carga<br><b>Then</b> ve cada vehículo con su batería, ubicación y estado.</li>
+          <li><b>Escenario 2:</b> Alerta de batería baja<br><b>Given</b> que un vehículo tiene batería menor al 20%<br><b>When</b> el administrador visualiza el panel<br><b>Then</b> el sistema resalta ese vehículo con una alerta.</li>
+        </ul>
+      </td>
+      <td>EP-09</td>
+    </tr>
+    <!-- US-31-->
+    <tr>
+      <td>US-31</td>
+      <td>Gestionar reportes de problemas</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como agente de soporte, quiero ver y atender los reportes de problemas de vehículos para resolver incidencias y retirar unidades dañadas.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Listado de reportes<br><b>Given</b> que existen reportes enviados por usuarios<br><b>When</b> el agente abre la lista de reportes<br><b>Then</b> ve los reportes ordenados por fecha y filtrables por estado.</li>
+          <li><b>Escenario 2:</b> Reporte resuelto<br><b>Given</b> que el agente atendió un reporte<br><b>When</b> lo marca como resuelto<br><b>Then</b> el sistema actualiza el estado y notifica al usuario que lo reportó.</li>
+        </ul>
+      </td>
+      <td>EP-09</td>
+    </tr>
+    <!-- US-32-->
+    <tr>
+      <td>US-32</td>
+      <td>Documentación Swagger de la API</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como desarrollador frontend, quiero documentación OpenAPI/Swagger de la API para integrar los endpoints sin ambigüedades.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Consulta de documentación<br><b>Given</b> que el backend está desplegado<br><b>When</b> el desarrollador abre /swagger-ui/index.html<br><b>Then</b> ve los endpoints agrupados con descripción y ejemplos de request y response.</li>
+          <li><b>Escenario 2:</b> Prueba de endpoint<br><b>Given</b> que el desarrollador está en Swagger UI<br><b>When</b> ejecuta "Try it out" sobre el inicio de sesión<br><b>Then</b> recibe una respuesta real de la API.</li>
+        </ul>
+      </td>
+      <td>EP-10</td>
+    </tr>
+    <!-- US-33-->
+    <tr>
+      <td>US-33</td>
+      <td>Pruebas unitarias de servicios</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como equipo de desarrollo, queremos pruebas unitarias de los servicios de aplicación para detectar errores en las reglas de negocio de forma temprana.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Pruebas aprobadas<br><b>Given</b> que existen pruebas unitarias para los bounded contexts IAM y Plans<br><b>When</b> se ejecuta mvn test<br><b>Then</b> todas las pruebas pasan y se genera el reporte.</li>
+          <li><b>Escenario 2:</b> Regla rota detectada<br><b>Given</b> que una regla de negocio cambia y rompe un caso<br><b>When</b> se ejecuta mvn test<br><b>Then</b> la prueba correspondiente falla e indica el caso afectado.</li>
+        </ul>
+      </td>
+      <td>EP-10</td>
+    </tr>    
+    <!-- US-34-->
+    <tr>
+      <td>US-34</td>
+      <td>Pruebas BDD de la API con Karate</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como equipo de QA, queremos escenarios BDD con Karate sobre la API para validar los criterios de aceptación de las historias de forma automática.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Ejecución exitosa<br><b>Given</b> que la API está levantada<br><b>When</b> se ejecuta el TestRunner de Karate<br><b>Then</b> se genera un reporte HTML con los escenarios aprobados y fallidos.</li>
+          <li><b>Escenario 2:</b> Escenario negativo<br><b>Given</b> que existe un escenario con credenciales inválidas<br><b>When</b> se ejecuta el TestRunner de Karate<br><b>Then</b> el escenario verifica que la API rechaza el acceso y lo marca como aprobado.</li>
+        </ul>
+      </td>
+      <td>EP-10</td>
+    </tr>
+    <!-- US-35-->
+    <tr>
+      <td>US-35</td>
+      <td>Pipeline de integración continua con Jenkins</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como equipo DevOps, queremos un pipeline de integración continua en Jenkins para compilar y probar el backend en cada cambio.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Ejecución automática<br><b>Given</b> que se hace push a la rama develop<br><b>When</b> Jenkins recibe el aviso del repositorio<br><b>Then</b> ejecuta checkout, build y pruebas automáticamente.</li>
+          <li><b>Escenario 2:</b> Falla de pruebas<br><b>Given</b> que una prueba falla<br><b>When</b> el pipeline se ejecuta<br><b>Then</b> el build se marca como FAILED y no continúa a las siguientes etapas.</li>
+        </ul>
+      </td>
+      <td>EP-10</td>
+    </tr>
+    <!-- US-36-->
+        <tr>
+      <td>US-36</td>
+      <td>Recuperar contraseña</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como usuario registrado, quiero recuperar mi contraseña para volver a entrar si la olvido.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Recuperación exitosa<br><b>Given</b> que el usuario tiene una cuenta registrada<br><b>When</b> solicita recuperar su contraseña con su correo<br><b>Then</b> el sistema envía un enlace para restablecerla.</li>
+          <li><b>Escenario 2:</b> Correo no registrado<br><b>Given</b> que el correo ingresado no está registrado<br><b>When</b> el usuario solicita recuperar su contraseña<br><b>Then</b> el sistema muestra un mensaje genérico sin revelar si la cuenta existe.</li>
+        </ul>
+      </td>
+      <td>EP-01</td>
+    </tr>
+    <!-- US-37-->
+    <tr>
+      <td>US-37</td>
+      <td>Cancelar reserva</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como usuario con una reserva activa, quiero cancelarla para liberar el vehículo si cambio de planes.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Cancelación exitosa<br><b>Given</b> que el usuario tiene una reserva activa<br><b>When</b> presiona "Cancelar reserva" antes de que expire<br><b>Then</b> el sistema libera el vehículo y confirma la cancelación.</li>
+          <li><b>Escenario 2:</b> Error de conexión<br><b>Given</b> que el usuario intenta cancelar<br><b>When</b> no hay conexión a internet<br><b>Then</b> el sistema informa el error y permite reintentar.</li>
+        </ul>
+      </td>
+      <td>EP-06</td>
+    </tr>
+    <!-- US-38-->
+    <tr>
+      <td>US-38</td>
+      <td>Administrar planes de suscripción</td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li>Como administrador, quiero crear, actualizar y eliminar planes de suscripción para mantener actualizada la oferta de WeRide.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:18px;">
+          <li><b>Escenario 1:</b> Creación exitosa<br><b>Given</b> que el administrador está autenticado con un token JWT válido<br><b>When</b> envía un nuevo plan con datos válidos<br><b>Then</b> el sistema responde 201 y el plan aparece en el catálogo de planes.</li>
+          <li><b>Escenario 2:</b> Actualización de un plan existente<br><b>Given</b> que existe un plan registrado<br><b>When</b> el administrador envía los nuevos datos del plan<br><b>Then</b> el sistema actualiza el plan y devuelve el plan actualizado.</li>
+          <li><b>Escenario 3:</b> Eliminación de un plan inexistente<br><b>Given</b> que no existe un plan con el identificador indicado<br><b>When</b> el administrador solicita eliminarlo<br><b>Then</b> el sistema informa que no se encontró el plan y no realiza ninguna eliminación.</li>
+        </ul>
+      </td>
+      <td>EP-09</td>
+    </tr>
+
+    
   </tbody>
 </table>
 
