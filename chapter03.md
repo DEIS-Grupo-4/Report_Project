@@ -875,30 +875,46 @@ Principales cambios respecto al As-Is: visibilidad centralizada de uso de flota 
 
 ## 3.3. Product Backlog
 
-| N° Orden | User Story ID | Título                                   | Descripción                                                                                                    | Story points |
-|----------|---------------|------------------------------------------|----------------------------------------------------------------------------------------------------------------|--------------|
-| 1        | US-01         | Inicio de sesión y registro              | Como usuario quiero poder iniciar sesión o registrarme en la app para usarla diariamente.                      | 5            |
-| 2        | US-02         | Introducir Número de Celular             | Como usuario, quiero introducir mi número de celular para validar mi identidad y recibir notificaciones importantes. | 2            |
-| 3        | US-03         | Introducir código de verificación        | Como usuario, quiero introducir un código de verificación para validar mi identidad en la aplicación.          | 2            |
-| 4        | US-04         | Datos de usuario                         | Como usuario quiero poder crear un perfil para colocar mis datos.                                              | 3            |
-| 5        | US-05         | Página Principal                         | Como usuario quiero poder ver una pantalla principal estética que me atraiga a usar el servicio.               | 3            |
-| 6        | US-06         | Gestión y personalización de perfil      | Como usuario quiero acceder a mi perfil para administrar mi cuenta.                                            | 5            |
-| 7        | US-07         | Gestión y visualización de vehículos en Garaje | Como usuario quiero acceder al Garaje para gestionar los vehículos disponibles.                          | 5            |
-| 8        | US-08         | Filtrado de vehículos en Garaje          | Como usuario quiero filtrar los vehículos disponibles en el Garaje por tipo.                                   | 3            |
-| 9        | US-09         | Selección y pago de planes               | Como usuario quiero visualizar los diferentes planes disponibles.                                              | 5            |
-| 10       | US-10         | Proceso de pago de planes                | Como usuario quiero ingresar los datos de mi tarjeta para activar el plan seleccionado.                        | 5            |
-| 11       | US-11         | Seleccionar ubicación para ver vehículos cercanos disponibles | Como usuario, al seleccionar una ubicación del mapa quiero ver los vehículos cercanos disponibles. | 5            |
-| 12       | US-12         | Visualización de viaje en mapa           | Como usuario quiero ver mi trayecto actual en el mapa, junto con información relevante del vehículo.           | 5            |
-| 13       | US-13         | Historial de viajes                      | Como usuario, quiero ver el historial de mis viajes para trackear gastos y rutas.                              | 3            |
-| 14       | US-14         | Calificación de viaje                    | Como usuario, quiero calificar mi experiencia después del viaje para feedback y mejora del servicio.           | 2            |
-| 15       | US-15         | Reportar problema con vehículo           | Como usuario, quiero reportar un problema con el vehículo para alertar a soporte y obtener ayuda rápida.       | 3            |
-| 16       | US-16         | Notificación de fin de reserva           | Como usuario, quiero recibir una notificación antes de que finalice mi reserva.                                | 3            |
-| 17       | US-17         | Crear una reserva                        | Como usuario, quiero reservar un vehículo desde la app.                                                        | 5            |
-| 18       | US-18         | Notificación de inicio y vencimiento     | Como usuario, quiero recibir notificaciones cuando mi reserva esté activa y cuando esté por expirar.           | 3            |
-| 19       | US-19         | Desbloqueo de vehículo con QR            | Como usuario, quiero desbloquear el vehículo escaneando un QR.                                                 | 3            |
-| 20       | US-20         | Desbloqueo de vehículo desde la app      | Como usuario, quiero desbloquear el vehículo directamente desde la aplicación.                                 | 3            |
-| 21       | US-21         | Ver estado de desbloqueo                 | Como usuario, quiero ver el estado de desbloqueo del vehículo en tiempo real.                                  | 2            |
-| 22       | US-22         | Desbloqueo programado                    | Como usuario, quiero programar el desbloqueo de un vehículo para una hora específica y asegurar su disponibilidad. | 5            |
+| N° Orden | User Story ID | Título                                   | Descripción                                                                                                    | Story points | Nivel |
+|----------|---------------|------------------------------------------|----------------------------------------------------------------------------------------------------------------|--------------|---------|
+| 1 | US-01 | Inicio de sesión y registro | Como usuario quiero poder iniciar sesión o registrarme en la app para usarla diariamente. | 5 | Alta |
+| 2 | US-02 | Introducir Número de Celular | Como usuario, quiero introducir mi número de celular para validar mi identidad y recibir notificaciones importantes. | 2 | Alta |
+| 3 | US-03 | Introducir código de verificación | Como usuario, quiero introducir un código de verificación para validar mi identidad en la aplicación. | 2 | Alta |
+| 4 | US-04 | Datos de usuario | Como usuario nuevo, quiero crear mi perfil con mis datos para que la app personalice mi experiencia. | 3 | Alta |
+| 5 | US-27 | Landing page informativa | Como visitante, quiero ver una landing page clara con beneficios, planes y pasos de uso para decidir si me registro en WeRide. | 3 | Alta |
+| 6 | US-11 | Seleccionar ubicación para ver vehículos cercanos disponibles | Como usuario, quiero ver los vehículos cercanos a la ubicación que elijo en el mapa para reservar el más cercano. | 5 | Alta |
+| 7 | US-07 | Gestión y visualización de vehículos en Garaje | Como usuario, quiero ver los vehículos del Garaje para elegir el que mejor se ajuste a mi viaje. | 5 | Alta |
+| 8 | US-08 | Filtrado de vehículos en Garaje | Como usuario, quiero filtrar los vehículos por tipo, precio, disponibilidad o marca para encontrar rápidamente el adecuado. | 3 | Alta |
+| 9 | US-17 | Crear una reserva | Como usuario, quiero reservar un vehículo desde la app para asegurar su disponibilidad. | 5 | Alta |
+| 10 | US-19 | Desbloqueo de vehículo con QR | Como usuario con reserva activa, quiero desbloquear el vehículo escaneando un QR para iniciar mi viaje sin pasos adicionales. | 3 | Alta |
+| 11 | US-20 | Desbloqueo de vehículo desde la app | Como usuario con reserva activa, quiero desbloquear el vehículo desde la app para iniciar mi viaje cuando no puedo escanear el QR. | 3 | Alta |
+| 12 | US-21 | Ver estado de desbloqueo | Como usuario, quiero ver el estado del desbloqueo en tiempo real para saber cuándo puedo empezar a conducir. | 2 | Alta |
+| 13 | US-12 | Visualización de viaje en mapa | Como usuario en viaje, quiero ver mi trayecto y los datos del vehículo para controlar la batería y el tiempo restante. | 5 | Alta |
+| 14 | US-23 | Finalizar viaje | Como usuario en viaje, quiero finalizar mi viaje desde la app para dejar el vehículo bloqueado y cerrar el cobro. | 3 | Alta |
+| 15 | US-09 | Selección y pago de planes | Como usuario, quiero comparar los planes disponibles para elegir el que más me conviene. | 5 | Alta |
+| 16 | US-10 | Proceso de pago de planes | Como usuario quiero ingresar los datos de mi tarjeta para activar el plan seleccionado. | 5 | Alta |
+| 17 | US-24 | Pago en línea (sandbox) | Como usuario, quiero pagar mi viaje o plan con Yape/Plin (modo sandbox) para completar el cobro sin usar efectivo. | 8 | Alta |
+| 18 | US-38 | Administrar planes de suscripción | Como administrador, quiero crear, actualizar y eliminar planes de suscripción para mantener actualizada la oferta de WeRide. | 5 | Alta |
+| 19 | US-33 | Pruebas unitarias de servicios | Como equipo de desarrollo, queremos pruebas unitarias de los servicios de aplicación para detectar errores en las reglas de negocio de forma temprana. | 3 | Alta |
+| 20 | US-34 | Pruebas BDD de la API con Karate | Como equipo de QA, queremos escenarios BDD con Karate sobre la API para validar los criterios de aceptación de las historias de forma automática. | 5 | Alta |
+| 21 | US-35 | Pipeline de integración continua con Jenkins | Como equipo DevOps, queremos un pipeline de integración continua en Jenkins para compilar y probar el backend en cada cambio. | 5 | Alta |
+| 22 | US-13 | Historial de viajes | Como usuario, quiero ver el historial de mis viajes para trackear gastos y rutas. | 3 | Media |
+| 23 | US-05 | Página Principal | Como usuario, quiero ver una pantalla principal clara con accesos rápidos para llegar rápido a reservar un vehículo. | 3 | Media |
+| 24 | US-06 | Gestión y personalización de perfil | Como usuario, quiero administrar mi cuenta y mi perfil para mantener mis datos actualizados. | 5 | Media |
+| 25 | US-16 | Notificación de fin de reserva | Como usuario, quiero recibir una notificación antes de que finalice mi reserva. | 3 | Media |
+| 26 | US-18 | Notificación de inicio y vencimiento | Como usuario con reserva, quiero recibir notificaciones cuando mi reserva esté activa y por expirar para no perderla. | 3 | Media |
+| 27 | US-37 | Cancelar reserva | Como usuario con una reserva activa, quiero cancelarla para liberar el vehículo si cambio de planes. | 3 | Media |
+| 28 | US-14 | Calificación de viaje | Como usuario, quiero calificar mi experiencia después del viaje para feedback y mejora del servicio. | 2 | Media |
+| 29 | US-15 | Reportar problema con vehículo | Como usuario, quiero reportar un problema con el vehículo para alertar a soporte y obtener ayuda rápida. | 3 | Media |
+| 30 | US-28 | Contactar con soporte | Como usuario, quiero contactar a soporte desde la landing o la app para resolver mis dudas rápidamente. | 2 | Media |
+| 31 | US-36 | Recuperar contraseña | Como usuario registrado, quiero recuperar mi contraseña para volver a entrar si la olvido. | 3 | Media |
+| 32 | US-22 | Desbloqueo programado | Como usuario, quiero programar el desbloqueo de un vehículo para una hora específica y asegurar su disponibilidad. | 5 | Media |
+| 33 | US-29 | Administrar flota de vehículos | Como administrador de flota, quiero registrar, editar y dar de baja vehículos para mantener actualizado el catálogo disponible. | 5 | Baja |
+| 34 | US-30 | Monitorear estado de vehículos | Como administrador de flota, quiero ver batería, ubicación y estado de cada vehículo para planificar recargas y mantenimiento. | 3 | Baja |
+| 35 | US-31 | Gestionar reportes de problemas | Como agente de soporte, quiero ver y atender los reportes de problemas de vehículos para resolver incidencias y retirar unidades dañadas. | 3 | Baja |
+| 36 | US-25 | Archivo db.json para pruebas locales | Como desarrollador, quiero un archivo db.json con usuarios, vehículos y reservas para probar el frontend sin depender del backend. | 2 | Baja |
+| 37 | US-26 | Pruebas de integración del flujo completo | Como equipo de desarrollo, queremos verificar el flujo registro, login, reserva y viaje para detectar fallos de integración antes del despliegue. | 2 | Baja |
+| 38 | US-32 | Documentación Swagger de la API | Como desarrollador frontend, quiero documentación OpenAPI/Swagger de la API para integrar los endpoints sin ambigüedades. | 2 | Baja |
 
 ## 3.4. Impact Mapping.
 
