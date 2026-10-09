@@ -1853,8 +1853,45 @@ A continuación se presentan las evidencias de commits realizados en el reposito
 *Fuente: Elaboración propia.*
 
 # Capítulo VII: DevOps Practices
+
 ## 7.1. Continuous Integration
-### 7.1.1. Tools and Practices.
+
+La integración continua es fundamental para asegurar la calidad y coherencia del código a lo largo del ciclo de vida del proyecto, ya que el proyecto está dividido en repositorios diferentes, el implementar integración continua nos permite automatizar las validaciones de cada cambio realizado, antes de ser fusionado con las ramas principales.
+El objetivo principal de nuestra estrategia de integración continua es el detectar errores con anticipación, evitar conflictos al momento de integrar y validar que las modificaciones realizadas no alteren la lógica de aplicación existente.
+
+### 7.1.1. Tools and Practices
+
+Para implementar este entorno, se utilizaron herramientas y prácticas especializadas que permiten también un flujo de trabajo colaborativo.
+
+**Tools:**
+
+  - Sistema de Control de Versiones:
+
+    Git y GitHub: Utilizamos Git como sistema de control de versiones y GitHub como plataforma para el alojamiento de nuestros repositorios (Landing Page, Frontend-WeRide, Backend-WeRide). GitHub facilita la revisión de código mediante pull requests y      gestión de incidencias.
+
+  - Automatización de Pipelines:
+
+    GitHub Actions: Es la herramienta nativa de GitHub para automatizar nuestros pipelines de CI. Define flujos de trabajo en archivos de configuración YAML.
+
+  - IDE y Linters:
+
+    WebStorm: Utilizado para el desarrollo frontend (Angular, TypeScript, HTML, CSS), configurados con linters como ESLint para asegurar la calidad del código antes de cada commit.
+
+  - Frameworks de Pruebas Automatizadas:
+
+    JUnit 5 y Mockito: Utilizados para la ejecución automática de pruebas unitarias y de integración en el backend, como Bounded Contexts de IAM y Plans durante el pipeline de CI.
+
+**Practices:**
+
+  - GitFlow Workflow: La estructura de ramas del proyecto está de acuerdo con el modelo GitFlow. El código principal está en la rama main, mientras que el código en desarrollo se centra en la rama develop, y para cada nueva tarea, creamos ramas con el      prefijo feature/nombre.
+    
+  - Conventional Commits: Todos los mensajes de los commits siguen la especificación de Conventional Commits. Utilizando prefijos como feat, fix, chore y test dependiendo de la modificación. Esto crea un historial de cambios legible para cualquiera.
+
+  - Code Review y Pull Requests: Como se especifica en el curso, ningún código se integra directamente a develop o main. Todo código nuevo debe enviarse a través de un Pull Request. Y como práctica obligatoria, se requiere la revisión y aprobación de       un encargado miembro del equipo antes de realizar el merge.
+
+  - Ejecución de Pruebas en cada Pull Request: Como parte del pipeline de CI en GitHub Actions, cada vez que se abre o actualiza un Pull Request, se emite un workflow que construye el proyecto y ejecuta todo el paquete de pruebas unitarias y de             integración. Si alguna prueba falla, el pipeline se marca en rojo y el merge queda bloqueado hasta que el encargado corrija el error.
+    
+
 ### 7.1.2. Build & Test Suite Pipeline Components
 
 ## Conclusiones
