@@ -1704,7 +1704,7 @@ En esta etapa, el alcance de las pruebas comprende dos *bounded contexts* del ba
 
 Las pruebas unitarias se implementan utilizando **JUnit 5** y **Mockito**, lo que permite verificar la lógica de los servicios de aplicación de manera aislada. Para las pruebas de integración y de sistema, se considera la interacción entre los componentes de la aplicación, los endpoints REST y la persistencia de datos en la base de datos. Los escenarios BDD permiten especificar el comportamiento esperado de las funcionalidades mediante criterios comprensibles para los desarrolladores y los responsables del producto. La ejecución y los resultados de cada prueba se registran para demostrar el cumplimiento de los criterios de aceptación correspondientes.  
 
-6.1. Testing Suites & Validation  
+## 6.1. Testing Suites & Validation  
 
 La verificación y validación del producto **WeRide** tiene como finalidad comprobar que los componentes implementados cumplen con los requisitos funcionales definidos para la gestión de cuentas de usuario y la administración de planes. Para ello, se establece una estrategia de pruebas organizada en cuatro niveles: pruebas unitarias, pruebas de integración, pruebas basadas en comportamiento (BDD) y pruebas de sistema.
 
@@ -1714,7 +1714,7 @@ Las pruebas unitarias se implementan utilizando **JUnit 5** y **Mockito**, lo qu
 
 
 
-6.1.1. Core Entities Unit Tests.
+### 6.1.1. Core Entities Unit Tests.
 
 Las pruebas unitarias tienen como objetivo verificar el comportamiento de los servicios de aplicación de los *bounded contexts* IAM y Plans de manera independiente de la base de datos y de otros componentes externos. Para ello, se emplean objetos simulados (*mocks*) que permiten controlar las respuestas de las dependencias y comprobar los resultados de cada operación.
 
@@ -1780,10 +1780,10 @@ Para llevar a cabo estas pruebas, se utiliza el entorno de prueba web de **Sprin
 
 *Fuente: Elaboración propia.*
 
-&gt; `[INSERTAR IMAGEN AQUÍ: Captura de pantalla de la consola de pruebas o reporte de integración (Spring Boot Test Runner / Postman Newman) confirmando la respuesta HTTP exitosa (200 OK / 201 Created) y la persistencia de datos en la base de datos de pruebas.]`
 
-6.1.3. Core Behavior-Driven Development  
-Las pruebas basadas en comportamiento (BDD) permiten validar las funcionalidades desde la perspectiva de las historias de usuario y las reglas de negocio[2]. Los escenarios se definen en lenguaje formal **Gherkin** utilizando la sintaxis `Given-When-Then` (Dado - Cuando - Entonces) e integrados con la herramienta **Cucumber / SpecFlow**.
+### 6.1.3. Core Behavior-Driven Development  
+
+Las pruebas basadas en comportamiento (BDD) permiten validar las funcionalidades desde la perspectiva de las historias de usuario y las reglas de negocio. Los escenarios se definen en lenguaje formal **Gherkin** utilizando la sintaxis `Given-When-Then` (Dado - Cuando - Entonces) e integrados con la herramienta **Cucumber / SpecFlow**.
 
 #### **A. Archivo de Especificación (** **.feature** **) - IAM**
 
@@ -1817,9 +1817,9 @@ Feature: Administración de Planes de Suscripción
 
 ```
 
-&gt; `[INSERTAR IMAGEN AQUÍ: Captura de pantalla de la herramienta de BDD (Cucumber Test Runner / SpecFlow / Cypress BDD) mostrando la ejecución en verde (Passed) de todos los pasos (Steps) de los archivos .feature.]`
+![localtime](assets/chapter05/unitTest/test-karate.png)
 
-6.1.4. Core System Tests.
+### 6.1.4. Core System Tests.
 Las pruebas de sistema (*End-to-End* / E2E) evalúan la aplicación completa de manera integral, simulando la interacción real de los usuarios en la interfaz Web (Vue.js) y en la aplicación Móvil. Estas pruebas verifican la comunicación entre el frontend, las APIs RESTful del backend y la base de datos en escenarios de uso reales.
 
 Se utiliza **Playwright** para la automatización web y **Appium** para la automatización de la interfaz móvil.
@@ -1834,7 +1834,7 @@ Se utiliza **Playwright** para la automatización web y **Appium** para la autom
 
 *Fuente: Elaboración propia.*
 
-&gt; `[INSERTAR IMAGEN AQUÍ: Captura de pantalla o dashboard de ejecución E2E (Playwright Test Runner / Cypress Dashboard) donde se observe el navegador automatizado ejecutando el flujo completo de la aplicación Web y Móvil de WeRide.]`
+![localtime](assets/chapter05/unitTest/test-karate-dash.png)
 
 ---
 
