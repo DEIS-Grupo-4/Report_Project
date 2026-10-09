@@ -97,13 +97,13 @@ Buscamos transformar la movilidad urbana en Lima  ofreciendo un transporte rápi
     <tr>
       <td style="padding: 10px; border: 1px solid #aaa;">
         Franco Sebastian Laymito Delgado<br>
-        <span style="font-size:11px; color:#555;">(U202412591)</span>
+        <span style="font-size:11px; color:#555;">(U202311959)</span>
       </td>
       <td style="padding: 10px; border: 1px solid #aaa; text-align:center;">
-        <img src="assets/Integrantes/Diego.png" alt="Foto de Diego" style="max-width:80px; border-radius:6px;">
+        <img src="assets/Integrantes/Franco Laymito.jpeg" alt="Foto de Franco" style="max-width:80px; border-radius:6px;">
       </td>
       <td style="padding: 10px; border: 1px solid #aaa; text-align: justify;">
-        Estudiante de Ingeniería de Software. Se caracteriza por su responsabilidad y su enfoque orientado a resultados de calidad. Mantiene una actitud innovadora y práctica, participando activamente en el trabajo colaborativo y en la búsqueda de soluciones eficientes.
+        Estudiante de Ingeniería de Software en la Universidad Peruana de Ciencias Aplicadas (UPC). Destaca por sus sólidos conocimientos en el desarrollo con Python, tecnologías de desarrollo web (HTML, CSS y JavaScript), gestión de bases de datos como MongoDB y análisis con Power BI. Posee habilidades analíticas para la resolución de problemas de complejidad algorítmica y estructuras de datos, aportando compromiso, capacidad técnica y trabajo en equipo.
       </td>
     </tr>
     <tr>
