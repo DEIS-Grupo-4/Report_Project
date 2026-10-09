@@ -209,8 +209,8 @@ Adicionalmente, se realizaron mejoras completas al informe, ajustándolo a los r
 ### [Capítulo III: Requirements Specification](/chapter03.md)
 - [3.1. To-Be Scenario Mapping](/chapter03.md#31-to-be-scenario-mapping)
 - [3.2. User Stories](/chapter03.md#32-user-stories)
-- [3.3. Product Backlog](/chapter03.md#34-product-backlog)
-- [3.4. Impact Mapping](/chapter03.md#33-impact-mapping)
+- [3.3. Product Backlog](/chapter03.md#33-product-backlog)
+- [3.4. Impact Mapping](/chapter03.md#34-impact-mapping)
 
 
 ### [Capítulo IV: Product Design](/chapter04.md)
