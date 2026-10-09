@@ -1894,6 +1894,89 @@ Para implementar este entorno, se utilizaron herramientas y prácticas especiali
 
 ### 7.1.2. Build & Test Suite Pipeline Components
 
+El pipeline del repositorio **Backend-WeRide** se compone de las siguientes etapas:
+ 
+| Etapa | Descripción | Herramienta | Resultado |
+| --- | --- | --- | --- |
+| **Checkout** | Descarga el código de la rama que disparó el pipeline. | Jenkins + Git | Código fuente en el workspace |
+| **Build** | Compila el proyecto y empaqueta la aplicación sin ejecutar pruebas. | Maven | Archivo `.jar` |
+| **Unit & Integration Tests** | Ejecuta las pruebas unitarias y de integración (capítulo VI, secciones 6.1.1 y 6.1.2). | JUnit 5, Mockito, Spring Boot Test | Reportes JUnit publicados en Jenkins |
+| **Start API (test)** | Levanta la aplicación con el perfil de pruebas para que Karate pueda consumirla. | Java | API disponible en `localhost:8080` |
+| **Karate (BDD / Acceptance)** | Ejecuta los escenarios Given-When-Then sobre la API (sección 6.1.3). | Karate | Reporte HTML `karate-summary.html` archivado |
+| **Reports & Cleanup** | Publica los resultados y detiene la aplicación de pruebas. | Jenkins | Resultado visible en el panel del build |
+ 
+**Jenkinsfile** (en la raíz del repositorio Backend-WeRide):
+ 
+```groovy
+pipeline {
+  agent any
+ 
+  tools {
+    maven 'Maven3'
+    jdk 'JDK17'
+  }
+ 
+  stages {
+    stage('Checkout') {
+      steps { checkout scm }
+    }
+ 
+    stage('Build') {
+      steps { sh 'mvn -B clean package -DskipTests' }
+    }
+ 
+    stage('Unit & Integration Tests') {
+      steps { sh 'mvn -B test' }
+      post {
+        always { junit 'target/surefire-reports/*.xml' }
+      }
+    }
+ 
+    stage('Start API (test)') {
+      steps {
+        sh '''
+          nohup java -jar target/*.jar --spring.profiles.active=test > api.log 2>&1 &
+          echo $! > api.pid
+          for i in $(seq 1 30); do
+            curl -s -o /dev/null http://localhost:8080/swagger-ui/index.html && break
+            sleep 2
+          done
+        '''
+      }
+    }
+ 
+    stage('Karate (BDD / Acceptance)') {
+      steps { sh 'mvn -B -f karate-tests/pom.xml test' }
+      post {
+        always {
+          archiveArtifacts artifacts: 'karate-tests/target/karate-reports/**', allowEmptyArchive: true
+        }
+      }
+    }
+  }
+ 
+  post {
+    always {
+      sh 'if [ -f api.pid ]; then kill $(cat api.pid) || true; fi'
+    }
+    failure {
+      echo 'El pipeline falló: revisar los reportes de pruebas y el log api.log.'
+    }
+  }
+}
+```
+ 
+**Configuración de Jenkins utilizada:**
+ 
+1. Se levantó Jenkins con Docker en el puerto 8081, para no chocar con el backend que usa el 8080: `docker run -d -p 8081:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk17`.
+2. Se instalaron los plugins **Pipeline**, **Git**, **GitHub** y **JUnit**.
+3. En *Manage Jenkins → Tools* se configuraron **JDK17** y **Maven3** (instalación automática), con los mismos nombres usados en el `Jenkinsfile`.
+4. Se creó un proyecto **Multibranch Pipeline** apuntando al repositorio Backend-WeRide.
+5. Se configuró el disparo automático con un webhook de GitHub o, si Jenkins no es accesible desde internet, con sondeo del repositorio (*Poll SCM*, `H/5 * * * *`).
+6. Se hizo push del `Jenkinsfile` a `develop` y se verificó la primera ejecución.
+
+
+
 ## Conclusiones
 - El proyecto de micromovilidad eléctrica compartida responde a necesidades reales de movilidad en áreas urbanas peruanas: congestión, tiempos de traslado elevados, y demanda por alternativas más económicas y sostenibles. La combinación de scooters, bicicletas y motos eléctricas gestionadas desde una única plataforma web representa una propuesta con alto potencial de adopción, especialmente en segmentos juveniles y corporativos.
 - La identificación de dos segmentos prioritarios —jóvenes universitarios y empresas con planes de suscripción— es coherente con los hallazgos cualitativos. Los primeros buscan conveniencia, bajo costo y métodos de pago locales (Yape/Plin); las empresas buscan soluciones de movilidad para colaboradores y valoran la previsibilidad de costos y la imagen de sostenibilidad. Esta segmentación favorece estrategias de adquisición y retención diferenciadas.
