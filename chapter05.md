@@ -136,9 +136,9 @@ Para lograrlo, configuraremos un proyecto en Vercel y conectaremos nuestro repos
 
 ##### Web Services (Backend):
 
-Utilizaremos una máquina virtual (VM) en Microsoft Azure para alojar nuestro Backend de Web Services. El despliegue se realiza de forma manual mediante acceso SSH, configurando el servicio como un proceso **systemd** y exponiéndolo a través de un reverse proxy con **nginx**. El detalle completo de los comandos, configuración y evidencias de este despliegue se documenta en la sección 5.2.3 (Sprint 3).
+Utilizamos Render como plataforma para alojar nuestro Backend de Web Services, empaquetado como contenedor Docker, junto con una base de datos MySQL administrada en Aiven. El despliegue se realiza desde el repositorio de GitHub y la configuración sensible se inyecta mediante variables de entorno. El detalle del despliegue se documenta en la sección 5.2.4.7.
 
-**Nota de decisión técnica:** El enunciado del curso sugiere el uso de ASP.NET Core y C# para el desarrollo del backend. Sin embargo, el equipo decidió continuar con el stack **Java 17 + Spring Boot + MySQL**, ya que corresponde a la arquitectura DDD/CQRS implementada y validada en el ciclo anterior del proyecto. Migrar a ASP.NET Core implicaría reescribir desde cero los bounded contexts, los controladores REST y la capa de persistencia ya desplegada y probada en producción (Azure VM), lo cual representa un riesgo alto para los plazos del curso sin un beneficio funcional adicional para el producto.
+**Nota de decisión técnica:** El enunciado del curso sugiere el uso de ASP.NET Core y C# para el desarrollo del backend. Sin embargo, el equipo decidió continuar con el stack **Java 17 + Spring Boot + MySQL**, ya que corresponde a la arquitectura DDD/CQRS implementada y validada en el ciclo anterior del proyecto. Migrar a ASP.NET Core implicaría reescribir desde cero los bounded contexts, los controladores REST y la capa de persistencia ya implementada y probada en el ciclo anterior, lo cual representa un riesgo alto para los plazos del curso sin un beneficio funcional adicional para el producto.
 
 
 ---
@@ -1011,11 +1011,11 @@ Para optimizar el trabajo colaborativo, se elaboró la **Matriz de Liderazgo y C
 <!-- ========================= -->
 <h3 id="5-2-4-5">5.2.4.5. Execution Evidence for Sprint Review</h3>
 
-En el Sprint 4 se completó la integración final entre Frontend y Backend, se corrigieron errores críticos identificados en pruebas de staging, se pulió la landing page y se realizó el despliegue del backend real en una máquina virtual en Azure. Las funcionalidades validadas end-to-end incluyen: registro/login con JWT, visualización de vehículos, flujo de reserva y ejecución de viajes simulados. Se generaron evidencias visuales (capturas) y un video de demostración que muestra la navegación y los flujos principales.</p>
+En el Sprint 4 se completó la integración final entre Frontend y Backend, se corrigieron errores críticos identificados en pruebas de staging, se pulió la landing page y se realizó el despliegue del backend en Render con base de datos MySQL en Aiven. Las funcionalidades validadas end-to-end incluyen: registro/login con JWT, visualización de vehículos, flujo de reserva y ejecución de viajes simulados. Se generaron evidencias visuales (capturas) y un video de demostración que muestra la navegación y los flujos principales.</p>
 
 <h4>Principales logros</h4>
 <ul>
-  <li>Integración Frontend ↔ Backend funcionando en entorno de staging y ambiente real en Azure VM.</li>
+  <li>Integración Frontend ↔ Backend funcionando en entorno de staging y ambiente desplegado en Render.</li>
   <li>Corrección de errores críticos y mejoras de rendimiento en endpoints clave.</li>
   <li>Landing page actualizada y publicada con métricas iniciales de navegación.</li>
   <li>Validación de flujos: onboarding (registro/login), reserva, inicio/fin de viaje, historial de trips.</li>
@@ -1156,95 +1156,30 @@ El backend (Spring Boot, empaquetado con el `Dockerfile` del repositorio) se des
 <!-- ============================== -->
 <h3 id="5-2-4-7">5.2.4.7. Software Deployment Evidence for Sprint Review</h3>
 
-<p>Durante este Sprint se desplegó el backend en una máquina virtual en Azure (VM) para disponer de un entorno real que permita realizar pruebas de integración reales con persistencia en MySQL. A continuación se documentan los pasos clave, comandos ejecutados y evidencias (capturas) que deben incluirse en el informe.</p>
+<p>El backend de WeRide (Spring Boot, empaquetado con el <code>Dockerfile</code> del repositorio) se desplegó como <strong>Web Service en Render</strong> (plan Free, runtime Docker), conectado a una base de datos <strong>MySQL 8 administrada en Aiven</strong>. El despliegue se realiza directamente desde el repositorio de código en GitHub (rama <code>master</code>), por lo que cada cambio puede volver a desplegarse desde el sistema de control de versiones.</p>
 
 <h4>Resumen del proceso de despliegue</h4>
 <ol>
-  <li>Creación de recursos en Azure: Resource Group + Virtual Machine (Ubuntu 22.04) + apertura de puertos (SSH, HTTP, HTTPS)</li>
-  <li>Preparación de la VM: instalación de Java, Maven, MySQL Server (o conexión a instancia RDS/managed), configuración de firewall (ufw).</li>
-  <li>Clonado del repositorio y build: maven clean package → jar/war generado.</li>
-  <li>Configuración de servicio systemd para ejecutar la aplicación Java como servicio.</li>
-  <li>Configuración de reverse proxy (nginx) para exponer la API en puerto 80/443 y soporte HTTPS.</li>
-  <li>Verificación: healthchecks, logs del servicio, smoke tests automáticos (curl a endpoints).</li>
-  <li>Documentación de pasos y capturas incluida en este informe.</li>
+  <li>Creación de la base de datos MySQL 8 en Aiven y obtención de sus datos de conexión (host, puerto, usuario, contraseña, base <code>defaultdb</code>, SSL requerido).</li>
+  <li>Creación de un Web Service en Render conectado al repositorio de GitHub, con runtime Docker y plan Free.</li>
+  <li>Configuración de variables de entorno en Render: <code>SPRING_DATASOURCE_URL</code>, <code>SPRING_DATASOURCE_USERNAME</code>, <code>SPRING_DATASOURCE_PASSWORD</code>, <code>JWT_SECRET</code>, <code>PORT</code> y <code>JAVA_TOOL_OPTIONS</code> (límite de memoria de la JVM). Ningún secreto se almacena en el repositorio.</li>
+  <li>Build de la imagen con el Dockerfile (Maven + JDK) y arranque del servicio. Hibernate crea el esquema en MySQL (<code>ddl-auto=update</code>) y se cargan datos demo (vehículos y planes).</li>
+  <li>Verificación: el servicio queda en estado <em>Live</em>, Swagger UI responde y los endpoints de autenticación (<code>sign-up</code> / <code>sign-in</code>) devuelven 201 y 200 respectivamente.</li>
 </ol>
 
-<h4>Comandos y pasos reproducibles</h4>
-<pre><code># 1) Azure CLI: crear resource group y VM (ejemplo)
-az login
-az group create --name weRideRG --location eastus
-az vm create --resource-group weRideRG --name WeRideVM --image UbuntuLTS --admin-username weuser --generate-ssh-keys --public-ip-address-dns-name weride-vm
+<h4>Configuración utilizada</h4>
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead><tr><th>Componente</th><th>Servicio</th><th>Detalle</th></tr></thead>
+  <tbody>
+    <tr><td>Backend</td><td>Render (Web Service, Docker, Free)</td><td>https://backend-weride-2wpb.onrender.com</td></tr>
+    <tr><td>Base de datos</td><td>Aiven for MySQL 8</td><td>Conexión con SSL requerido, base <code>defaultdb</code></td></tr>
+    <tr><td>Documentación</td><td>Swagger UI (springdoc-openapi)</td><td>https://backend-weride-2wpb.onrender.com/swagger-ui/index.html</td></tr>
+  </tbody>
+</table>
 
-# 2) Abrir puertos
-az vm open-port --port 80 --resource-group weRideRG --name WeRideVM
-az vm open-port --port 443 --resource-group weRideRG --name WeRideVM
-az vm open-port --port 22 --resource-group weRideRG --name WeRideVM
+<p><em>Nota:</em> al usar el plan gratuito de Render, el servicio entra en reposo tras un periodo de inactividad y la primera petición puede tardar cerca de un minuto.</p>
 
-# 3) Conectar por SSH (desde local)
-ssh weuser@weride-vm.&lt;region&gt;.cloudapp.azure.com
-
-# 4) En la VM: instalar JDK, Maven y Git
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y openjdk-17-jdk maven git nginx certbot python3-certbot-nginx
-
-# 5) Instalar y configurar MySQL (o conectar a instancia gestionada)
-sudo apt install -y mysql-server
-sudo mysql_secure_installation
-sudo mysql -u root -p -e "CREATE DATABASE weride; CREATE USER 'werideuser'@'localhost' IDENTIFIED BY 'StrongPass!'; GRANT ALL ON weride.* TO 'werideuser'@'localhost'; FLUSH PRIVILEGES;"
-
-# 6) Clonar y construir la app
-git clone [INSERT_REPO_URL] weride-backend
-cd weride-backend
-git checkout [INSERT_DEPLOY_COMMIT_HASH]
-mvn clean package -DskipTests
-
-# 7) Configurar service systemd 
-sudo tee /etc/systemd/system/weride.service > /dev/null <<EOF
-[Unit]
-Description=WeRide Spring Boot App
-After=network.target
-
-[Service]
-User=weuser
-WorkingDirectory=/home/weuser/weride-backend
-ExecStart=/usr/bin/java -jar /home/weuser/weride-backend/target/weride.jar --spring.config.location=/home/weuser/weride-backend/config/application-prod.yml
-SuccessExitStatus=143
-Restart=always
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-sudo systemctl daemon-reload
-sudo systemctl enable weride
-sudo systemctl start weride
-sudo journalctl -u weride -f
-
-# 8) Configurar nginx reverse proxy
-sudo tee /etc/nginx/sites-available/weride > /dev/null <<EOF
-server {
-    listen 80;
-    server_name weride-vm.&lt;region&gt;.cloudapp.azure.com;
-
-    location / {
-        proxy_pass http://127.0.0.1:8080;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-}
-EOF
-
-sudo ln -s /etc/nginx/sites-available/weride /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl reload nginx
-</code></pre>
-
-<img src="./assets/m1.png">
-<img src="./assets/m2.png">
-
-<hr>
-
+<p>Las evidencias (Swagger UI, ejecución de sign-up/sign-in y estado Live del servicio) se encuentran en la sección 5.2.4.6.</p>
 
 <!-- ================================== -->
 <!-- 5.2.4.8 Team Collaboration Insights -->
