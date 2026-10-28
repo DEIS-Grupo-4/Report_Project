@@ -1034,87 +1034,122 @@ En el Sprint 4 se completó la integración final entre Frontend y Backend, se c
 <!-- =================================== -->
 <!-- 5.2.4.6 Services Documentation -->
 <!-- =================================== -->
-<h3 id="5-2-4-6">5.2.4.6. Services Documentation Evidence for Sprint Review</h3>
+### 5.2.4.6. Services Documentation Evidence for Sprint Review
 
-En este Sprint se completó y publicó la documentación OpenAPI (Swagger) de los endpoints incluidos en el alcance: auth, vehicles, bookings y trips. A continuación se presenta una tabla resumen con los endpoints más relevantes, acciones soportadas, ejemplos de llamada y ejemplo de respuesta. Al final se indican enlaces y commits relacionados con la documentación generada.</p>
+La documentación del RESTful API de WeRide se genera automáticamente con **OpenAPI (springdoc-openapi)** a partir de los controllers del backend y se publica mediante **Swagger UI**.
 
-<table border="1" cellpadding="6" cellspacing="0">
-  <thead>
-    <tr>
-      <th>Endpoint</th>
-      <th>Acciones</th>
-      <th>Método</th>
-      <th>Ejemplo</th>
-      <th>Parámetros</th>
-      <th>Ejemplo response</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>/api/auth/register</td>
-      <td>Registro de usuario</td>
-      <td>POST</td>
-      <td><pre>POST /api/auth/register</pre></td>
-      <td>email, phone, password</td>
-      <td><pre>{
- "id": "user-uuid",
- "email": "usuario@ejemplo.com"
-}</pre></td>
-    </tr>
-    <tr>
-      <td>/api/auth/login</td>
-      <td>Autenticación (JWT)</td>
-      <td>POST</td>
-      <td><pre>POST /api/auth/login</pre></td>
-      <td>email, password</td>
-      <td><pre>{
- "token": "jwt-token",
- "expiresIn": 3600
-}</pre></td>
-    </tr>
-    <tr>
-      <td>/api/vehicles</td>
-      <td>Listar / Crear vehículos</td>
-      <td>GET / POST</td>
-      <td><pre>GET /api/vehicles</pre></td>
-      <td>filtros opcionales / body</td>
-      <td><pre>[{ "id":"veh-1","plate":"ABC-123" }]</pre></td>
-    </tr>
-    <tr>
-      <td>/api/vehicles/{id}</td>
-      <td>Consultar / Actualizar / Eliminar</td>
-      <td>GET / PUT / DELETE</td>
-      <td><pre>GET /api/vehicles/veh-1</pre></td>
-      <td>path: id</td>
-      <td><pre>{
- "id": "veh-1",
- "plate": "ABC-123"
-}</pre></td>
-    </tr>
-    <tr>
-      <td>/api/bookings</td>
-      <td>Crear / Listar reservas</td>
-      <td>POST / GET</td>
-      <td><pre>POST /api/bookings</pre></td>
-      <td>vehicleId, userId, start, end</td>
-      <td><pre>{
- "bookingId": "book-456",
- "status": "CONFIRMED"
-}</pre></td>
-    </tr>
-    <tr>
-      <td>/api/trips</td>
-      <td>Inicio / Fin de viaje</td>
-      <td>POST / GET</td>
-      <td><pre>POST /api/trips</pre></td>
-      <td>bookingId, event, timestamp</td>
-      <td><pre>{
- "tripId":"trip-789",
- "status":"COMPLETED"
-}</pre></td>
-    </tr>
-  </tbody>
-</table>
+- **Swagger UI:** `https://backend-weride-2wpb.onrender.com/swagger-ui/index.html`
+- **Especificación OpenAPI (JSON):** `https://backend-weride-2wpb.onrender.com/v3/api-docs`
+- **Repositorio:** https://github.com/OpenSource-Grupo-4/Backend-WeRide
+
+**Seguridad:** los endpoints de `/api/v1/authentication/**`, `/health` y Swagger son públicos. El resto requiere el header `Authorization: Bearer <token>` (JWT obtenido en `sign-in`).
+
+#### Resumen de endpoints (base: `/api/v1`)
+
+| Grupo | Endpoint | Método | Acción |
+|---|---|---|---|
+| Authentication | `/authentication/sign-up` | POST | Registrar una cuenta |
+| Authentication | `/authentication/sign-in` | POST | Iniciar sesión y obtener JWT |
+| Accounts | `/accounts/{accountId}` | GET | Consultar una cuenta |
+| Profiles | `/profiles` | POST | Crear perfil |
+| Profiles | `/profiles/me` | GET, PUT | Consultar / actualizar el perfil propio |
+| Profiles | `/profiles/{id}` | GET | Consultar un perfil |
+| Vehicles | `/vehicles` | POST, GET | Crear / listar vehículos |
+| Vehicles | `/vehicles/{id}` | GET, PUT, DELETE | Consultar / actualizar / eliminar |
+| Plans | `/plans` | POST, GET | Crear / listar planes |
+| Plans | `/plans/{id}` | GET, PUT, DELETE | Consultar / actualizar / eliminar |
+| Bookings | `/bookings` | POST, GET | Crear / listar reservas |
+| Bookings | `/bookings/draft` | POST | Crear borrador de reserva |
+| Bookings | `/bookings/drafts` | GET | Listar borradores |
+| Bookings | `/bookings/draft/{draftId}` | DELETE | Eliminar borrador |
+| Bookings | `/bookings/{id}` | GET, PATCH, PUT, DELETE | Consultar / actualizar / eliminar |
+| Bookings | `/bookings/vehicle/{vehicleId}` | GET | Reservas por vehículo |
+| Bookings | `/bookings/status/{status}` | GET | Reservas por estado |
+| Bookings | `/bookings/user/{userId}` | GET | Reservas por usuario |
+| Bookings | `/bookings/user/{userId}/pending` | GET | Reservas pendientes del usuario |
+| Bookings | `/bookings/user/{userId}/completed` | GET | Reservas completadas del usuario |
+| Trips | `/trips` | POST, GET | Crear / listar viajes |
+| Trips | `/trips/{id}` | GET, PATCH, DELETE | Consultar / actualizar / eliminar |
+| Travel History | `/travel-history` | POST, GET | Registrar / listar historial |
+| Travel History | `/travel-history/me` | GET | Historial del usuario autenticado |
+| Travel History | `/travel-history/{userId}` | GET | Historial por usuario |
+| Travel History | `/travel-history/{id}` | PUT | Actualizar un registro |
+| Notifications | `/notifications` | POST, GET | Crear / listar notificaciones |
+| Notifications | `/notifications/{notificationId}` | GET, PATCH, DELETE | Consultar / actualizar / eliminar |
+| Notifications | `/notifications/{notificationId}/read` | PATCH | Marcar como leída |
+| Location | `/location` | POST, GET | Crear / listar ubicaciones |
+| Location | `/location/{id}` | GET, PUT, PATCH, DELETE | Consultar / actualizar / eliminar |
+| Unlock Requests | `/unlockRequests` | POST, GET | Crear / listar solicitudes de desbloqueo |
+| Unlock Requests | `/unlockRequests/{id}` | GET, PATCH, DELETE | Consultar / actualizar / eliminar |
+| Health | `/health` (sin prefijo `/api/v1`) | GET | Estado del servicio |
+
+#### Ejemplos de request / response
+
+**POST `/api/v1/authentication/sign-up`** (público)
+
+```json
+// Request
+{ "username": "usuario1", "password": "Weride2026!" }
+// Response 201 Created
+{ "id": 1, "username": "usuario1" }
+```
+Respuesta `400 Bad Request` si el username/password están vacíos o la cuenta no puede crearse.
+
+**POST `/api/v1/authentication/sign-in`** (público)
+
+```json
+// Request
+{ "username": "usuario1", "password": "Weride2026!" }
+// Response 200 OK
+{ "id": 1, "token": "<JWT>", "profileId": 1 }
+```
+Respuesta `404 Not Found` si las credenciales no corresponden a una cuenta.
+
+**POST `/api/v1/vehicles`** (requiere Bearer token)
+
+```json
+// Request
+{ "brand": "Tesla", "model": "Model 3", "year": 2023, "type": "car",
+  "pricePerMinute": 0.5, "status": "available" }
+// Response 201 Created
+{ "id": "1", "brand": "Tesla", "model": "Model 3", "year": 2023, "type": "car",
+  "status": "available", "pricePerMinute": 0.5, "...": "demás campos del VehicleResource" }
+```
+
+**GET `/api/v1/vehicles`** → `200 OK` con un arreglo de `VehicleResource`.
+**GET `/api/v1/vehicles/{id}`** → `200 OK` o `404 Not Found`.
+**PUT `/api/v1/vehicles/{id}`** → `200 OK` con el vehículo actualizado, o `404`.
+**DELETE `/api/v1/vehicles/{id}`** → `204 No Content`, o `404`.
+
+> Para el resto de grupos (Plans, Bookings, Trips, etc.) los esquemas completos de request/response están disponibles en Swagger UI.
+
+#### Despliegue del servicio
+
+El backend (Spring Boot, empaquetado con el `Dockerfile` del repositorio) se despliega como **Web Service en Render** (plan Free, runtime Docker) y utiliza una base de datos **MySQL 8 administrada en Aiven**. La configuración sensible (URL, usuario y contraseña de la base de datos, `JWT_SECRET`) se inyecta mediante variables de entorno de Render y no se almacena en el repositorio. Al iniciar, Hibernate crea el esquema (`ddl-auto=update`) y se cargan datos demo (vehículos y planes).
+
+- **URL pública del API:** https://backend-weride-2wpb.onrender.com
+- **Swagger UI:** https://backend-weride-2wpb.onrender.com/swagger-ui/index.html
+
+> Nota: al usar el plan gratuito de Render, el servicio entra en reposo tras un periodo de inactividad; la primera petición puede tardar cerca de un minuto en responder.
+
+#### Evidencia
+
+**Figura 5.X.** Swagger UI del API de WeRide desplegado en Render, con los grupos de endpoints documentados.
+
+![Swagger UI desplegado](assets/chapter05/swagger-overview.png)
+
+**Figura 5.X+1.** Ejecución de `POST /api/v1/authentication/sign-up` en el servicio desplegado (respuesta 201 Created).
+
+![Sign-up 201](assets/chapter05/sign-up-201.png)
+
+**Figura 5.X+2.** Ejecución de `POST /api/v1/authentication/sign-in` (respuesta 200 OK con JWT).
+
+![Sign-in 200](assets/chapter05/sign-in-200.png)
+
+**Figura 5.X+3.** Servicio `backend-weride` en estado *Live* en el dashboard de Render.
+
+![Render Live](assets/chapter05/render-live.png)
+
 
 <!-- ============================== -->
 <!-- 5.2.4.7 Software Deployment Evidence -->
@@ -2016,7 +2051,7 @@ pipeline {
 
 <a href="https://github.com/OpenSource-Grupo-4/Backend-WeRide" target="_blank" rel="noopener">Repositorio de Backend Web Services</a>
 
-<a href="http://20.81.154.140:8080/swagger-ui/index.html" target="_blank" rel="noopener">Deploy de Backend Web Services</a>
+<a href="https://backend-weride-2wpb.onrender.com/swagger-ui/index.html" target="_blank" rel="noopener">Deploy de Backend Web Services</a>
 
 <a href="https://github.com/OpenSource-Grupo-4/Landing-Page" target="_blank" rel="noopener">Repositorio de Landing Page</a>
 
