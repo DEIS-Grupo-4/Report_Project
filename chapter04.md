@@ -362,12 +362,40 @@ El diagrama de clases nos ayuda a definir la funcionalidad de el producto de **W
 
 El diagrama de base de datos nos ayudara a la correcta definicion de entidades dentro de la base de datos funcional de **WeRide**, definiendo que entidades se vinculan mediante las id's principales para la correcta organizacion y manejo de informacion.
 
-### 4.8.1.Database Diagrams.
+### 4.8.1. Relational/Non-Relational Database Diagram
 
+La persistencia de WeRide utiliza MySQL como base de datos relacional, gestionada mediante Spring Data JPA e Hibernate. El esquema se deriva de las entidades JPA de los bounded contexts del backend (IAM, Profile, Booking, Garage, TravelHistory, Location, Notifications, Plan, Trip y UnlockRequest) y está compuesto por 17 tablas.
 
-<p align="center">
+![Database Diagram de WeRide](assets/Chapter04/database-diagram.png)
 
-<img src="assets/Chapter04/db.png" alt="ClassDiagram" width="1000" height="500">
-</p>
+*Database Diagram de WeRide, elaborado en dbdiagram.io.*
+
+**Tablas por bounded context**
+
+| Bounded Context | Tablas |
+|---|---|
+| IAM | `accounts` |
+| Profile | `profiles` |
+| Booking | `bookings`, `booking_issues` |
+| Garage | `vehicles`, `vehicle_features` |
+| TravelHistory | `travel_histories` |
+| Location | `locations`, `location_amenities` |
+| Notifications | `notifications` |
+| Plan | `plans`, `plan_benefits` |
+| Trip | `trips`, `trip_route_coordinates`, `trip_incident_reports`, `trip_photos` |
+| UnlockRequest | `unlock_requests` |
+
+**Cómo leer el diagrama**
+
+- Las líneas negras son foreign keys reales. Solo existen entre un aggregate y sus entidades hijas (por ejemplo, `booking_issues.booking_id` hacia `bookings.id`).
+- Las líneas grises son referencias lógicas entre bounded contexts (por ejemplo, `bookings.user_id` hacia `accounts.id`). No tienen constraint en la base de datos: cada aggregate referencia a los demás solo por id, lo que mantiene los contextos desacoplados según los principios de Domain-Driven Design.
+- Los value objects `Rating`, `Coordinates` y `OperatingHours` se guardan como columnas dentro de la tabla de su aggregate (`bookings`, `locations` y `unlock_requests`).
+- Los nombres de tablas y columnas siguen la convención en inglés, en snake_case, que Spring Data JPA genera a partir de las entidades.
+
+**Decisiones de diseño y limitaciones**
+
+- Las tablas `plans` y `plan_benefits` no se relacionan con otras tablas, porque el modelo actual no incluye la suscripción de una cuenta a un plan. Se considera trabajo futuro.
+- `travel_histories` guarda el nombre del vehículo como texto y no su id, por lo que no puede enlazarse con `vehicles`.
+- Las referencias lógicas no garantizan integridad referencial en la base de datos; esa responsabilidad recae en la capa de aplicación.
 
 
