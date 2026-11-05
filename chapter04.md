@@ -355,8 +355,67 @@ El diagrama de componentes pone el foco en la arquitectura interna de la API de 
 
 El diagrama de clases nos ayuda a definir la funcionalidad de el producto de **WeRide** mediante los atributos y funcionalidades de las clases de nuestras entidades relacionadas al funcionamiento del producto, desde interfaces, clases y atributos.
 
-### 4.7.1.Class Diagrams.
-![ClassDiagram](assets/Chapter04/classDiagApp/classDiagApp.png)
+### 4.7.1.Class Diagram.
+
+El Class Diagram representa el modelo de dominio del backend de WeRide, organizado en los bounded contexts IAM, Profile, Booking, Garage, TravelHistory, Location, Notifications, Plan, Trip y UnlockRequest, además del contexto Shared que contiene la clase base de auditoría. Cada clase se identifica con su estereotipo de Domain-Driven Design (Aggregate Root, Entity o Value Object). Por legibilidad, el diagrama se presenta en tres partes.
+ 
+Las composiciones (rombo relleno) indican entidades y value objects que pertenecen a un aggregate. Las flechas punteadas indican referencias entre aggregates por id, sin referencia directa entre objetos. Las clases sin atributos y con una nota son referencias a aggregates definidos en otra parte.
+ 
+#### Parte 1: núcleo del negocio
+ 
+Incluye la gestión de cuentas y perfiles (IAM y Profile), las reservas (Booking), los vehículos (Garage) y la clase base de auditoría (Shared).
+ 
+![Class Diagram, parte 1: núcleo](assets/Chapter04/class-diagram/class-diagram-1-core.png)
+ 
+*Figura 1. Class Diagram de WeRide, parte 1.*
+ 
+#### Parte 2: operación
+ 
+Incluye los viajes realizados (Trip), su resumen histórico (TravelHistory) y las ubicaciones o estaciones de alquiler (Location).
+ 
+![Class Diagram, parte 2: operación](assets/Chapter04/class-diagram/class-diagram-2-operations.png)
+ 
+*Figura 2. Class Diagram de WeRide, parte 2.*
+ 
+#### Parte 3: soporte
+ 
+Incluye las notificaciones (Notifications), los planes de suscripción (Plan) y las solicitudes de desbloqueo de vehículos (UnlockRequest).
+ 
+![Class Diagram, parte 3: soporte](assets/Chapter04/class-diagram/class-diagram-3-support.png)
+ 
+*Figura 3. Class Diagram de WeRide, parte 3.*
+
+ 
+### 4.7.2. Class Dictionary
+ 
+| Class | Bounded Context | Type | Description |
+|---|---|---|---|
+| AuditableAbstractAggregateRoot | Shared | Mapped Superclass | Clase base con `id`, `createdAt` y `updatedAt`; hereda de ella `Booking` |
+| Account | IAM | Aggregate Root | Cuenta de acceso con usuario, contraseña y rol (`ROLE_CLIENT` por defecto) |
+| ProfileId | IAM | Value Object | Identificador del perfil asociado a la cuenta |
+| Profile | Profile | Aggregate Root | Datos personales: nombre, apellido y correo |
+| Booking | Booking | Aggregate Root | Reserva de un vehículo, con costos, pago y métricas del recorrido |
+| BookingIssue | Booking | Entity | Incidencia reportada en una reserva |
+| Rating | Booking | Value Object | Puntaje y comentario del usuario sobre el viaje |
+| Vehicle | Garage | Aggregate Root | Bicicleta o scooter eléctrico con especificaciones y precio por minuto |
+| VehicleFeature | Garage | Entity | Característica de un vehículo |
+| TravelHistory | TravelHistory | Aggregate Root | Registro resumido de un viaje realizado por un usuario |
+| Location | Location | Aggregate Root | Estación o punto de alquiler con ubicación, capacidad y horario |
+| LocationAmenity | Location | Entity | Servicio disponible en una ubicación |
+| Coordinates | Location | Value Object | Latitud y longitud |
+| OperatingHours | Location | Value Object | Hora de apertura y de cierre de una ubicación |
+| RouteCoordinates | Trip | Value Object | Latitud y longitud de un punto de la ruta, devuelto por `Trip.getRouteCoordinates()` |
+| Notification | Notifications | Aggregate Root | Aviso dirigido a un usuario, con prioridad y acción asociada |
+| Plan | Plan | Aggregate Root | Plan de suscripción con precio, límites de uso y descuento |
+| PlanBenefit | Plan | Entity | Beneficio incluido en un plan |
+| Trip | Trip | Aggregate Root | Viaje realizado, con ruta, métricas, clima y costo |
+| TripRouteCoordinate | Trip | Entity | Punto de la ruta de un viaje |
+| TripIncidentReport | Trip | Entity | Incidente reportado durante un viaje |
+| TripPhoto | Trip | Entity | Foto asociada a un viaje |
+| UnlockRequest | UnlockRequest | Aggregate Root | Solicitud de desbloqueo de un vehículo, con método, código e intentos |
+
+
+
 
 ## 4.8.Database Design.
 
