@@ -18,15 +18,15 @@ Con este logo, WR se presenta como una marca confiable, eficiente y enfocada en 
 
 ***Logo original***
 
-![User Persona](assets/chapter04/Logo1.png)
+![User Persona](assets/Chapter04/Logo1.png)
 
 ***Logo con iniciales light color***
 
-![User Persona](assets/chapter04/Logo3.png)
+![User Persona](assets/Chapter04/Logo3.png)
 
 ***Colores invertidos***
 
-![User Persona](assets/chapter04/Logo4.png)
+![User Persona](assets/Chapter04/Logo4.png)
 
 
 <h3>Typography</h3>
