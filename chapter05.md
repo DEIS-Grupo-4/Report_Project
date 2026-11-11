@@ -1904,11 +1904,11 @@ Feature: Vehicle Fleet Management (Garage)
 
 **Resultado de la ejecución:** 8 escenarios ejecutados, 8 aprobados, 0 fallidos (4 de `auth.feature` y 4 de `vehicles.feature`). Karate genera además un reporte HTML en `target/karate-reports/karate-summary.html`.
 
-![Ejecución de KarateTestRunner en IntelliJ IDEA: 8 tests passed](assets/chapter06/karate-8-tests-passed.png)
+![Ejecución de KarateTestRunner en IntelliJ IDEA: 8 tests passed](assets/karate-8-tests-passed.png)
 
 *Figura 6.1. Ejecución de las pruebas Karate en IntelliJ IDEA (8 de 8 aprobadas).*
 
-![Reporte HTML de Karate](assets/chapter06/karate-report-summary.png)
+![Reporte HTML de Karate](assets/karate-report-summary.png)
 
 *Figura 6.2. Reporte HTML generado por Karate.*
 
@@ -2052,6 +2052,7 @@ pipeline {
 3. En *Manage Jenkins → Tools* se configuraron **JDK17** y **Maven3** (instalación automática), con los mismos nombres usados en el `Jenkinsfile`.
 4. Se creó un proyecto **Multibranch Pipeline** apuntando al repositorio Backend-WeRide.
 5. Se configuró el disparo automático con un webhook de GitHub o, si Jenkins no es accesible desde internet, con sondeo del repositorio (*Poll SCM*, `H/5 * * * *`).
+6. Se hizo push del `Jenkinsfile` a `develop` y se verificó la primera ejecución.
 
 ## 7.3. Continuous Deployment
 
