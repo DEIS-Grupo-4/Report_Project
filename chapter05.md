@@ -1190,7 +1190,7 @@ El equipo ejecutó actividades coordinadas para entregar la integración y despl
 
 <h4>Prácticas y procesos aplicados</h4>
 <ul>
-  <li><strong>Branching:</strong> flujo git feature/ → PR → review → main → deploy (GitHub Actions).</li>
+  <li><strong>Branching:</strong> flujo git feature/ → PR → review → main → deploy (Jenkins).</li>
   <li><strong>Code Review:</strong> todas las PRs requerían al menos 1 revisor y checklist de QA (tests, lint, documentación de endpoints).</li>
   <li><strong>Gestión de tareas:</strong> backlog y tablero Kanban (GitHub Projects / Trello) con estados: To Do / In Progress / Code Review / QA / Done.</li>
   <li><strong>Comunicación:</strong> reuniones de planificación y retro en Google Meet; coordinación diaria en canal de Discord/Slack.</li>
@@ -2032,7 +2032,7 @@ Para implementar este entorno, se utilizaron herramientas y prácticas especiali
 
   - Automatización de Pipelines:
 
-    GitHub Actions: Es la herramienta nativa de GitHub para automatizar nuestros pipelines de CI. Define flujos de trabajo en archivos de configuración YAML.
+    Jenkins: Es el servidor de automatización que usamos para los pipelines de CI/CD, como se trabaja en el curso. El pipeline se define como código en un `Jenkinsfile` en la raíz del repositorio (ver sección 7.1).
 
   - IDE y Linters:
 
@@ -2050,7 +2050,7 @@ Para implementar este entorno, se utilizaron herramientas y prácticas especiali
 
   - Code Review y Pull Requests: Como se especifica en el curso, ningún código se integra directamente a develop o main. Todo código nuevo debe enviarse a través de un Pull Request. Y como práctica obligatoria, se requiere la revisión y aprobación de       un encargado miembro del equipo antes de realizar el merge.
 
-  - Ejecución de Pruebas en cada Pull Request: Como parte del pipeline de CI en GitHub Actions, cada vez que se abre o actualiza un Pull Request, se emite un workflow que construye el proyecto y ejecuta todo el paquete de pruebas unitarias y de             integración. Si alguna prueba falla, el pipeline se marca en rojo y el merge queda bloqueado hasta que el encargado corrija el error.
+  - Ejecución de Pruebas en cada Pull Request: Como parte del pipeline de CI en Jenkins, cada vez que se abre o actualiza un Pull Request, se dispara el pipeline que construye el proyecto y ejecuta todo el paquete de pruebas unitarias y de             integración. Si alguna prueba falla, el pipeline se marca en rojo y el merge queda bloqueado hasta que el encargado corrija el error.
     
 
 ### 7.1.2. Build & Test Suite Pipeline Components
