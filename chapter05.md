@@ -1931,6 +1931,88 @@ Se utiliza **Playwright** para la automatización web y **Appium** para la autom
 
 ---
 
+## 6.2. Static Code Analysis
+
+### 6.2.1. Static Code Analysis Tools
+
+Para el análisis estático del backend de WeRide se evaluaron tres alternativas y se eligió SonarQube, porque cubre en una sola herramienta las convenciones de código, la calidad y la seguridad del backend en Java, y porque se integra con Maven y con la tubería de integración continua descrita en el Capítulo VII.
+
+**Tabla 6.3. Comparación de herramientas de análisis estático**
+
+| Criterio | SonarQube Community Build | ESLint | Checkmarx |
+| --- | --- | --- | --- |
+| Lenguajes | Java, Kotlin, JavaScript/TypeScript, entre otros | JavaScript / TypeScript (y Vue con plugin) | Múltiples lenguajes |
+| Enfoque principal | Calidad (bugs, code smells), seguridad (vulnerabilidades y hotspots), duplicación | Estilo y errores de código JavaScript | Seguridad (SAST) |
+| Cubre el backend Java | Sí | No | Sí |
+| Cubre el frontend Vue/JS | Sí (parcial) | Sí (especializado) | Sí |
+| Costo | Gratuito (edición Community) | Gratuito (código abierto) | Licencia comercial |
+| Integración con Maven / CI | Plugin `sonar-maven-plugin` y servidor propio | Se ejecuta con npm | Servicio o agente propio |
+| Uso en este proyecto | **Sí (backend)** | Recomendado para el frontend | No (costo y licencia) |
+
+*Fuente: elaboración propia a partir de la documentación oficial de cada herramienta.*
+
+#### 6.2.1.1. Coding standard & Code conventions
+
+El equipo adoptó las siguientes convenciones para el código del backend:
+
+- **Estructura por bounded context y capas.** Cada contexto (por ejemplo `iam`, `plans`, `vehicles`) se organiza en capas `domain`, `application`, `infrastructure` e `interfaces`, siguiendo el diseño guiado por el dominio del Capítulo IV.
+- **Nombres.** Clases e interfaces en `PascalCase`; métodos y atributos en `camelCase`; constantes en `UPPER_SNAKE_CASE`; paquetes en minúsculas.
+- **Endpoints REST.** Rutas bajo `/api/v1/` y nombres en plural y `camelCase` (por ejemplo `/api/v1/vehicles`, `/api/v1/unlockRequests`).
+- **Separación de modelos.** Los controladores reciben y devuelven recursos (`Resource`) y no exponen directamente las entidades del dominio.
+- **Validaciones.** Las restricciones de entrada se declaran con anotaciones de Bean Validation (por ejemplo `@Size(max = 20)` en el nombre de usuario).
+- **Flujo de trabajo en Git.** Ramas por funcionalidad (por ejemplo `feature/karate-bdd-tests`) y cambios integrados mediante Pull Request.
+
+Como regla de verificación automática se usó el perfil de calidad por defecto de SonarQube para Java (*Sonar way*), que revisa en cada análisis el cumplimiento de buenas prácticas y convenciones del lenguaje.
+
+#### 6.2.1.2. Code Quality & Code Security
+
+Se ejecutó SonarQube Community Build v26.11 (instancia local con Docker) sobre el repositorio `Backend-WeRide`, mediante el plugin `sonar-maven-plugin` desde un contenedor Maven. El comando empleado fue:
+
+```bash
+mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -DskipTests \
+  -Dsonar.projectKey=backend-weride \
+  -Dsonar.host.url=http://host.docker.internal:9000 \
+  -Dsonar.token=<token>
+```
+
+El token de acceso no se incluye en el repositorio ni en este informe.
+
+**Tabla 6.4. Resultados del análisis estático de `Backend-WeRide` (11/11/2026)**
+
+| Métrica | Resultado | Calificación |
+| --- | --- | --- |
+| Líneas de código | 5.8 k | — |
+| Issues aceptados | 1 | — |
+| Seguridad (issues abiertos) | 0 (1 aceptado, ver abajo) | A |
+| Fiabilidad (bugs) | 0 | A |
+| Mantenibilidad (code smells) | 0 | A |
+| Security Hotspots | 0 | A |
+| Duplicación | 1.4 % (sobre 7.7 k líneas) | — |
+| Cobertura de pruebas unitarias | 0.0 % (sobre 1.8 k líneas) | — |
+| Quality Gate | Passed | — |
+
+*Fuente: SonarQube Community Build v26.11, proyecto `backend-weride`.*
+
+![Resumen del análisis en SonarQube](assets/sonarqube-summary.png)
+
+*Figura 6.3. Resumen del análisis estático del backend en SonarQube.*
+
+**Issue de seguridad detectado.** En el primer análisis, SonarQube reportó un issue de severidad alta en `WebSecurityConfig.java` (línea 94): *"Make sure disabling Spring Security's CSRF protection is safe here"* (CWE, categoría Spring).
+
+![Issue de seguridad en SonarQube](assets/sonarqube-issues.png)
+
+*Figura 6.4. Issue de seguridad aceptado en SonarQube, con el comentario de justificación.*
+
+**Análisis y decisión.** La protección CSRF protege a las aplicaciones que autentican con cookies de sesión, porque el navegador las envía de forma automática. El backend de WeRide es una API REST sin estado que autentica cada petición con un token JWT enviado en la cabecera `Authorization: Bearer`, sin cookies de sesión. Como el navegador no adjunta esa cabecera por sí solo, el ataque CSRF no aplica a este diseño, y deshabilitar la protección es la configuración recomendada para APIs de este tipo. Por ello el equipo evaluó el issue como un **riesgo aceptado** y lo marcó como *Accepted* en SonarQube con ese comentario. Tras ello, el resumen muestra 0 issues de seguridad abiertos (calificación A) y 1 issue aceptado.
+
+**Cobertura.** El 0.0 % refleja que el análisis se ejecutó con `-DskipTests` y sin el agente JaCoCo, por lo que no se generó reporte de cobertura. Las pruebas del backend se verifican de forma externa con la suite BDD de Karate (sección 6.1.3), cuyos 8 escenarios pasan. Instrumentar la cobertura con JaCoCo queda como mejora para el siguiente avance.
+
+**Conclusiones del análisis.**
+- No se detectaron bugs ni code smells, y la duplicación es baja (1.4 %).
+- El único hallazgo de seguridad corresponde a una decisión de diseño justificada (API sin estado con JWT).
+- La principal oportunidad de mejora es medir la cobertura de pruebas unitarias.
+
+
 # Capítulo VII: DevOps Practices
 
 ## 7.1. Continuous Integration
