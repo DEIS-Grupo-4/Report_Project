@@ -1941,10 +1941,10 @@ Para el análisis estático del backend de WeRide se evaluaron tres alternativas
 
 | Criterio | SonarQube Community Build | ESLint | Checkmarx |
 | --- | --- | --- | --- |
-| Lenguajes | Java, Kotlin, JavaScript/TypeScript, entre otros | JavaScript / TypeScript (y Vue con plugin) | Múltiples lenguajes |
+| Lenguajes | Java, Kotlin, JavaScript/TypeScript, entre otros | JavaScript / TypeScript (y Angular con el plugin `angular-eslint`) | Múltiples lenguajes |
 | Enfoque principal | Calidad (bugs, code smells), seguridad (vulnerabilidades y hotspots), duplicación | Estilo y errores de código JavaScript | Seguridad (SAST) |
 | Cubre el backend Java | Sí | No | Sí |
-| Cubre el frontend Vue/JS | Sí (parcial) | Sí (especializado) | Sí |
+| Cubre el frontend Angular/TypeScript | Sí (parcial) | Sí (especializado) | Sí |
 | Costo | Gratuito (edición Community) | Gratuito (código abierto) | Licencia comercial |
 | Integración con Maven / CI | Plugin `sonar-maven-plugin` y servidor propio | Se ejecuta con npm | Servicio o agente propio |
 | Uso en este proyecto | **Sí (backend)** | Recomendado para el frontend | No (costo y licencia) |
@@ -2036,7 +2036,7 @@ Para implementar este entorno, se utilizaron herramientas y prácticas especiali
 
   - IDE y Linters:
 
-    WebStorm: Utilizado para el desarrollo frontend (Angular, TypeScript, HTML, CSS), configurados con linters como ESLint para asegurar la calidad del código antes de cada commit.
+    WebStorm: Utilizado para el desarrollo frontend (Angular 20, TypeScript, HTML, CSS con Angular Material). La calidad del código frontend se refuerza con las pruebas unitarias de Karma y Jasmine configuradas en el proyecto.
 
   - Frameworks de Pruebas Automatizadas:
 
