@@ -2245,8 +2245,8 @@ Las preguntas se priorizan por **impacto** en la decisión de producto y por **i
 | Nombre | Medición del tiempo de respuesta del desbloqueo |
 | Pregunta | Q-04 |
 | Hipótesis | H-06 |
-| Método | Experimento técnico: medir el tiempo entre la solicitud de desbloqueo y la respuesta de estado, con el vehículo simulado |
-| Qué se hará | Ejecutar al menos 35 desbloqueos en condiciones normales y en carga moderada, registrando el tiempo de cada uno |
+| Método | Experimento técnico: medir el tiempo del flujo de desbloqueo contra la API desplegada, con el vehículo simulado |
+| Qué se hará | Ejecutar 35 desbloqueos contra el backend desplegado, midiendo desde el cliente de prueba el tiempo total del flujo: creación de la solicitud de desbloqueo y actualización a estado desbloqueado. El vehículo se simula, por lo que se mide la latencia del software y no la del hardware IoT. |
 | Métrica de éxito | 95 % de los desbloqueos responden en 5 s o menos |
 | Decisión si se cumple | Dar por válida la arquitectura de desbloqueo para el piloto |
 | Decisión si no se cumple | Optimizar la ruta de solicitud (consultas, notificación) y repetir |
@@ -2317,7 +2317,7 @@ Una medida es la forma concreta y repetible de calcular cada métrica.
 | Clics en llamados a la acción | Conteo del evento `cta_click` por botón | Analítica web | Diaria |
 | Reservas iniciadas y completadas | Registros de reservas y su estado (borrador, pendiente, completada) | Base de datos del backend (recurso de reservas) | Diaria |
 | Tiempo de la tarea de reserva | Marca de tiempo final menos inicial por participante | Registro del test de usabilidad | Por sesión |
-| Tiempo de desbloqueo | Diferencia entre la marca de solicitud y la de respuesta de estado | Registros del backend (recurso de solicitudes de desbloqueo) | Por evento |
+| Tiempo de desbloqueo | Tiempo total, medido con cronómetro en el cliente de prueba, de crear la solicitud de desbloqueo y actualizar su estado | Script de medición contra la API (recurso de solicitudes de desbloqueo) | Por evento |
 | Viajes por vehículo | Conteo de viajes por vehículo y por día | Recurso de viajes y del historial | Diaria |
 | Disponibilidad de flota | Vehículos con estado disponible entre total, medido cada hora | Recurso de vehículos | Horaria |
 | NPS | Encuesta de una pregunta (0 a 10) al finalizar el viaje | Formulario dentro de la app | Por viaje |
@@ -2336,14 +2336,24 @@ Las condiciones fijan en qué contexto se ejecuta cada experimento para que los 
 | EXP-01 | 5 usuarios del segmento B2C (jóvenes universitarios) | Aplicación web desplegada, vehículos de prueba cargados | 1 semana | Sin grupo de control (estudio cualitativo) | 5 participantes completos |
 | EXP-02 | Visitantes de la landing por difusión en la universidad y contactos de empresas | Landing pública con analítica | 2 semanas | Sin control; se compara contra el umbral | Fin del periodo o 100 visitantes únicos |
 | EXP-03 | Usuarios de la aplicación web | Garaje de vehículos con asignación aleatoria de variante | Hasta alcanzar la muestra o 4 semanas | A: sin indicador; B: con batería y estado | 121 sesiones por variante |
-| EXP-04 | Sistema (sin participantes) | Backend desplegado y vehículo simulado | 1 día | Condición normal y carga moderada | 35 desbloqueos medidos |
+| EXP-04 | Sistema (sin participantes) | Backend desplegado en Render y vehículo simulado | 1 día | Sin control; se compara contra el umbral de 5 s | 35 desbloqueos medidos |
 | EXP-05 | 5 a 10 colaboradores de una empresa | Aplicación web, flota simulada o piloto acotado | 4 semanas | Sin control; se compara con las metas | Fin de la cuarta semana |
 
 *Fuente: Elaboración propia.*
 
 ### 8.2.5. Scale Calculations and Decisions
 
-El tamaño de muestra se calcula con fórmulas estándar, con 95 % de confianza y 80 % de potencia cuando aplica.
+Siguiendo los lineamientos del curso, el tamaño de muestra se calcula con un nivel de significancia de α = 5 % (95 % de confianza), una potencia estadística de 80 % (probabilidad de error tipo II de 20 %) y un **efecto mínimo detectable (MDE)** definido para cada experimento. Los participantes y las sesiones se toman de los segmentos objetivo (universitarios y jóvenes profesionales en B2C, y empresas en B2B) para que los hallazgos sean representativos del grupo de interés.
+
+**Tabla 8.12-A. Parámetros estadísticos por experimento**
+
+| Experimento | α | Potencia | MDE | Tamaño de muestra |
+| --- | --- | --- | --- | --- |
+| EXP-01 (usabilidad) | 5 % | No aplica (estudio cualitativo) | Detectar problemas que afecten al menos al 31 % de los usuarios | 5 participantes |
+| EXP-02 (landing) | 5 % | No aplica (estimación) | Margen de error de ±5 puntos porcentuales | 139 visitantes únicos |
+| EXP-03 (A/B) | 5 % | 80 % | 15 puntos porcentuales (de 30 % a 15 %) | 121 sesiones por variante |
+| EXP-04 (desbloqueo) | 5 % | No aplica (estimación) | Margen de error de ±1 s en el tiempo medio | 35 mediciones |
+| EXP-05 (piloto) | 5 % | No aplica (piloto cerrado) | NPS de 40 o más | 5 a 10 colaboradores |
 
 **Estimación de una proporción (EXP-02, conversión).** Para estimar una conversión esperada de 10 % con un margen de error de ±5 puntos:
 
@@ -2351,7 +2361,7 @@ n = Z² · p · (1 − p) / e² = 1,96² · 0,10 · 0,90 / 0,05² ≈ **139 visi
 
 **Comparación de dos proporciones (EXP-03, A/B).** Con una tasa de abandono supuesta de 30 % en el control y una meta de 15 % en la variante B, con 95 % de confianza y 80 % de potencia:
 
-n por variante = (Zα/2 · √(2 · p̄ · q̄) + Zβ · √(p₁q₁ + p₂q₂))² / (p₁ − p₂)² ≈ **121 sesiones por variante**
+n por variante = (Zα/2 · √(2 · p̄ · q̄) + Zβ · √(p₁q₁ + p₂q₂))² / (p₁ − p₂)² ≈ **121 sesiones por variante** (MDE de 15 puntos porcentuales)
 
 El 30 % es un supuesto que se calibrará con los primeros datos reales. Si la meta fuera una reducción menor (de 20 % a 14 %), la muestra necesaria subiría a unas 615 sesiones por variante, lo que excede el tráfico esperado del piloto.
 
@@ -2379,7 +2389,7 @@ El 30 % es un supuesto que se calibrará con los primeros datos reales. Si la me
 | Q-01, Q-06 | Cuantitativo | Analítica de clics en la landing | Es barato y mide comportamiento real |
 | Q-07 | Cuantitativo | Puerta falsa (*fake door*) | Mide interés antes de construir el servicio completo |
 | Q-05 | Cuantitativo | Prueba A/B | Aísla el efecto de una sola funcionalidad |
-| Q-04 | Cuantitativo | Medición técnica en el backend | El tiempo de respuesta es objetivo y se mide automáticamente |
+| Q-04 | Cuantitativo | Medición técnica contra la API | El tiempo de respuesta es objetivo y se mide automáticamente |
 | Q-08, Q-09, Q-10 | Mixto | Piloto cerrado con acompañamiento y encuesta NPS | Reproduce el uso real en un grupo acotado |
 
 *Fuente: Elaboración propia.*
@@ -2470,7 +2480,67 @@ El orden sigue la prioridad del Question Backlog (Tabla 8.3): primero lo necesar
 
 *Fuente: Elaboración propia.*
 
-### 8.3.3. Continuous Learning: Learning Workflow
+## 8.4. Experiment Aftermath & Analysis
+
+### 8.4.1. Analysis and Interpretation of Results
+
+**Estado de los experimentos.** Se ejecutó el experimento EXP-04. Los demás experimentos están diseñados (sección 8.1.5) y se ejecutarán cuando se construyan las capacidades de medición de las historias US-57 a US-64; los resultados que no se han obtenido no se reportan.
+
+**Tabla 8.20. Estado de ejecución de los experimentos**
+
+| Experimento | Estado | Resultado |
+| --- | --- | --- |
+| EXP-01 Usabilidad del flujo de reserva | Planificado | Pendiente |
+| EXP-02 Landing y puerta falsa | Planificado | Pendiente (requiere US-57 y US-58) |
+| EXP-03 Indicador de batería (A/B) | Planificado | Pendiente (requiere US-60 y US-61) |
+| EXP-04 Tiempo de desbloqueo | **Ejecutado** | Hipótesis H-06 confirmada para la parte de software |
+| EXP-05 Piloto B2B | Planificado | Pendiente |
+
+**Resultados de EXP-04.** Se ejecutó un script de medición contra el backend desplegado en Render (https://backend-weride-2wpb.onrender.com). Después de despertar el servicio y de tres pasadas de calentamiento que no se cuentan, se midieron 35 flujos de desbloqueo. Cada flujo consiste en crear una solicitud de desbloqueo (`POST /api/v1/unlockRequests`) y actualizar su estado a desbloqueado (`PATCH /api/v1/unlockRequests/{id}`), y el tiempo se mide desde el cliente de prueba.
+
+**Tabla 8.21. Resultados de EXP-04 (n = 35)**
+
+| Estadístico | Valor |
+| --- | --- |
+| Media | 1 675,3 ms |
+| Desviación estándar | 293,2 ms |
+| Mínimo | 1 431,6 ms |
+| Máximo | 2 623,3 ms |
+| Percentil 95 | 2 354,1 ms |
+| Intervalo de confianza del 95 % para la media | 1 578 ms a 1 773 ms |
+| Mediciones dentro de 5 s | 35 de 35 (100 %) |
+
+![Resultados de la ejecución de EXP-04](assets/exp04-resultados.png)
+
+*Figura 8.1. Salida del script de medición de EXP-04.*
+
+**Interpretación.** La hipótesis H-06 planteaba que al menos el 95 % de los desbloqueos respondería en 5 segundos o menos. Se obtuvo el 100 %, con un tiempo medio de 1,68 s y un percentil 95 de 2,35 s, es decir, menos de la mitad del límite. Como la desviación estándar observada (0,29 s) fue mucho menor que la supuesta para el cálculo de la muestra (3 s), las 35 mediciones resultan más que suficientes para el margen de error planteado. La variación entre mediciones es baja; el valor máximo (2,62 s) es un caso aislado.
+
+**Limitaciones.** Los vehículos están simulados, por lo que el resultado mide la latencia del software (red desde el cliente, API y base de datos) y no el tiempo de respuesta del hardware IoT real. Además, la medición incluye el tiempo de red entre el cliente de prueba y el servicio en la nube, y se hizo con el plan gratuito de Render, de modo que en otro plan o ubicación los tiempos podrían variar.
+
+**Conclusión.** La hipótesis H-06 se confirma para la parte de software: el servicio no es un obstáculo para cumplir el objetivo de 5 segundos. Queda por validar la latencia con hardware real.
+
+### 8.4.2. Re-scored and Re-prioritized Question Backlog
+
+A partir de lo aprendido en EXP-04 se actualiza el Question Backlog de la Tabla 8.3: la pregunta Q-04 se responde para el software y se agrega una nueva pregunta sobre el hardware. Las demás conservan su prioridad, y el orden se ajusta para empezar por las que más impacto tienen y no tienen respuesta aún.
+
+**Tabla 8.22. Question Backlog repuntuado y repriorizado**
+
+| Prioridad | Pregunta | Estado | Cambio respecto a la versión anterior |
+| ---: | --- | --- | --- |
+| 1 | Q-02, Q-03 (flujo de reserva y desbloqueo) | Abierta | Sube a primera prioridad: ahora se sabe que el servicio responde rápido, así que el riesgo restante está en la usabilidad |
+| 2 | Q-05 (indicador de batería) | Abierta | Sin cambio de contenido; pasa de la posición 3 a la 2 |
+| 3 | Q-01, Q-06 (landing y planes) | Abierta | Sube de la posición 4 a la 3 |
+| 4 | Q-07 (interés corporativo) | Abierta | Sube de la posición 5 a la 4 |
+| 5 | Q-08, Q-09, Q-10 (uso recurrente, NPS, disponibilidad) | Abierta | Sube de la posición 6 a la 5 |
+| 6 | **Q-11 (nueva):** ¿Cuál es la latencia del desbloqueo con hardware IoT real? | Nueva | Surge de la limitación de EXP-04 |
+| — | Q-04 (tiempo de desbloqueo del software) | **Respondida** | Hipótesis H-06 confirmada con 35 de 35 mediciones dentro de 5 s |
+
+*Fuente: Elaboración propia.*
+
+## 8.5. Continuous Learning
+
+### 8.5.1. Shareback Session Artifacts: Learning Workflow
 
 El aprendizaje de cada experimento se comparte con el equipo en una sesión breve de revisión (*shareback session*) al cerrar cada experimento, con el siguiente flujo:
 
@@ -2478,7 +2548,7 @@ El aprendizaje de cada experimento se comparte con el equipo en una sesión brev
 2. **Ejecutar:** se corre el experimento en las condiciones definidas y se registran los datos con el plan de seguimiento.
 3. **Analizar:** se comparan los resultados con la meta de la hipótesis.
 4. **Compartir:** en la sesión de revisión se presenta una **Learning Card** con el resultado y la decisión.
-5. **Decidir:** se elige entre persistir (mantener), pivotar (cambiar el enfoque) o detener, y se actualiza el Product Backlog y el Question Backlog.
+5. **Decidir:** se elige entre persistir (mantener), pivotar (cambiar el enfoque) o detener, y se actualizan el Product Backlog y el Question Backlog.
 
 **Tabla 8.19. Plantilla de Learning Card**
 
@@ -2492,7 +2562,19 @@ El aprendizaje de cada experimento se comparte con el equipo en una sesión brev
 | Decisión | Persistir, pivotar o detener |
 | Acciones | Historias o tareas que se agregan o se cambian en el backlog |
 
-Los resultados de cada experimento se registrarán en una Learning Card una vez ejecutado, y no se reportan resultados de experimentos que aún no se hayan realizado.
+**Tabla 8.23. Learning Card de EXP-04**
+
+| Campo | Contenido |
+| --- | --- |
+| Experimento | EXP-04 — Tiempo de respuesta del flujo de desbloqueo |
+| Hipótesis | H-06: el desbloqueo digital responde con rapidez suficiente para no generar fricción (95 % de los desbloqueos en 5 s o menos) |
+| Resultado | 35 de 35 mediciones dentro de 5 s; media de 1,68 s; percentil 95 de 2,35 s |
+| ¿Se confirmó la hipótesis? | Sí, para la parte de software |
+| Aprendizaje clave | La API y la base de datos no limitan el tiempo de desbloqueo. El riesgo restante está en la latencia del hardware IoT, que aún está simulado. |
+| Decisión | Persistir con la arquitectura actual del flujo de desbloqueo |
+| Acciones | Agregar la pregunta Q-11 al Question Backlog; incorporar la medición de la latencia (US-62) en el sistema para repetir el experimento con hardware real |
+
+Los resultados de cada experimento se registran en una Learning Card una vez ejecutado, y no se reportan resultados de experimentos que aún no se hayan realizado.
 
 ## Conclusiones
 - El proyecto de micromovilidad eléctrica compartida responde a necesidades reales de movilidad en áreas urbanas peruanas: congestión, tiempos de traslado elevados, y demanda por alternativas más económicas y sostenibles. La combinación de scooters, bicicletas y motos eléctricas gestionadas desde una única plataforma web representa una propuesta con alto potencial de adopción, especialmente en segmentos juveniles y corporativos.
