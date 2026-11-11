@@ -1751,43 +1751,166 @@ Para llevar a cabo estas pruebas, se utiliza el entorno de prueba web de **Sprin
 *Fuente: Elaboración propia.*
 
 
-### 6.1.3. Core Behavior-Driven Development  
+### 6.1.3. Core Behavior-Driven Development
 
-Las pruebas basadas en comportamiento (BDD) permiten validar las funcionalidades desde la perspectiva de las historias de usuario y las reglas de negocio. Los escenarios se definen en lenguaje formal **Gherkin** utilizando la sintaxis `Given-When-Then` (Dado - Cuando - Entonces) e integrados con la herramienta **Cucumber / SpecFlow**.
+Las pruebas basadas en comportamiento (BDD) validan la API de WeRide desde la perspectiva del usuario y de las reglas de negocio. Los escenarios se escriben en lenguaje **Gherkin** con la sintaxis `Given-When-Then` (Dado - Cuando - Entonces) y se ejecutan con **Karate 1.5.2** (`karate-junit5`), un framework que permite probar APIs REST directamente desde los archivos `.feature`, sin necesidad de escribir *step definitions* en Java.
 
-#### **A. Archivo de Especificación (** **.feature** **) - IAM**
+Las pruebas se ejecutan contra una instancia real del backend levantada con **Docker Compose** (contenedores `backend-weride` y `mysql-db`), por lo que validan el flujo completo: controlador REST, seguridad con JWT, lógica de aplicación y persistencia en MySQL. La URL base se define en `karate-config.js` (por defecto `http://localhost:8080`) y puede cambiarse para apuntar al despliegue en Render.
 
+**Estructura de archivos (repositorio Backend-WeRide):**
+
+| Archivo | Ubicación | Función |
+| --- | --- | --- |
+| `KarateTestRunner.java` | `src/test/java/karate/` | Punto de entrada JUnit 5. Ejecuta los features `auth` y `vehicles`. |
+| `auth.feature` | `src/test/java/karate/` | Escenarios de registro e inicio de sesión (bounded context IAM). |
+| `vehicles.feature` | `src/test/java/karate/` | Escenarios de gestión de vehículos (flota). |
+| `karate-config.js` | `src/test/resources/` | Define `baseUrl` para todos los escenarios. |
+
+**Ejecutor de pruebas:**
+
+```java
+package karate;
+
+import com.intuit.karate.junit5.Karate;
+
+class KarateTestRunner {
+
+    @Karate.Test
+    Karate testAuth() {
+        return Karate.run("auth").relativeTo(getClass());
+    }
+
+    @Karate.Test
+    Karate testVehicles() {
+        return Karate.run("vehicles").relativeTo(getClass());
+    }
+}
 ```
-Feature: Autenticación de Usuarios en la Plataforma WeRide
-  As a registered user
-  I want to authenticate into the system
-  So that I can access my personalized dashboard and subscriptions
 
-  Scenario: Successful user login with valid credentials
-    Given a user with username "jhimy.romero" and password "Secret123!" exists in the system
-    When the user sends a POST request to "/api/v1/authentication/sign-in" with credentials "jhimy.romero" and "Secret123!"
-    Then the response status code should be 200
-    And the response should contain a valid JWT authentication token
+#### **A. Archivo de especificación (`auth.feature`) — IAM**
 
+Cada escenario genera un nombre de usuario único en el `Background`, de modo que las pruebas pueden ejecutarse repetidamente sin colisiones con datos previos.
+
+```gherkin
+Feature: Authentication - Sign Up & Sign In
+  As a WeRide user
+  I want to create an account and sign in
+  So that I can access the booking and vehicle features of the platform
+
+  Background:
+    * url baseUrl
+    * def randomUsername = 'ku' + java.util.UUID.randomUUID().toString().substring(0, 8)
+
+  Scenario: Sign up with valid credentials creates a new account
+    Given path '/api/v1/authentication/sign-up'
+    And request { username: '#(randomUsername)', password: 'Weride2026!' }
+    When method post
+    Then status 201
+    And match response.username == randomUsername
+    And match response.id == '#number'
+
+  Scenario: Sign up with a blank username is rejected
+    Given path '/api/v1/authentication/sign-up'
+    And request { username: '', password: 'Weride2026!' }
+    When method post
+    Then status 400
+
+  Scenario: Sign in with valid credentials returns a JWT token
+    Given path '/api/v1/authentication/sign-up'
+    And request { username: '#(randomUsername)', password: 'Weride2026!' }
+    When method post
+    Then status 201
+
+    Given path '/api/v1/authentication/sign-in'
+    And request { username: '#(randomUsername)', password: 'Weride2026!' }
+    When method post
+    Then status 200
+    And match response.token == '#string'
+    And match response.id == '#number'
+
+  Scenario: Sign in with a wrong password is rejected
+    Given path '/api/v1/authentication/sign-up'
+    And request { username: '#(randomUsername)', password: 'Weride2026!' }
+    When method post
+    Then status 201
+
+    Given path '/api/v1/authentication/sign-in'
+    And request { username: '#(randomUsername)', password: 'WrongPassword!' }
+    When method post
+    Then status 401
 ```
 
-#### **B. Archivo de Especificación (** **.feature** **) - Plans**
+#### **B. Archivo de especificación (`vehicles.feature`) — Gestión de vehículos**
 
+Los endpoints de vehículos requieren autenticación. Por ello, el `Background` registra un usuario nuevo, inicia sesión y configura el encabezado `Authorization: Bearer <token>` para todas las peticiones del escenario.
+
+```gherkin
+Feature: Vehicle Fleet Management (Garage)
+  As an authenticated WeRide user
+  I want to manage vehicles in the fleet
+  So that users can browse and book available vehicles
+
+  Background:
+    * url baseUrl
+    * def randomUser = 'ku' + java.util.UUID.randomUUID().toString().substring(0, 8)
+    Given path '/api/v1/authentication/sign-up'
+    And request { username: '#(randomUser)', password: 'Weride2026!' }
+    When method post
+    Then status 201
+
+    Given path '/api/v1/authentication/sign-in'
+    And request { username: '#(randomUser)', password: 'Weride2026!' }
+    When method post
+    Then status 200
+    * def authHeader = 'Bearer ' + response.token
+    * configure headers = { Authorization: '#(authHeader)' }
+
+  Scenario: Create a vehicle and then retrieve it by id
+    # POST /api/v1/vehicles -> 201, luego GET /api/v1/vehicles/{id} -> 200
+    ...
+
+  Scenario: List all vehicles returns an array
+    Given path '/api/v1/vehicles'
+    When method get
+    Then status 200
+    And match response == '#array'
+
+  Scenario: Requesting a non-existent vehicle returns 404
+    Given path '/api/v1/vehicles', '999999999'
+    When method get
+    Then status 404
+
+  Scenario: Create and delete a vehicle (lifecycle)
+    # POST -> 201, GET -> 200, DELETE -> 204, GET -> 404
+    ...
 ```
-Feature: Administración de Planes de Suscripción
-  As an administrator
-  I want to create new subscription plans
-  So that users can subscribe to WeRide services
 
-  Scenario: Successful creation of a new subscription plan
-    Given the administrator is authenticated with a valid JWT token
-    When the administrator submits a new plan with name "Plan Premium", price 29.99, and duration 30
-    Then the response status code should be 201
-    And the newly created plan should be listed in the available plans catalogue
+*(En el repositorio los escenarios incluyen el cuerpo JSON completo del vehículo; aquí se resumen por extensión.)*
 
-```
+**Tabla 6.5. Casos de prueba BDD ejecutados con Karate**
 
-![localtime](assets/chapter05/unitTest/test-karate.png)
+| ID | Feature | Escenario | Resultado esperado | Resultado obtenido |
+| --- | --- | --- | --- | --- |
+| BDD-01 | auth | Registro con credenciales válidas | `201 Created` con `id` numérico y `username` igual al enviado | Aprobado |
+| BDD-02 | auth | Registro con nombre de usuario vacío | `400 Bad Request` | Aprobado |
+| BDD-03 | auth | Inicio de sesión con credenciales válidas | `200 OK` con `token` (JWT) e `id` | Aprobado |
+| BDD-04 | auth | Inicio de sesión con contraseña incorrecta | `401 Unauthorized` | Aprobado |
+| BDD-05 | vehicles | Crear un vehículo y consultarlo por id | `201 Created`; luego `200 OK` con la misma placa | Aprobado |
+| BDD-06 | vehicles | Listar vehículos | `200 OK` con un arreglo JSON | Aprobado |
+| BDD-07 | vehicles | Consultar un vehículo inexistente | `404 Not Found` | Aprobado |
+| BDD-08 | vehicles | Crear y eliminar un vehículo | `201`, `200`, `204` y luego `404` | Aprobado |
+
+*Fuente: Elaboración propia.*
+
+**Resultado de la ejecución:** 8 escenarios ejecutados, 8 aprobados, 0 fallidos (4 de `auth.feature` y 4 de `vehicles.feature`). Karate genera además un reporte HTML en `target/karate-reports/karate-summary.html`.
+
+![Ejecución de KarateTestRunner en IntelliJ IDEA: 8 tests passed](assets/chapter06/karate-8-tests-passed.png)
+
+*Figura 6.1. Ejecución de las pruebas Karate en IntelliJ IDEA (8 de 8 aprobadas).*
+
+![Reporte HTML de Karate](assets/chapter06/karate-report-summary.png)
+
+*Figura 6.2. Reporte HTML generado por Karate.*
 
 ### 6.1.4. Core System Tests.
 Las pruebas de sistema (*End-to-End* / E2E) evalúan la aplicación completa de manera integral, simulando la interacción real de los usuarios en la interfaz Web (Vue.js) y en la aplicación Móvil. Estas pruebas verifican la comunicación entre el frontend, las APIs RESTful del backend y la base de datos en escenarios de uso reales.
@@ -1807,20 +1930,6 @@ Se utiliza **Playwright** para la automatización web y **Appium** para la autom
 ![localtime](assets/chapter05/unitTest/test-karate-dash.png)
 
 ---
-
-### **Tabla de Commits del Repositorio de Pruebas (Testing)**
-
-A continuación se presentan las evidencias de commits realizados en el repositorio de control de versiones dedicado a las suites de pruebas automatizadas, aplicando **GitFlow** y la convención de **Conventional Commits** (`test:`):
-
-| Repository                              | Branch                      | Commit Id | Commit Message                                                           | Commit Message Body                                                                   | Committed on |
-| --------------------------------------- | --------------------------- | --------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ------------ |
-| `startup-weride/weride-backend-testing` | `feature/iam-unit-tests`    | `a1b2c3d` | `test: add unit tests for AccountCommandServiceImpl`                     | Implemented unit tests IAM-UT-01 to IAM-UT-05 using JUnit 5 and Mockito.              | 04/10/2026   |
-| `startup-weride/weride-backend-testing` | `feature/plans-unit-tests`  | `e5f6g7h` | `test: add unit tests for PlanCommandServiceImpl`                        | Implemented unit tests PLN-UT-01 to PLN-UT-05 with AAA pattern and mocks.             | 05/10/2026   |
-| `startup-weride/weride-backend-testing` | `feature/integration-tests` | `i8j9k0l` | `test: implement integration tests for IAM and Plans REST APIs`          | Added MockMvc integration test suite validating HTTP status codes and DB persistence. | 06/10/2026   |
-| `startup-weride/weride-bdd-testing`     | `feature/bdd-scenarios`     | `m1n2o3p` | `test: add Gherkin feature files for authentication and plan management` | Created Cucumber .feature files and step definitions for BDD validation.              | 07/10/2026   |
-| `startup-weride/weride-e2e-testing`     | `feature/system-tests`      | `q4r5s6t` | `test: implement Playwright E2E system tests for web platform`           | Automated full E2E user flows for user sign-in and plan selection.                    | 08/10/2026   |
-
-*Fuente: Elaboración propia.*
 
 # Capítulo VII: DevOps Practices
 
@@ -1943,7 +2052,61 @@ pipeline {
 3. En *Manage Jenkins → Tools* se configuraron **JDK17** y **Maven3** (instalación automática), con los mismos nombres usados en el `Jenkinsfile`.
 4. Se creó un proyecto **Multibranch Pipeline** apuntando al repositorio Backend-WeRide.
 5. Se configuró el disparo automático con un webhook de GitHub o, si Jenkins no es accesible desde internet, con sondeo del repositorio (*Poll SCM*, `H/5 * * * *`).
-6. Se hizo push del `Jenkinsfile` a `develop` y se verificó la primera ejecución.
+
+## 7.3. Continuous Deployment
+
+El despliegue continuo automatiza la publicación del backend de WeRide en un entorno accesible desde internet, de manera que cada versión aprobada pueda ser consumida por el frontend y verificada por el equipo y los evaluadores sin intervención manual.
+
+### 7.3.1. Tools and Practices
+
+**Tools:**
+
+| Herramienta | Uso en el proyecto |
+| --- | --- |
+| **Docker** | Empaqueta el backend en una imagen mediante un `Dockerfile` multi-etapa: una etapa de compilación con Maven y JDK 24, y una etapa de ejecución con `eclipse-temurin:24-jdk-alpine`. |
+| **Render (Web Service)** | Plataforma de despliegue del backend. Construye la imagen Docker desde el repositorio de GitHub y la ejecuta como servicio web con URL pública HTTPS. |
+| **Aiven for MySQL** | Base de datos MySQL 8.4 administrada en la nube, usada por el backend desplegado. |
+| **GitHub** | Repositorio de código fuente que Render observa para construir y desplegar. |
+| **springdoc-openapi (Swagger UI)** | Documentación interactiva de la API, publicada junto con el servicio. |
+
+**Practices:**
+
+- **Despliegue desde el repositorio:** Render está conectado al repositorio de GitHub del backend; cada cambio en la rama configurada puede disparar una nueva construcción y despliegue.
+- **Configuración por variables de entorno:** las credenciales y parámetros sensibles no se escriben en el código. La conexión a la base de datos (`SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`) y el secreto de firma de tokens (`JWT_SECRET`) se definen como variables de entorno en Render y sustituyen a los valores de `application.properties`.
+- **Ajuste de memoria para el plan gratuito:** el servicio corre con 512 MB de RAM, por lo que se configura `JAVA_TOOL_OPTIONS=-Xmx350m -XX:+UseSerialGC` para limitar el consumo de la JVM.
+- **Verificación posterior al despliegue:** tras cada despliegue se comprueba la disponibilidad del servicio con el endpoint público `/health` y se valida la documentación en Swagger UI.
+- **Entorno local equivalente:** el mismo `Dockerfile` y un `docker-compose.yml` (backend + MySQL) permiten reproducir localmente el entorno de ejecución, de modo que las pruebas de la sección 6.1.3 se ejecutan contra el mismo tipo de contenedor que se despliega.
+
+### 7.3.2. Production Deployment Pipeline Components
+
+| Etapa | Descripción | Herramienta | Resultado |
+| --- | --- | --- | --- |
+| **Trigger** | Un cambio llega a la rama del repositorio conectada a Render. | GitHub | Render detecta el cambio. |
+| **Build de imagen** | Render ejecuta el `Dockerfile`: compila el proyecto con Maven y genera el `.jar`. | Docker + Maven | Imagen del backend lista. |
+| **Inyección de configuración** | Se aplican las variables de entorno del servicio (base de datos, `JWT_SECRET`, `PORT=8080`, opciones de JVM). | Render | Contenedor configurado para producción. |
+| **Despliegue** | Render inicia el contenedor y lo expone con una URL pública HTTPS. | Render | Servicio en línea. |
+| **Conexión a la base de datos** | El backend se conecta a MySQL en Aiven y Hibernate actualiza el esquema (`ddl-auto=update`). | Aiven for MySQL | Tablas disponibles en la base de datos de producción. |
+| **Verificación** | Se consulta `/health` y la documentación Swagger UI del servicio. | Navegador / Swagger UI | Servicio verificado. |
+
+**Entorno de producción:**
+
+| Elemento | Valor |
+| --- | --- |
+| API desplegada | https://backend-weride-2wpb.onrender.com |
+| Documentación (Swagger UI) | https://backend-weride-2wpb.onrender.com/swagger-ui/index.html |
+| Proveedor de la aplicación | Render, Web Service con runtime Docker, plan gratuito (512 MB RAM) |
+| Base de datos | Aiven for MySQL 8.4 |
+
+*Nota:* en el plan gratuito de Render el servicio entra en reposo tras un periodo de inactividad, por lo que la primera petición posterior puede tardar alrededor de un minuto mientras el contenedor vuelve a iniciar.
+
+![Servicio desplegado en Render](assets/chapter05/render-live.png)
+
+*Figura 7.1. Servicio del backend en ejecución en Render.*
+
+![Swagger UI del backend desplegado](assets/chapter05/swagger-overview.png)
+
+*Figura 7.2. Documentación Swagger UI del servicio desplegado.*
+
 
 
 
