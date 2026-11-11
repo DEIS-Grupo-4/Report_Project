@@ -2111,6 +2111,389 @@ El despliegue continuo automatiza la publicación del backend de WeRide en un en
 
 
 
+# Capítulo VIII: Experiment-Driven Development
+
+El desarrollo guiado por experimentos busca que las decisiones sobre WeRide se tomen con evidencia y no con opiniones. En este capítulo se planifican y diseñan los experimentos que permitirán validar las hipótesis de negocio, usuario, valor y funcionalidad definidas en el capítulo I, se establecen las métricas y los planes de medición, y se traduce lo que se necesita construir para ejecutarlos en historias de usuario y un Product Backlog To-Be.
+
+Este capítulo parte de insumos ya existentes en el informe: las entrevistas y el needfinding del capítulo II, el Lean UX Canvas y las hipótesis del capítulo I, las historias de usuario y el Product Backlog del capítulo III, y las observaciones de la evaluación de la plataforma del capítulo V.
+
+## 8.1. Experiment Planning
+
+### 8.1.1. As-Is Summary
+
+**Situación del usuario (sin WeRide).** El needfinding del capítulo II muestra dos segmentos con problemas distintos:
+
+| Segmento | Perfil | Frustraciones principales (As-Is) |
+| --- | --- | --- |
+| B2C — Universitarios y jóvenes profesionales | Camila Torres, joven universitaria | Tráfico que la retrasa, transporte incómodo e inseguro, falta de efectivo para pagar y poca disponibilidad de opciones rápidas cerca de su ubicación. |
+| B2B — Empresas y planes corporativos | Luis Salazar, gerente de operaciones | Congestión vehicular que afecta la puntualidad y la productividad, costos elevados por taxis y estacionamientos, y dificultad para implementar una solución escalable para todos los empleados. |
+
+**Contexto de mercado (capítulo I).** El transporte genera más del 30 % de las emisiones urbanas, los usuarios pagan entre 30 % y 40 % más por trayectos cortos al no haber alternativas, y la falta de monitoreo IoT incrementa los costos operativos entre 25 % y 50 %. Los hallazgos de las entrevistas indican preferencia por pagos locales (Yape/Plin) y sensibilidad al precio; para que el modelo sea rentable, el informe fija como objetivo una utilización mínima de 4 a 5 viajes por vehículo al día.
+
+**Situación del producto (hoy).** WeRide cuenta con un backend desplegado (API REST documentada con Swagger), una landing page y una aplicación web con garaje de vehículos, reservas, planes y perfil. La evaluación del capítulo V registró 14 observaciones sobre la plataforma, entre ellas botones inactivos (reservar, pagar, editar reserva), ausencia de datos para bicicletas eléctricas y falta de opciones de traducción. La telemetría IoT se simula, tal como se planteó en el plan de MVP, por lo que los experimentos de campo se diseñan con datos de simulación y pilotos acotados.
+
+**Lo que aún no se sabe.** No se ha medido el comportamiento real de uso: no hay datos de conversión, abandono, tiempos de desbloqueo ni disposición de pago observada, solo declarada en entrevistas.
+
+### 8.1.2. Raw Material: Assumptions, Knowledge Gaps, Ideas, Claims
+
+**Tabla 8.1. Material base para la experimentación**
+
+| ID | Tipo | Enunciado | Origen |
+| --- | --- | --- | --- |
+| A-01 | Assumption (usuario) | Los usuarios urbanos adoptarán WeRide si es más rápido y económico que sus opciones actuales. | Cap. I, Lean UX |
+| A-02 | Assumption (usuario) | Los usuarios valoran ver en tiempo real la ubicación y el estado de los vehículos y un desbloqueo sencillo. | Cap. I, Lean UX |
+| A-03 | Assumption (negocio) | Un modelo mixto (tarifa por uso, suscripción y planes B2B) es viable en Lima. | Cap. I, Lean UX |
+| A-04 | Assumption (valor) | Mostrar batería y estado del vehículo aumenta la confianza y reduce cancelaciones. | Cap. I, Lean UX |
+| A-05 | Assumption (negocio) | Las empresas valoran un plan corporativo con panel de uso y reportes. | Cap. II (segmento B2B), US-40 a US-42 |
+| KG-01 | Knowledge gap | ¿Qué porcentaje de visitantes de la landing llega a abrir la aplicación? | Sin datos de tráfico |
+| KG-02 | Knowledge gap | ¿Cuánto tarda un usuario nuevo en encontrar, reservar y desbloquear un vehículo, y dónde se atasca? | Sin pruebas con usuarios |
+| KG-03 | Knowledge gap | ¿Qué tan rápido responde el desbloqueo en condiciones reales? | Sin medición |
+| KG-04 | Knowledge gap | ¿Qué plan (por uso, diario, mensual, corporativo) prefieren los usuarios al ver precios concretos? | Solo disposición declarada |
+| KG-05 | Knowledge gap | ¿Cuántas empresas aceptarían un piloto y qué indicadores querrían ver? | Sin contacto comercial |
+| I-01 | Idea | Indicador visible de batería y estado en cada tarjeta del garaje. | Cap. III, US-07 y US-30 |
+| I-02 | Idea | Desbloqueo con QR como método principal y desde la app como alternativa. | Cap. III, US-19 y US-20 |
+| I-03 | Idea | Panel corporativo con uso de vehículos y reportes de movilidad. | Cap. III, US-40 y US-42 |
+| C-01 | Claim | "WeRide reduce el tiempo de traslado de trayectos cortos." | Propuesta de valor |
+| C-02 | Claim | "WeRide ofrece una alternativa económica y sostenible frente a taxis y transporte público." | Propuesta de valor |
+
+*Fuente: Elaboración propia a partir de los capítulos I, II y III.*
+
+### 8.1.3. Experiment-Ready Questions
+
+Cada pregunta transforma un vacío de conocimiento en algo que puede responderse con datos.
+
+**Tabla 8.2. Preguntas listas para experimentar**
+
+| ID | Pregunta | Relacionada con |
+| --- | --- | --- |
+| Q-01 | ¿Qué porcentaje de visitantes únicos de la landing hace clic en "Go to App" o en la descarga? | KG-01, A-01 |
+| Q-02 | ¿Cuánto tiempo y cuántos pasos necesita un usuario nuevo para encontrar, reservar y desbloquear un vehículo? | KG-02, A-02 |
+| Q-03 | ¿Qué tasa de tareas completadas sin ayuda logra un usuario nuevo en ese flujo? | KG-02 |
+| Q-04 | ¿Cuál es el tiempo de respuesta del desbloqueo (solicitud a estado "desbloqueado") y qué porcentaje cumple 5 segundos o menos? | KG-03 |
+| Q-05 | ¿Mostrar la batería y el estado en las tarjetas del garaje reduce el abandono de reservas respecto a no mostrarlo? | A-04, I-01 |
+| Q-06 | ¿Qué plan eligen los visitantes cuando ven precios reales de cada opción? | KG-04, A-03 |
+| Q-07 | ¿Cuántas empresas solicitan información o aceptan un piloto del plan corporativo? | KG-05, A-05 |
+| Q-08 | ¿Los colaboradores de una empresa piloto usan el servicio de forma recurrente durante cuatro semanas? | A-05, A-01 |
+| Q-09 | ¿Qué nivel de satisfacción (NPS) reportan los usuarios tras sus primeros viajes? | A-01, C-02 |
+| Q-10 | ¿La disponibilidad de la flota piloto alcanza o supera el 85 %? | A-03 |
+
+*Fuente: Elaboración propia.*
+
+### 8.1.4. Question Backlog
+
+Las preguntas se priorizan por **impacto** en la decisión de producto y por **incertidumbre** (qué tan poco se sabe). El orden refleja qué conviene aprender primero.
+
+**Tabla 8.3. Question Backlog priorizado**
+
+| Prioridad | Pregunta | Impacto | Incertidumbre | Esfuerzo | Experimento |
+| ---: | --- | --- | --- | --- | --- |
+| 1 | Q-02, Q-03 (flujo de reserva y desbloqueo) | Alto | Alta | Bajo | EXP-01 |
+| 2 | Q-04 (tiempo de desbloqueo) | Alto | Media | Bajo | EXP-04 |
+| 3 | Q-05 (indicador de batería) | Alto | Alta | Medio | EXP-03 |
+| 4 | Q-01, Q-06 (landing y planes) | Medio | Alta | Bajo | EXP-02 |
+| 5 | Q-07 (interés corporativo) | Alto | Alta | Medio | EXP-02 y EXP-05 |
+| 6 | Q-08, Q-09, Q-10 (uso recurrente, NPS, disponibilidad) | Alto | Alta | Alto | EXP-05 |
+
+*Fuente: Elaboración propia.*
+
+### 8.1.5. Experiment Cards
+
+**Tabla 8.4. Experiment Card EXP-01 — Test de usabilidad del flujo de reserva**
+
+| Campo | Contenido |
+| --- | --- |
+| Nombre | Usabilidad del flujo encontrar, reservar y desbloquear |
+| Pregunta | Q-02, Q-03 |
+| Hipótesis | H-02 |
+| Método | Test de usabilidad moderado con tareas y "think aloud", más cuestionario SUS |
+| Qué se hará | 5 participantes del segmento B2C realizan 3 tareas en la aplicación web: ubicar un vehículo cercano, reservarlo y desbloquearlo. Se registra tiempo, errores y comentarios. |
+| Métrica de éxito | Tiempo medio de la tarea completa menor a 60 s, tasa de tareas completadas sin ayuda de 80 % o más, SUS de 68 o más |
+| Decisión si se cumple | Mantener el flujo y pasar a optimizar detalles |
+| Decisión si no se cumple | Rediseñar los pasos con mayor fricción antes del piloto |
+
+**Tabla 8.5. Experiment Card EXP-02 — Landing page y puerta falsa del plan corporativo**
+
+| Campo | Contenido |
+| --- | --- |
+| Nombre | Interés en la landing: acceso a la app, planes y plan corporativo |
+| Pregunta | Q-01, Q-06, Q-07 |
+| Hipótesis | H-03, H-04 |
+| Método | Medición de clics y experimento de puerta falsa (*fake door*): botón "Solicitar demo corporativa" que registra el interés sin construir aún el servicio completo |
+| Qué se hará | Instrumentar los llamados a la acción de la landing (Go to App, descarga, planes, plan corporativo) y publicar un formulario de interés corporativo. Se difunde en canales de la universidad y contactos de empresas. |
+| Métrica de éxito | 10 % o más de visitantes únicos hace clic en "Go to App", y al menos 3 empresas dejan una solicitud de demo |
+| Decisión si se cumple | Priorizar el desarrollo del plan corporativo (US-39 a US-42) |
+| Decisión si no se cumple | Revisar el mensaje de la landing y el segmento B2B antes de invertir en el panel corporativo |
+
+**Tabla 8.6. Experiment Card EXP-03 — Indicador de batería y estado (A/B)**
+
+| Campo | Contenido |
+| --- | --- |
+| Nombre | Efecto del indicador de batería y estado en el abandono de reservas |
+| Pregunta | Q-05 |
+| Hipótesis | H-05 |
+| Método | Prueba A/B: variante A (control) sin indicador y variante B con batería y estado visibles en la tarjeta del vehículo |
+| Qué se hará | Asignar a cada sesión una variante de forma aleatoria y medir cuántas reservas iniciadas se completan |
+| Métrica de éxito | La tasa de abandono baja de 30 % (valor supuesto, a calibrar con los primeros datos) a 15 % o menos |
+| Tamaño de muestra | 121 sesiones por variante (ver 8.2.5) |
+| Decisión si se cumple | Mantener el indicador como funcionalidad estándar |
+| Decisión si no se cumple | Retirar el indicador de las tarjetas y mostrarlo solo en el detalle |
+
+**Tabla 8.7. Experiment Card EXP-04 — Tiempo de desbloqueo**
+
+| Campo | Contenido |
+| --- | --- |
+| Nombre | Medición del tiempo de respuesta del desbloqueo |
+| Pregunta | Q-04 |
+| Hipótesis | H-06 |
+| Método | Experimento técnico: medir el tiempo entre la solicitud de desbloqueo y la respuesta de estado, con el vehículo simulado |
+| Qué se hará | Ejecutar al menos 35 desbloqueos en condiciones normales y en carga moderada, registrando el tiempo de cada uno |
+| Métrica de éxito | 95 % de los desbloqueos responden en 5 s o menos |
+| Decisión si se cumple | Dar por válida la arquitectura de desbloqueo para el piloto |
+| Decisión si no se cumple | Optimizar la ruta de solicitud (consultas, notificación) y repetir |
+
+**Tabla 8.8. Experiment Card EXP-05 — Piloto B2B con panel corporativo**
+
+| Campo | Contenido |
+| --- | --- |
+| Nombre | Piloto cerrado con una empresa |
+| Pregunta | Q-07, Q-08, Q-09, Q-10 |
+| Hipótesis | H-01, H-04, H-07 |
+| Método | Piloto cerrado de cuatro semanas con acompañamiento manual (concierge): el equipo prepara los reportes del panel y recoge retroalimentación |
+| Qué se hará | Una empresa o grupo de 5 a 10 colaboradores usa el servicio; se mide uso semanal, utilización por vehículo, disponibilidad de la flota y NPS; al final se entrevista al administrador sobre disposición a pagar |
+| Métrica de éxito | NPS de 40 o más, uso recurrente de al menos 3 de cada 5 colaboradores cada semana, disponibilidad de flota de 85 % o más, y la empresa acepta continuar con un plan de pago |
+| Decisión si se cumple | Convertir el piloto en caso de éxito y escalar a más empresas |
+| Decisión si no se cumple | Analizar causas (uso, precio, flota) y ajustar el plan corporativo |
+
+*Fuente: Elaboración propia.*
+
+## 8.2. Experiment Design
+
+### 8.2.1. Hypotheses
+
+Las hipótesis retoman las del capítulo I con el formato "Creemos que… Sabremos que es verdad cuando…".
+
+**Tabla 8.9. Hipótesis de los experimentos**
+
+| ID | Tipo | Creemos que… | Sabremos que es verdad cuando… | Experimento |
+| --- | --- | --- | --- | --- |
+| H-01 | Negocio | WeRide logrará una operación sostenible si la telemetría reduce el tiempo de inactividad y los costos de mantenimiento. | Al menos una empresa acepta el piloto y la disponibilidad de flota es de 85 % o más. | EXP-05 |
+| H-02 | Usuario | Los usuarios nuevos pueden encontrar y desbloquear un vehículo en menos de 60 segundos viendo su estado en tiempo real. | Tiempo medio menor a 60 s y 80 % o más de tareas completadas sin ayuda. | EXP-01 |
+| H-03 | Usuario | Los visitantes de la landing se interesan en la propuesta si entienden el servicio y los planes. | 10 % o más de visitantes únicos hace clic en "Go to App". | EXP-02 |
+| H-04 | Negocio | Las empresas valoran un plan corporativo con panel de uso y reportes. | Al menos 3 solicitudes de demo y una empresa dispuesta a pagar el plan tras el piloto. | EXP-02, EXP-05 |
+| H-05 | Funcionalidad | Mostrar batería y estado del vehículo reduce el abandono de reservas. | La tasa de abandono baja de 30 % a 15 % o menos entre variantes. | EXP-03 |
+| H-06 | Funcionalidad | El desbloqueo digital responde con rapidez suficiente para no generar fricción. | 95 % de los desbloqueos responde en 5 s o menos. | EXP-04 |
+| H-07 | Valor | Un uso simple y confiable genera satisfacción y uso recurrente. | NPS de 40 o más y uso semanal recurrente de los colaboradores. | EXP-05 |
+
+*Fuente: Elaboración propia a partir del capítulo I.*
+
+### 8.2.2. Domain Business Metrics
+
+Las métricas de negocio se organizan con el marco AARRR (adquisición, activación, retención, ingresos, recomendación) y se complementan con métricas operativas propias de una flota compartida.
+
+**Tabla 8.10. Métricas de negocio del dominio**
+
+| Categoría | Métrica | Definición | Objetivo |
+| --- | --- | --- | --- |
+| Adquisición | Tasa de clic a la app | Visitantes únicos que hacen clic en "Go to App" entre visitantes únicos de la landing | 10 % o más |
+| Activación | Tasa de reserva completada | Usuarios nuevos que completan su primera reserva entre usuarios registrados | 10 % o más (vista a reserva, cap. I) |
+| Activación | Tiempo a primer desbloqueo | Tiempo desde la apertura de la app hasta el primer desbloqueo | Menos de 60 s |
+| Retención | Uso semanal recurrente | Usuarios con al menos un viaje cada semana entre usuarios activos | Positivo tras 4 semanas |
+| Ingresos | Utilización por vehículo | Viajes por vehículo por día | 4 a 5 viajes al día; mejora de 20 % en las semanas iniciales |
+| Recomendación | NPS | Porcentaje de promotores menos porcentaje de detractores | 40 o más en el piloto |
+| Operación | Disponibilidad de flota | Vehículos disponibles entre vehículos totales de la zona | 85 % o más |
+| Operación | Incidentes por vehículo | Fallas o reportes de problema por vehículo | Reducción de 30 % o más |
+
+*Fuente: Elaboración propia a partir de las métricas de éxito del capítulo I.*
+
+### 8.2.3. Measures
+
+Una medida es la forma concreta y repetible de calcular cada métrica.
+
+**Tabla 8.11. Medidas operativas**
+
+| Medida | Cómo se calcula | Fuente de datos | Frecuencia |
+| --- | --- | --- | --- |
+| Visitantes únicos de la landing | Conteo de sesiones únicas | Analítica web | Diaria |
+| Clics en llamados a la acción | Conteo del evento `cta_click` por botón | Analítica web | Diaria |
+| Reservas iniciadas y completadas | Registros de reservas y su estado (borrador, pendiente, completada) | Base de datos del backend (recurso de reservas) | Diaria |
+| Tiempo de la tarea de reserva | Marca de tiempo final menos inicial por participante | Registro del test de usabilidad | Por sesión |
+| Tiempo de desbloqueo | Diferencia entre la marca de solicitud y la de respuesta de estado | Registros del backend (recurso de solicitudes de desbloqueo) | Por evento |
+| Viajes por vehículo | Conteo de viajes por vehículo y por día | Recurso de viajes y del historial | Diaria |
+| Disponibilidad de flota | Vehículos con estado disponible entre total, medido cada hora | Recurso de vehículos | Horaria |
+| NPS | Encuesta de una pregunta (0 a 10) al finalizar el viaje | Formulario dentro de la app | Por viaje |
+| Solicitudes de demo corporativa | Conteo de envíos del formulario de interés | Formulario de la landing | Diaria |
+
+*Fuente: Elaboración propia.*
+
+### 8.2.4. Conditions
+
+Las condiciones fijan en qué contexto se ejecuta cada experimento para que los resultados sean comparables.
+
+**Tabla 8.12. Condiciones de los experimentos**
+
+| Experimento | Participantes | Entorno | Duración | Control / variante | Criterio de parada |
+| --- | --- | --- | --- | --- | --- |
+| EXP-01 | 5 usuarios del segmento B2C (jóvenes universitarios) | Aplicación web desplegada, vehículos de prueba cargados | 1 semana | Sin grupo de control (estudio cualitativo) | 5 participantes completos |
+| EXP-02 | Visitantes de la landing por difusión en la universidad y contactos de empresas | Landing pública con analítica | 2 semanas | Sin control; se compara contra el umbral | Fin del periodo o 100 visitantes únicos |
+| EXP-03 | Usuarios de la aplicación web | Garaje de vehículos con asignación aleatoria de variante | Hasta alcanzar la muestra o 4 semanas | A: sin indicador; B: con batería y estado | 121 sesiones por variante |
+| EXP-04 | Sistema (sin participantes) | Backend desplegado y vehículo simulado | 1 día | Condición normal y carga moderada | 35 desbloqueos medidos |
+| EXP-05 | 5 a 10 colaboradores de una empresa | Aplicación web, flota simulada o piloto acotado | 4 semanas | Sin control; se compara con las metas | Fin de la cuarta semana |
+
+*Fuente: Elaboración propia.*
+
+### 8.2.5. Scale Calculations and Decisions
+
+El tamaño de muestra se calcula con fórmulas estándar, con 95 % de confianza y 80 % de potencia cuando aplica.
+
+**Estimación de una proporción (EXP-02, conversión).** Para estimar una conversión esperada de 10 % con un margen de error de ±5 puntos:
+
+n = Z² · p · (1 − p) / e² = 1,96² · 0,10 · 0,90 / 0,05² ≈ **139 visitantes únicos**
+
+**Comparación de dos proporciones (EXP-03, A/B).** Con una tasa de abandono supuesta de 30 % en el control y una meta de 15 % en la variante B, con 95 % de confianza y 80 % de potencia:
+
+n por variante = (Zα/2 · √(2 · p̄ · q̄) + Zβ · √(p₁q₁ + p₂q₂))² / (p₁ − p₂)² ≈ **121 sesiones por variante**
+
+El 30 % es un supuesto que se calibrará con los primeros datos reales. Si la meta fuera una reducción menor (de 20 % a 14 %), la muestra necesaria subiría a unas 615 sesiones por variante, lo que excede el tráfico esperado del piloto.
+
+**Usabilidad (EXP-01).** La probabilidad de encontrar un problema de usabilidad con n participantes es 1 − (1 − 0,31)ⁿ. Con 5 participantes se detecta cerca del 84 % de los problemas; con 8, cerca del 95 %.
+
+**Tiempo medio de desbloqueo (EXP-04).** Para estimar el tiempo medio con un margen de ±1 s, suponiendo una desviación estándar de 3 s: n = (1,96 · 3 / 1)² ≈ **35 mediciones**.
+
+**Tabla 8.13. Decisiones de escala**
+
+| Situación | Decisión |
+| --- | --- |
+| El tráfico no alcanza la muestra calculada en EXP-02 o EXP-03 | Extender la duración hasta 4 semanas; si aun así no se alcanza, tratar el resultado como **indicativo** y confirmarlo en el piloto de EXP-05 |
+| EXP-01 muestra problemas graves con los primeros 3 participantes | Corregir antes de continuar con los 2 restantes (se detecta cerca del 67 % de los problemas con 3 participantes) |
+| Los resultados cumplen las metas de forma clara | Pasar a la siguiente fase del backlog y ampliar el alcance del piloto |
+
+*Fuente: Elaboración propia.*
+
+### 8.2.6. Methods Selection
+
+**Tabla 8.14. Selección de métodos**
+
+| Pregunta | Tipo de dato | Método elegido | Por qué |
+| --- | --- | --- | --- |
+| Q-02, Q-03 | Cualitativo y cuantitativo | Test de usabilidad moderado y SUS | Permite ver dónde se atasca el usuario con pocos participantes |
+| Q-01, Q-06 | Cuantitativo | Analítica de clics en la landing | Es barato y mide comportamiento real |
+| Q-07 | Cuantitativo | Puerta falsa (*fake door*) | Mide interés antes de construir el servicio completo |
+| Q-05 | Cuantitativo | Prueba A/B | Aísla el efecto de una sola funcionalidad |
+| Q-04 | Cuantitativo | Medición técnica en el backend | El tiempo de respuesta es objetivo y se mide automáticamente |
+| Q-08, Q-09, Q-10 | Mixto | Piloto cerrado con acompañamiento y encuesta NPS | Reproduce el uso real en un grupo acotado |
+
+*Fuente: Elaboración propia.*
+
+### 8.2.7. Data Analytics: Goals, KPIs and Metrics Selection
+
+Se aplica el enfoque Goal–Question–Metric: de cada objetivo se derivan preguntas y de estas, los indicadores.
+
+**Tabla 8.15. Objetivos, KPIs y métricas**
+
+| Objetivo | KPI | Métricas que lo componen | Meta | Experimento |
+| --- | --- | --- | --- | --- |
+| Atraer usuarios a la plataforma | Tasa de clic a la app | Visitantes únicos, clics en "Go to App" | 10 % o más | EXP-02 |
+| Lograr que el primer uso sea fácil | Éxito del primer uso | Tiempo a primer desbloqueo, tareas completadas sin ayuda, SUS | Menos de 60 s, 80 % o más, SUS de 68 o más | EXP-01 |
+| Reducir la fricción en la reserva | Tasa de abandono de reserva | Reservas iniciadas, reservas completadas | 15 % o menos | EXP-03 |
+| Garantizar un desbloqueo confiable | Desbloqueos rápidos | Tiempo de desbloqueo (percentil 95) | 5 s o menos | EXP-04 |
+| Validar el modelo B2B | Interés y retención corporativa | Solicitudes de demo, uso semanal recurrente, aceptación del plan | 3 solicitudes, 3 de 5 colaboradores activos, 1 empresa dispuesta a pagar | EXP-02, EXP-05 |
+| Asegurar calidad del servicio | Satisfacción y disponibilidad | NPS, disponibilidad de flota, incidentes por vehículo | NPS de 40 o más, disponibilidad de 85 % o más | EXP-05 |
+
+*Fuente: Elaboración propia.*
+
+### 8.2.8. Web and Mobile Tracking Plan
+
+El plan de seguimiento define qué eventos se registran en la landing, la aplicación web y la aplicación móvil. Los eventos usan nombres en minúsculas con guion bajo y propiedades comunes (`user_id` anónimo, `platform`, `variant`, `timestamp`). Las métricas de reservas, viajes, desbloqueos y vehículos se obtienen además directamente de la base de datos del backend, lo que evita depender solo de la analítica del cliente.
+
+**Herramientas propuestas:** una herramienta de analítica web para la landing y la aplicación web (por ejemplo Google Analytics 4), una herramienta de analítica móvil para la aplicación (por ejemplo Firebase Analytics) y consultas sobre la base de datos del backend para las métricas operativas.
+
+**Tabla 8.16. Plan de seguimiento de eventos**
+
+| Evento | Cuándo se dispara | Propiedades | Plataforma | Métrica que alimenta |
+| --- | --- | --- | --- | --- |
+| `landing_view` | Se carga la landing | `source`, `device` | Web | Visitantes únicos |
+| `cta_click` | Clic en Go to App, descarga, planes o plan corporativo | `cta_id`, `section` | Web | Tasa de clic a la app |
+| `demo_request_submit` | Se envía el formulario de interés corporativo | `company_size` | Web | Solicitudes de demo |
+| `signup_complete` | Registro exitoso | `method` | Web y móvil | Activación |
+| `vehicle_list_view` | Se abre el garaje o el mapa | `variant`, `filters_used` | Web y móvil | Embudo de reserva |
+| `vehicle_card_view` | Se visualiza una tarjeta de vehículo | `vehicle_id`, `variant`, `battery_shown` | Web y móvil | Efecto del indicador (EXP-03) |
+| `booking_start` | Se inicia una reserva | `vehicle_id`, `variant` | Web y móvil | Reservas iniciadas |
+| `booking_complete` | Se confirma la reserva | `vehicle_id`, `variant` | Web y móvil | Tasa de abandono |
+| `booking_cancel` | Se cancela una reserva | `vehicle_id`, `reason` | Web y móvil | Cancelaciones |
+| `unlock_request` | El usuario solicita desbloquear | `vehicle_id`, `method` (QR o app) | Web y móvil | Tiempo de desbloqueo |
+| `unlock_result` | Llega el estado del desbloqueo | `vehicle_id`, `status`, `duration_ms` | Backend | Tiempo de desbloqueo (percentil 95) |
+| `trip_end` | Finaliza un viaje | `trip_id`, `duration`, `distance` | Web y móvil | Viajes por vehículo |
+| `nps_submit` | El usuario responde la encuesta | `score` | Web y móvil | NPS |
+| `plan_select` | Se elige un plan | `plan_id` | Web y móvil | Preferencia de planes |
+
+**Reglas de privacidad:** los identificadores de usuario se anonimizan, no se registran datos de pago y la analítica se activa solo con el consentimiento del usuario.
+
+*Fuente: Elaboración propia.*
+
+## 8.3. Experimentation
+
+### 8.3.1. To-Be User Stories
+
+Para poder ejecutar los experimentos se necesitan capacidades que hoy no existen en el producto: instrumentación, variantes, encuestas y formularios. Estas historias complementan las 56 definidas en el capítulo III (se numeran a partir de US-57).
+
+**Tabla 8.17. Historias de usuario To-Be**
+
+| ID | Título | Historia | Criterios de aceptación | Experimento |
+| --- | --- | --- | --- | --- |
+| US-57 | Analítica de la landing | Como equipo de producto, quiero registrar visitas y clics en los llamados a la acción de la landing para medir el interés de los visitantes. | Dado que un visitante abre la landing, cuando hace clic en un botón de acción, entonces se registra el evento `cta_click` con el identificador del botón. | EXP-02 |
+| US-58 | Formulario de interés corporativo | Como representante de una empresa, quiero solicitar una demo del plan corporativo para conocer su funcionamiento. | Dado que el visitante completa el formulario con datos válidos, cuando lo envía, entonces se registra la solicitud y se muestra una confirmación. | EXP-02 |
+| US-59 | Analítica del flujo de reserva | Como equipo de producto, quiero registrar los eventos del flujo de reserva y desbloqueo para medir tiempos y abandono. | Dado que un usuario inicia una reserva, cuando avanza o abandona, entonces se registran `booking_start`, `booking_complete` o `booking_cancel` con el vehículo y la variante. | EXP-01, EXP-03 |
+| US-60 | Variantes de experimento | Como equipo de producto, quiero asignar variantes de forma aleatoria a cada sesión para ejecutar pruebas A/B. | Dado que una sesión nueva entra al garaje, cuando se carga la pantalla, entonces se le asigna la variante A o B de forma estable durante toda la sesión. | EXP-03 |
+| US-61 | Indicador de batería y estado | Como usuario, quiero ver la batería y el estado del vehículo en la tarjeta para decidir si lo reservo. | Dado que la sesión está en la variante B, cuando se muestra una tarjeta, entonces aparecen la batería y el estado del vehículo. | EXP-03 |
+| US-62 | Medición del tiempo de desbloqueo | Como equipo técnico, quiero registrar el tiempo entre la solicitud y el resultado del desbloqueo para verificar el objetivo de 5 segundos. | Dado que un usuario solicita un desbloqueo, cuando el sistema responde, entonces se guarda la duración en milisegundos y el estado. | EXP-04 |
+| US-63 | Encuesta NPS tras el viaje | Como usuario, quiero responder una pregunta breve de satisfacción al terminar mi viaje para dar mi opinión. | Dado que el viaje finalizó, cuando se muestra la encuesta, entonces el usuario puede puntuar de 0 a 10 y el resultado se guarda. | EXP-05 |
+| US-64 | Panel de métricas del experimento | Como equipo de producto, quiero consultar en un solo lugar los KPIs de cada experimento para tomar decisiones. | Dado que existen datos registrados, cuando se abre el panel, entonces se muestran los KPIs de la Tabla 8.15 con su meta y su valor actual. | Todos |
+
+*Fuente: Elaboración propia.*
+
+### 8.3.2. To-Be Product Backlog
+
+**Tabla 8.18. Product Backlog To-Be**
+
+| Orden | ID | Título | Experimento | Story Points |
+| ---: | --- | --- | --- | ---: |
+| 1 | US-59 | Analítica del flujo de reserva | EXP-01, EXP-03 | 5 |
+| 2 | US-62 | Medición del tiempo de desbloqueo | EXP-04 | 3 |
+| 3 | US-57 | Analítica de la landing | EXP-02 | 3 |
+| 4 | US-58 | Formulario de interés corporativo | EXP-02 | 3 |
+| 5 | US-60 | Variantes de experimento | EXP-03 | 5 |
+| 6 | US-61 | Indicador de batería y estado | EXP-03 | 3 |
+| 7 | US-63 | Encuesta NPS tras el viaje | EXP-05 | 3 |
+| 8 | US-64 | Panel de métricas del experimento | Todos | 5 |
+
+El orden sigue la prioridad del Question Backlog (Tabla 8.3): primero lo necesario para EXP-01 y EXP-04, luego la landing y el A/B, y al final el piloto y el panel. Los puntos de historia son una estimación inicial del equipo y se ajustarán en la planificación del sprint.
+
+*Fuente: Elaboración propia.*
+
+### 8.3.3. Continuous Learning: Learning Workflow
+
+El aprendizaje de cada experimento se comparte con el equipo en una sesión breve de revisión (*shareback session*) al cerrar cada experimento, con el siguiente flujo:
+
+1. **Planificar:** se confirma la pregunta, la hipótesis, la métrica y la muestra de la Experiment Card.
+2. **Ejecutar:** se corre el experimento en las condiciones definidas y se registran los datos con el plan de seguimiento.
+3. **Analizar:** se comparan los resultados con la meta de la hipótesis.
+4. **Compartir:** en la sesión de revisión se presenta una **Learning Card** con el resultado y la decisión.
+5. **Decidir:** se elige entre persistir (mantener), pivotar (cambiar el enfoque) o detener, y se actualiza el Product Backlog y el Question Backlog.
+
+**Tabla 8.19. Plantilla de Learning Card**
+
+| Campo | Contenido |
+| --- | --- |
+| Experimento | ID y nombre |
+| Hipótesis | Enunciado de la hipótesis probada |
+| Resultado | Valor obtenido de la métrica frente a la meta |
+| ¿Se confirmó la hipótesis? | Sí, no o parcialmente |
+| Aprendizaje clave | Qué se descubrió |
+| Decisión | Persistir, pivotar o detener |
+| Acciones | Historias o tareas que se agregan o se cambian en el backlog |
+
+Los resultados de cada experimento se registrarán en una Learning Card una vez ejecutado, y no se reportan resultados de experimentos que aún no se hayan realizado.
+
 ## Conclusiones
 - El proyecto de micromovilidad eléctrica compartida responde a necesidades reales de movilidad en áreas urbanas peruanas: congestión, tiempos de traslado elevados, y demanda por alternativas más económicas y sostenibles. La combinación de scooters, bicicletas y motos eléctricas gestionadas desde una única plataforma web representa una propuesta con alto potencial de adopción, especialmente en segmentos juveniles y corporativos.
 - La identificación de dos segmentos prioritarios —jóvenes universitarios y empresas con planes de suscripción— es coherente con los hallazgos cualitativos. Los primeros buscan conveniencia, bajo costo y métodos de pago locales (Yape/Plin); las empresas buscan soluciones de movilidad para colaboradores y valoran la previsibilidad de costos y la imagen de sostenibilidad. Esta segmentación favorece estrategias de adquisición y retención diferenciadas.
