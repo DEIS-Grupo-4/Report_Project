@@ -105,6 +105,12 @@ El objetivo de esta sección es resumir las modificaciones relevantes que se rea
       <td style="padding: 10px; border: 1px solid #ccc;">G4 WeTech</td>
       <td style="padding: 10px; border: 1px solid #ccc;">Revisión y consolidación de la documentación final, correcciones de estilo y ajustes según retroalimentación del docente.</td>
     </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ccc; font-weight: bold;">V5.0</td>
+      <td style="padding: 10px; border: 1px solid #ccc;">12 Nov 2026</td>
+      <td style="padding: 10px; border: 1px solid #ccc;">G4 WeTech</td>
+      <td style="padding: 10px; border: 1px solid #ccc;">Avance 2 (Sprint Review): pruebas BDD con Karate (6.1.3), análisis estático con SonarQube (6.2), revisión de código (6.2.2), validación y auditoría de UX (6.3 y 6.4), prácticas DevOps (Capítulo VII) y Capítulo VIII de Experiment-Driven Development con el experimento EXP-04 ejecutado. Se corrigió la compilación de la rama main del backend (PR #2).</td>
+    </tr>
   </tbody>
 </table>
 
@@ -318,6 +324,7 @@ EAC - Student Outcome 4.
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Realizó reuniones de coordinación equivalentes a las de ciclos anteriores, revisando la planificación del frontend, los bounded contexts y la estructura de datos ya construidos, además de validar junto al equipo la decisión de mantener la arquitectura DDD/CQRS del backend, confirmando su vigencia para el enunciado del curso actual.</li>
                     <li><b>TP:</b> Lideró la elaboración de los artefactos faltantes de Needfinding (As-Is y To-Be Scenario Mapping) y la revisión estructural del informe (corrección de numeración y jerarquía del Capítulo V), asumiendo la responsabilidad de mantener la trazabilidad y coherencia del documento ante el equipo y el docente.</li>
+          <li><b>AV2:</b> Incorporó la suite BDD con Karate al repositorio del grupo (8 de 8 escenarios aprobados) mediante el Pull Request #2, revisado por el equipo. Detectó que la rama main no compilaba, la corrigió y dejó documentadas en 6.2.2 las pruebas que aún fallan, en lugar de ocultarlas.</li>
         </ul>
         <strong>Romero Meza Jhimy Pool</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
@@ -344,6 +351,7 @@ EAC - Student Outcome 4.
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Retomar el proyecto exigió comunicación clara para transferir conocimiento del equipo anterior al nuevo, evitando que se perdiera contexto técnico o de diseño ya validado.</li>
                     <li><b>TP:</b> La corrección oportuna de inconsistencias de numeración y la documentación transparente de decisiones técnicas (como mantener Java/Spring Boot) evitaron que errores de trazabilidad o decisiones no justificadas afectaran la evaluación del informe.</li>
+          <li><b>AV2:</b> El equipo reportó con transparencia que la rama principal no compilaba, la corrigió de forma colaborativa mediante Pull Request y dejó constancia de las pruebas que aún fallan.</li>
         </ul>
       </td>
     </tr>
@@ -358,6 +366,7 @@ EAC - Student Outcome 4.
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Revisó y actualizó la documentación de los capítulos I, II, IV y V, así como los bounded contexts y criterios de aceptación ya redactados, evaluando qué ajustes eran necesarios para alinear el informe heredado con los requisitos del curso actual.</li>
                     <li><b>TP:</b> Evaluó el impacto de mantener la arquitectura Java + Spring Boot ya desplegada en producción frente a migrar a ASP.NET Core, documentando los riesgos técnicos y de cronograma de dicha decisión; además, redactó la sección de Términos y Condiciones (SaaS) considerando el impacto legal y social del tratamiento de datos personales conforme a la Ley N° 29733.</li>
+          <li><b>AV2:</b> Ejecutó el análisis estático con SonarQube (0 bugs, 0 code smells, 1.4 % de duplicación) y evaluó con justificación técnica el único hallazgo de seguridad. Ejecutó el experimento EXP-04 (35 mediciones reales del flujo de desbloqueo) e informó sus límites, como el IoT simulado.</li>
         </ul>
         <strong>Romero Meza Jhimy Pool</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
@@ -384,6 +393,7 @@ EAC - Student Outcome 4.
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Evaluar qué documentación conservar y qué actualizar permitió al equipo tomar decisiones informadas sobre el alcance real y el impacto del producto en este nuevo ciclo.</li>
                     <li><b>TP:</b> Documentar explícitamente el riesgo de no migrar al stack sugerido por el curso, junto con las condiciones de uso y privacidad del servicio, permitió emitir un juicio informado sobre las implicancias técnicas, legales y sociales del producto WeRide.</li>
+          <li><b>AV2:</b> Los resultados se reportan con sus límites (el IoT está simulado en EXP-04) y no se presentan resultados de experimentos que aún no se ejecutaron.</li>
         </ul>
       </td>
     </tr>
