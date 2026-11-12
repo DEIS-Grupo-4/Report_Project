@@ -1237,7 +1237,7 @@ El equipo ejecutó actividades coordinadas para entregar la integración y despl
 
 <h4>Prácticas y procesos aplicados</h4>
 <ul>
-  <li><strong>Branching:</strong> flujo git feature/ → PR → review → main → deploy (GitHub Actions).</li>
+  <li><strong>Branching:</strong> flujo git feature/ → PR → review → main → deploy (Jenkins).</li>
   <li><strong>Code Review:</strong> todas las PRs requerían al menos 1 revisor y checklist de QA (tests, lint, documentación de endpoints).</li>
   <li><strong>Gestión de tareas:</strong> backlog y tablero Kanban (GitHub Projects / Trello) con estados: To Do / In Progress / Code Review / QA / Done.</li>
   <li><strong>Comunicación:</strong> reuniones de planificación y retro en Google Meet; coordinación diaria en canal de Discord/Slack.</li>
@@ -1798,43 +1798,166 @@ Para llevar a cabo estas pruebas, se utiliza el entorno de prueba web de **Sprin
 *Fuente: Elaboración propia.*
 
 
-### 6.1.3. Core Behavior-Driven Development  
+### 6.1.3. Core Behavior-Driven Development
 
-Las pruebas basadas en comportamiento (BDD) permiten validar las funcionalidades desde la perspectiva de las historias de usuario y las reglas de negocio. Los escenarios se definen en lenguaje formal **Gherkin** utilizando la sintaxis `Given-When-Then` (Dado - Cuando - Entonces) e integrados con la herramienta **Cucumber / SpecFlow**.
+Las pruebas basadas en comportamiento (BDD) validan la API de WeRide desde la perspectiva del usuario y de las reglas de negocio. Los escenarios se escriben en lenguaje **Gherkin** con la sintaxis `Given-When-Then` (Dado - Cuando - Entonces) y se ejecutan con **Karate 1.5.2** (`karate-junit5`), un framework que permite probar APIs REST directamente desde los archivos `.feature`, sin necesidad de escribir *step definitions* en Java.
 
-#### **A. Archivo de Especificación (** **.feature** **) - IAM**
+Las pruebas se ejecutan contra una instancia real del backend levantada con **Docker Compose** (contenedores `backend-weride` y `mysql-db`), por lo que validan el flujo completo: controlador REST, seguridad con JWT, lógica de aplicación y persistencia en MySQL. La URL base se define en `karate-config.js` (por defecto `http://localhost:8080`) y puede cambiarse para apuntar al despliegue en Render.
 
+**Estructura de archivos (repositorio Backend-WeRide):**
+
+| Archivo | Ubicación | Función |
+| --- | --- | --- |
+| `KarateTestRunner.java` | `src/test/java/karate/` | Punto de entrada JUnit 5. Ejecuta los features `auth` y `vehicles`. |
+| `auth.feature` | `src/test/java/karate/` | Escenarios de registro e inicio de sesión (bounded context IAM). |
+| `vehicles.feature` | `src/test/java/karate/` | Escenarios de gestión de vehículos (flota). |
+| `karate-config.js` | `src/test/resources/` | Define `baseUrl` para todos los escenarios. |
+
+**Ejecutor de pruebas:**
+
+```java
+package karate;
+
+import com.intuit.karate.junit5.Karate;
+
+class KarateTestRunner {
+
+    @Karate.Test
+    Karate testAuth() {
+        return Karate.run("auth").relativeTo(getClass());
+    }
+
+    @Karate.Test
+    Karate testVehicles() {
+        return Karate.run("vehicles").relativeTo(getClass());
+    }
+}
 ```
-Feature: Autenticación de Usuarios en la Plataforma WeRide
-  As a registered user
-  I want to authenticate into the system
-  So that I can access my personalized dashboard and subscriptions
 
-  Scenario: Successful user login with valid credentials
-    Given a user with username "jhimy.romero" and password "Secret123!" exists in the system
-    When the user sends a POST request to "/api/v1/authentication/sign-in" with credentials "jhimy.romero" and "Secret123!"
-    Then the response status code should be 200
-    And the response should contain a valid JWT authentication token
+#### **A. Archivo de especificación (`auth.feature`) — IAM**
 
+Cada escenario genera un nombre de usuario único en el `Background`, de modo que las pruebas pueden ejecutarse repetidamente sin colisiones con datos previos.
+
+```gherkin
+Feature: Authentication - Sign Up & Sign In
+  As a WeRide user
+  I want to create an account and sign in
+  So that I can access the booking and vehicle features of the platform
+
+  Background:
+    * url baseUrl
+    * def randomUsername = 'ku' + java.util.UUID.randomUUID().toString().substring(0, 8)
+
+  Scenario: Sign up with valid credentials creates a new account
+    Given path '/api/v1/authentication/sign-up'
+    And request { username: '#(randomUsername)', password: 'Weride2026!' }
+    When method post
+    Then status 201
+    And match response.username == randomUsername
+    And match response.id == '#number'
+
+  Scenario: Sign up with a blank username is rejected
+    Given path '/api/v1/authentication/sign-up'
+    And request { username: '', password: 'Weride2026!' }
+    When method post
+    Then status 400
+
+  Scenario: Sign in with valid credentials returns a JWT token
+    Given path '/api/v1/authentication/sign-up'
+    And request { username: '#(randomUsername)', password: 'Weride2026!' }
+    When method post
+    Then status 201
+
+    Given path '/api/v1/authentication/sign-in'
+    And request { username: '#(randomUsername)', password: 'Weride2026!' }
+    When method post
+    Then status 200
+    And match response.token == '#string'
+    And match response.id == '#number'
+
+  Scenario: Sign in with a wrong password is rejected
+    Given path '/api/v1/authentication/sign-up'
+    And request { username: '#(randomUsername)', password: 'Weride2026!' }
+    When method post
+    Then status 201
+
+    Given path '/api/v1/authentication/sign-in'
+    And request { username: '#(randomUsername)', password: 'WrongPassword!' }
+    When method post
+    Then status 401
 ```
 
-#### **B. Archivo de Especificación (** **.feature** **) - Plans**
+#### **B. Archivo de especificación (`vehicles.feature`) — Gestión de vehículos**
 
+Los endpoints de vehículos requieren autenticación. Por ello, el `Background` registra un usuario nuevo, inicia sesión y configura el encabezado `Authorization: Bearer <token>` para todas las peticiones del escenario.
+
+```gherkin
+Feature: Vehicle Fleet Management (Garage)
+  As an authenticated WeRide user
+  I want to manage vehicles in the fleet
+  So that users can browse and book available vehicles
+
+  Background:
+    * url baseUrl
+    * def randomUser = 'ku' + java.util.UUID.randomUUID().toString().substring(0, 8)
+    Given path '/api/v1/authentication/sign-up'
+    And request { username: '#(randomUser)', password: 'Weride2026!' }
+    When method post
+    Then status 201
+
+    Given path '/api/v1/authentication/sign-in'
+    And request { username: '#(randomUser)', password: 'Weride2026!' }
+    When method post
+    Then status 200
+    * def authHeader = 'Bearer ' + response.token
+    * configure headers = { Authorization: '#(authHeader)' }
+
+  Scenario: Create a vehicle and then retrieve it by id
+    # POST /api/v1/vehicles -> 201, luego GET /api/v1/vehicles/{id} -> 200
+    ...
+
+  Scenario: List all vehicles returns an array
+    Given path '/api/v1/vehicles'
+    When method get
+    Then status 200
+    And match response == '#array'
+
+  Scenario: Requesting a non-existent vehicle returns 404
+    Given path '/api/v1/vehicles', '999999999'
+    When method get
+    Then status 404
+
+  Scenario: Create and delete a vehicle (lifecycle)
+    # POST -> 201, GET -> 200, DELETE -> 204, GET -> 404
+    ...
 ```
-Feature: Administración de Planes de Suscripción
-  As an administrator
-  I want to create new subscription plans
-  So that users can subscribe to WeRide services
 
-  Scenario: Successful creation of a new subscription plan
-    Given the administrator is authenticated with a valid JWT token
-    When the administrator submits a new plan with name "Plan Premium", price 29.99, and duration 30
-    Then the response status code should be 201
-    And the newly created plan should be listed in the available plans catalogue
+*(En el repositorio los escenarios incluyen el cuerpo JSON completo del vehículo; aquí se resumen por extensión.)*
 
-```
+**Tabla 6.5. Casos de prueba BDD ejecutados con Karate**
 
-![localtime](assets/chapter05/unitTest/test-karate.png)
+| ID | Feature | Escenario | Resultado esperado | Resultado obtenido |
+| --- | --- | --- | --- | --- |
+| BDD-01 | auth | Registro con credenciales válidas | `201 Created` con `id` numérico y `username` igual al enviado | Aprobado |
+| BDD-02 | auth | Registro con nombre de usuario vacío | `400 Bad Request` | Aprobado |
+| BDD-03 | auth | Inicio de sesión con credenciales válidas | `200 OK` con `token` (JWT) e `id` | Aprobado |
+| BDD-04 | auth | Inicio de sesión con contraseña incorrecta | `401 Unauthorized` | Aprobado |
+| BDD-05 | vehicles | Crear un vehículo y consultarlo por id | `201 Created`; luego `200 OK` con la misma placa | Aprobado |
+| BDD-06 | vehicles | Listar vehículos | `200 OK` con un arreglo JSON | Aprobado |
+| BDD-07 | vehicles | Consultar un vehículo inexistente | `404 Not Found` | Aprobado |
+| BDD-08 | vehicles | Crear y eliminar un vehículo | `201`, `200`, `204` y luego `404` | Aprobado |
+
+*Fuente: Elaboración propia.*
+
+**Resultado de la ejecución:** 8 escenarios ejecutados, 8 aprobados, 0 fallidos (4 de `auth.feature` y 4 de `vehicles.feature`). Karate genera además un reporte HTML en `target/karate-reports/karate-summary.html`.
+
+![Ejecución de KarateTestRunner en IntelliJ IDEA: 8 tests passed](assets/karate-8-tests-passed.png)
+
+*Figura 6.1. Ejecución de las pruebas Karate en IntelliJ IDEA (8 de 8 aprobadas).*
+
+![Reporte HTML de Karate](assets/karate-report-summary.png)
+
+*Figura 6.2. Reporte HTML generado por Karate.*
 
 ### 6.1.4. Core System Tests.
 Las pruebas de sistema (*End-to-End* / E2E) evalúan la aplicación completa de manera integral, simulando la interacción real de los usuarios en la interfaz Web (Vue.js) y en la aplicación Móvil. Estas pruebas verifican la comunicación entre el frontend, las APIs RESTful del backend y la base de datos en escenarios de uso reales.
@@ -1855,19 +1978,87 @@ Se utiliza **Playwright** para la automatización web y **Appium** para la autom
 
 ---
 
-### **Tabla de Commits del Repositorio de Pruebas (Testing)**
+## 6.2. Static Code Analysis
 
-A continuación se presentan las evidencias de commits realizados en el repositorio de control de versiones dedicado a las suites de pruebas automatizadas, aplicando **GitFlow** y la convención de **Conventional Commits** (`test:`):
+### 6.2.1. Static Code Analysis Tools
 
-| Repository                              | Branch                      | Commit Id | Commit Message                                                           | Commit Message Body                                                                   | Committed on |
-| --------------------------------------- | --------------------------- | --------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ------------ |
-| `startup-weride/weride-backend-testing` | `feature/iam-unit-tests`    | `a1b2c3d` | `test: add unit tests for AccountCommandServiceImpl`                     | Implemented unit tests IAM-UT-01 to IAM-UT-05 using JUnit 5 and Mockito.              | 04/10/2026   |
-| `startup-weride/weride-backend-testing` | `feature/plans-unit-tests`  | `e5f6g7h` | `test: add unit tests for PlanCommandServiceImpl`                        | Implemented unit tests PLN-UT-01 to PLN-UT-05 with AAA pattern and mocks.             | 05/10/2026   |
-| `startup-weride/weride-backend-testing` | `feature/integration-tests` | `i8j9k0l` | `test: implement integration tests for IAM and Plans REST APIs`          | Added MockMvc integration test suite validating HTTP status codes and DB persistence. | 06/10/2026   |
-| `startup-weride/weride-bdd-testing`     | `feature/bdd-scenarios`     | `m1n2o3p` | `test: add Gherkin feature files for authentication and plan management` | Created Cucumber .feature files and step definitions for BDD validation.              | 07/10/2026   |
-| `startup-weride/weride-e2e-testing`     | `feature/system-tests`      | `q4r5s6t` | `test: implement Playwright E2E system tests for web platform`           | Automated full E2E user flows for user sign-in and plan selection.                    | 08/10/2026   |
+Para el análisis estático del backend de WeRide se evaluaron tres alternativas y se eligió SonarQube, porque cubre en una sola herramienta las convenciones de código, la calidad y la seguridad del backend en Java, y porque se integra con Maven y con la tubería de integración continua descrita en el Capítulo VII.
 
-*Fuente: Elaboración propia.*
+**Tabla 6.3. Comparación de herramientas de análisis estático**
+
+| Criterio | SonarQube Community Build | ESLint | Checkmarx |
+| --- | --- | --- | --- |
+| Lenguajes | Java, Kotlin, JavaScript/TypeScript, entre otros | JavaScript / TypeScript (y Angular con el plugin `angular-eslint`) | Múltiples lenguajes |
+| Enfoque principal | Calidad (bugs, code smells), seguridad (vulnerabilidades y hotspots), duplicación | Estilo y errores de código JavaScript | Seguridad (SAST) |
+| Cubre el backend Java | Sí | No | Sí |
+| Cubre el frontend Angular/TypeScript | Sí (parcial) | Sí (especializado) | Sí |
+| Costo | Gratuito (edición Community) | Gratuito (código abierto) | Licencia comercial |
+| Integración con Maven / CI | Plugin `sonar-maven-plugin` y servidor propio | Se ejecuta con npm | Servicio o agente propio |
+| Uso en este proyecto | **Sí (backend)** | Recomendado para el frontend | No (costo y licencia) |
+
+*Fuente: elaboración propia a partir de la documentación oficial de cada herramienta.*
+
+#### 6.2.1.1. Coding standard & Code conventions
+
+El equipo adoptó las siguientes convenciones para el código del backend:
+
+- **Estructura por bounded context y capas.** Cada contexto (por ejemplo `iam`, `plans`, `vehicles`) se organiza en capas `domain`, `application`, `infrastructure` e `interfaces`, siguiendo el diseño guiado por el dominio del Capítulo IV.
+- **Nombres.** Clases e interfaces en `PascalCase`; métodos y atributos en `camelCase`; constantes en `UPPER_SNAKE_CASE`; paquetes en minúsculas.
+- **Endpoints REST.** Rutas bajo `/api/v1/` y nombres en plural y `camelCase` (por ejemplo `/api/v1/vehicles`, `/api/v1/unlockRequests`).
+- **Separación de modelos.** Los controladores reciben y devuelven recursos (`Resource`) y no exponen directamente las entidades del dominio.
+- **Validaciones.** Las restricciones de entrada se declaran con anotaciones de Bean Validation (por ejemplo `@Size(max = 20)` en el nombre de usuario).
+- **Flujo de trabajo en Git.** Ramas por funcionalidad (por ejemplo `feature/karate-bdd-tests`) y cambios integrados mediante Pull Request.
+
+Como regla de verificación automática se usó el perfil de calidad por defecto de SonarQube para Java (*Sonar way*), que revisa en cada análisis el cumplimiento de buenas prácticas y convenciones del lenguaje.
+
+#### 6.2.1.2. Code Quality & Code Security
+
+Se ejecutó SonarQube Community Build v26.11 (instancia local con Docker) sobre el repositorio `Backend-WeRide`, mediante el plugin `sonar-maven-plugin` desde un contenedor Maven. El comando empleado fue:
+
+```bash
+mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -DskipTests \
+  -Dsonar.projectKey=backend-weride \
+  -Dsonar.host.url=http://host.docker.internal:9000 \
+  -Dsonar.token=<token>
+```
+
+El token de acceso no se incluye en el repositorio ni en este informe.
+
+**Tabla 6.4. Resultados del análisis estático de `Backend-WeRide` (11/11/2026)**
+
+| Métrica | Resultado | Calificación |
+| --- | --- | --- |
+| Líneas de código | 5.8 k | — |
+| Issues aceptados | 1 | — |
+| Seguridad (issues abiertos) | 0 (1 aceptado, ver abajo) | A |
+| Fiabilidad (bugs) | 0 | A |
+| Mantenibilidad (code smells) | 0 | A |
+| Security Hotspots | 0 | A |
+| Duplicación | 1.4 % (sobre 7.7 k líneas) | — |
+| Cobertura de pruebas unitarias | 0.0 % (sobre 1.8 k líneas) | — |
+| Quality Gate | Passed | — |
+
+*Fuente: SonarQube Community Build v26.11, proyecto `backend-weride`.*
+
+![Resumen del análisis en SonarQube](assets/sonarqube-summary.png)
+
+*Figura 6.3. Resumen del análisis estático del backend en SonarQube.*
+
+**Issue de seguridad detectado.** En el primer análisis, SonarQube reportó un issue de severidad alta en `WebSecurityConfig.java` (línea 94): *"Make sure disabling Spring Security's CSRF protection is safe here"* (CWE, categoría Spring).
+
+![Issue de seguridad en SonarQube](assets/sonarqube-issues.png)
+
+*Figura 6.4. Issue de seguridad aceptado en SonarQube, con el comentario de justificación.*
+
+**Análisis y decisión.** La protección CSRF protege a las aplicaciones que autentican con cookies de sesión, porque el navegador las envía de forma automática. El backend de WeRide es una API REST sin estado que autentica cada petición con un token JWT enviado en la cabecera `Authorization: Bearer`, sin cookies de sesión. Como el navegador no adjunta esa cabecera por sí solo, el ataque CSRF no aplica a este diseño, y deshabilitar la protección es la configuración recomendada para APIs de este tipo. Por ello el equipo evaluó el issue como un **riesgo aceptado** y lo marcó como *Accepted* en SonarQube con ese comentario. Tras ello, el resumen muestra 0 issues de seguridad abiertos (calificación A) y 1 issue aceptado.
+
+**Cobertura.** El 0.0 % refleja que el análisis se ejecutó con `-DskipTests` y sin el agente JaCoCo, por lo que no se generó reporte de cobertura. Las pruebas del backend se verifican de forma externa con la suite BDD de Karate (sección 6.1.3), cuyos 8 escenarios pasan. Instrumentar la cobertura con JaCoCo queda como mejora para el siguiente avance.
+
+**Conclusiones del análisis.**
+- No se detectaron bugs ni code smells, y la duplicación es baja (1.4 %).
+- El único hallazgo de seguridad corresponde a una decisión de diseño justificada (API sin estado con JWT).
+- La principal oportunidad de mejora es medir la cobertura de pruebas unitarias.
+
 
 # Capítulo VII: DevOps Practices
 
@@ -1888,11 +2079,11 @@ Para implementar este entorno, se utilizaron herramientas y prácticas especiali
 
   - Automatización de Pipelines:
 
-    GitHub Actions: Es la herramienta nativa de GitHub para automatizar nuestros pipelines de CI. Define flujos de trabajo en archivos de configuración YAML.
+    Jenkins: Es el servidor de automatización que usamos para los pipelines de CI/CD, como se trabaja en el curso. El pipeline se define como código en un `Jenkinsfile` en la raíz del repositorio (ver sección 7.1).
 
   - IDE y Linters:
 
-    WebStorm: Utilizado para el desarrollo frontend (Angular, TypeScript, HTML, CSS), configurados con linters como ESLint para asegurar la calidad del código antes de cada commit.
+    WebStorm: Utilizado para el desarrollo frontend (Angular 20, TypeScript, HTML, CSS con Angular Material). La calidad del código frontend se refuerza con las pruebas unitarias de Karma y Jasmine configuradas en el proyecto.
 
   - Frameworks de Pruebas Automatizadas:
 
@@ -1906,7 +2097,7 @@ Para implementar este entorno, se utilizaron herramientas y prácticas especiali
 
   - Code Review y Pull Requests: Como se especifica en el curso, ningún código se integra directamente a develop o main. Todo código nuevo debe enviarse a través de un Pull Request. Y como práctica obligatoria, se requiere la revisión y aprobación de       un encargado miembro del equipo antes de realizar el merge.
 
-  - Ejecución de Pruebas en cada Pull Request: Como parte del pipeline de CI en GitHub Actions, cada vez que se abre o actualiza un Pull Request, se emite un workflow que construye el proyecto y ejecuta todo el paquete de pruebas unitarias y de             integración. Si alguna prueba falla, el pipeline se marca en rojo y el merge queda bloqueado hasta que el encargado corrija el error.
+  - Ejecución de Pruebas en cada Pull Request: Como parte del pipeline de CI en Jenkins, cada vez que se abre o actualiza un Pull Request, se dispara el pipeline que construye el proyecto y ejecuta todo el paquete de pruebas unitarias y de             integración. Si alguna prueba falla, el pipeline se marca en rojo y el merge queda bloqueado hasta que el encargado corrija el error.
     
 
 ### 7.1.2. Build & Test Suite Pipeline Components
@@ -1992,7 +2183,527 @@ pipeline {
 5. Se configuró el disparo automático con un webhook de GitHub o, si Jenkins no es accesible desde internet, con sondeo del repositorio (*Poll SCM*, `H/5 * * * *`).
 6. Se hizo push del `Jenkinsfile` a `develop` y se verificó la primera ejecución.
 
+## 7.3. Continuous Deployment
 
+El despliegue continuo automatiza la publicación del backend de WeRide en un entorno accesible desde internet, de manera que cada versión aprobada pueda ser consumida por el frontend y verificada por el equipo y los evaluadores sin intervención manual.
+
+### 7.3.1. Tools and Practices
+
+**Tools:**
+
+| Herramienta | Uso en el proyecto |
+| --- | --- |
+| **Docker** | Empaqueta el backend en una imagen mediante un `Dockerfile` multi-etapa: una etapa de compilación con Maven y JDK 24, y una etapa de ejecución con `eclipse-temurin:24-jdk-alpine`. |
+| **Render (Web Service)** | Plataforma de despliegue del backend. Construye la imagen Docker desde el repositorio de GitHub y la ejecuta como servicio web con URL pública HTTPS. |
+| **Aiven for MySQL** | Base de datos MySQL 8.4 administrada en la nube, usada por el backend desplegado. |
+| **GitHub** | Repositorio de código fuente que Render observa para construir y desplegar. |
+| **springdoc-openapi (Swagger UI)** | Documentación interactiva de la API, publicada junto con el servicio. |
+
+**Practices:**
+
+- **Despliegue desde el repositorio:** Render está conectado al repositorio de GitHub del backend; cada cambio en la rama configurada puede disparar una nueva construcción y despliegue.
+- **Configuración por variables de entorno:** las credenciales y parámetros sensibles no se escriben en el código. La conexión a la base de datos (`SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`) y el secreto de firma de tokens (`JWT_SECRET`) se definen como variables de entorno en Render y sustituyen a los valores de `application.properties`.
+- **Ajuste de memoria para el plan gratuito:** el servicio corre con 512 MB de RAM, por lo que se configura `JAVA_TOOL_OPTIONS=-Xmx350m -XX:+UseSerialGC` para limitar el consumo de la JVM.
+- **Verificación posterior al despliegue:** tras cada despliegue se comprueba la disponibilidad del servicio con el endpoint público `/health` y se valida la documentación en Swagger UI.
+- **Entorno local equivalente:** el mismo `Dockerfile` y un `docker-compose.yml` (backend + MySQL) permiten reproducir localmente el entorno de ejecución, de modo que las pruebas de la sección 6.1.3 se ejecutan contra el mismo tipo de contenedor que se despliega.
+
+### 7.3.2. Production Deployment Pipeline Components
+
+| Etapa | Descripción | Herramienta | Resultado |
+| --- | --- | --- | --- |
+| **Trigger** | Un cambio llega a la rama del repositorio conectada a Render. | GitHub | Render detecta el cambio. |
+| **Build de imagen** | Render ejecuta el `Dockerfile`: compila el proyecto con Maven y genera el `.jar`. | Docker + Maven | Imagen del backend lista. |
+| **Inyección de configuración** | Se aplican las variables de entorno del servicio (base de datos, `JWT_SECRET`, `PORT=8080`, opciones de JVM). | Render | Contenedor configurado para producción. |
+| **Despliegue** | Render inicia el contenedor y lo expone con una URL pública HTTPS. | Render | Servicio en línea. |
+| **Conexión a la base de datos** | El backend se conecta a MySQL en Aiven y Hibernate actualiza el esquema (`ddl-auto=update`). | Aiven for MySQL | Tablas disponibles en la base de datos de producción. |
+| **Verificación** | Se consulta `/health` y la documentación Swagger UI del servicio. | Navegador / Swagger UI | Servicio verificado. |
+
+**Entorno de producción:**
+
+| Elemento | Valor |
+| --- | --- |
+| API desplegada | https://backend-weride-2wpb.onrender.com |
+| Documentación (Swagger UI) | https://backend-weride-2wpb.onrender.com/swagger-ui/index.html |
+| Proveedor de la aplicación | Render, Web Service con runtime Docker, plan gratuito (512 MB RAM) |
+| Base de datos | Aiven for MySQL 8.4 |
+
+*Nota:* en el plan gratuito de Render el servicio entra en reposo tras un periodo de inactividad, por lo que la primera petición posterior puede tardar alrededor de un minuto mientras el contenedor vuelve a iniciar.
+
+![Servicio desplegado en Render](assets/chapter05/render-live.png)
+
+*Figura 7.1. Servicio del backend en ejecución en Render.*
+
+![Swagger UI del backend desplegado](assets/chapter05/swagger-overview.png)
+
+*Figura 7.2. Documentación Swagger UI del servicio desplegado.*
+
+
+
+
+# Capítulo VIII: Experiment-Driven Development
+
+El desarrollo guiado por experimentos busca que las decisiones sobre WeRide se tomen con evidencia y no con opiniones. En este capítulo se planifican y diseñan los experimentos que permitirán validar las hipótesis de negocio, usuario, valor y funcionalidad definidas en el capítulo I, se establecen las métricas y los planes de medición, y se traduce lo que se necesita construir para ejecutarlos en historias de usuario y un Product Backlog To-Be.
+
+Este capítulo parte de insumos ya existentes en el informe: las entrevistas y el needfinding del capítulo II, el Lean UX Canvas y las hipótesis del capítulo I, las historias de usuario y el Product Backlog del capítulo III, y las observaciones de la evaluación de la plataforma del capítulo V.
+
+## 8.1. Experiment Planning
+
+### 8.1.1. As-Is Summary
+
+**Situación del usuario (sin WeRide).** El needfinding del capítulo II muestra dos segmentos con problemas distintos:
+
+| Segmento | Perfil | Frustraciones principales (As-Is) |
+| --- | --- | --- |
+| B2C — Universitarios y jóvenes profesionales | Camila Torres, joven universitaria | Tráfico que la retrasa, transporte incómodo e inseguro, falta de efectivo para pagar y poca disponibilidad de opciones rápidas cerca de su ubicación. |
+| B2B — Empresas y planes corporativos | Luis Salazar, gerente de operaciones | Congestión vehicular que afecta la puntualidad y la productividad, costos elevados por taxis y estacionamientos, y dificultad para implementar una solución escalable para todos los empleados. |
+
+**Contexto de mercado (capítulo I).** El transporte genera más del 30 % de las emisiones urbanas, los usuarios pagan entre 30 % y 40 % más por trayectos cortos al no haber alternativas, y la falta de monitoreo IoT incrementa los costos operativos entre 25 % y 50 %. Los hallazgos de las entrevistas indican preferencia por pagos locales (Yape/Plin) y sensibilidad al precio; para que el modelo sea rentable, el informe fija como objetivo una utilización mínima de 4 a 5 viajes por vehículo al día.
+
+**Situación del producto (hoy).** WeRide cuenta con un backend desplegado (API REST documentada con Swagger), una landing page y una aplicación web con garaje de vehículos, reservas, planes y perfil. La evaluación del capítulo V registró 14 observaciones sobre la plataforma, entre ellas botones inactivos (reservar, pagar, editar reserva), ausencia de datos para bicicletas eléctricas y falta de opciones de traducción. La telemetría IoT se simula, tal como se planteó en el plan de MVP, por lo que los experimentos de campo se diseñan con datos de simulación y pilotos acotados.
+
+**Lo que aún no se sabe.** No se ha medido el comportamiento real de uso: no hay datos de conversión, abandono, tiempos de desbloqueo ni disposición de pago observada, solo declarada en entrevistas.
+
+### 8.1.2. Raw Material: Assumptions, Knowledge Gaps, Ideas, Claims
+
+**Tabla 8.1. Material base para la experimentación**
+
+| ID | Tipo | Enunciado | Origen |
+| --- | --- | --- | --- |
+| A-01 | Assumption (usuario) | Los usuarios urbanos adoptarán WeRide si es más rápido y económico que sus opciones actuales. | Cap. I, Lean UX |
+| A-02 | Assumption (usuario) | Los usuarios valoran ver en tiempo real la ubicación y el estado de los vehículos y un desbloqueo sencillo. | Cap. I, Lean UX |
+| A-03 | Assumption (negocio) | Un modelo mixto (tarifa por uso, suscripción y planes B2B) es viable en Lima. | Cap. I, Lean UX |
+| A-04 | Assumption (valor) | Mostrar batería y estado del vehículo aumenta la confianza y reduce cancelaciones. | Cap. I, Lean UX |
+| A-05 | Assumption (negocio) | Las empresas valoran un plan corporativo con panel de uso y reportes. | Cap. II (segmento B2B), US-40 a US-42 |
+| KG-01 | Knowledge gap | ¿Qué porcentaje de visitantes de la landing llega a abrir la aplicación? | Sin datos de tráfico |
+| KG-02 | Knowledge gap | ¿Cuánto tarda un usuario nuevo en encontrar, reservar y desbloquear un vehículo, y dónde se atasca? | Sin pruebas con usuarios |
+| KG-03 | Knowledge gap | ¿Qué tan rápido responde el desbloqueo en condiciones reales? | Sin medición |
+| KG-04 | Knowledge gap | ¿Qué plan (por uso, diario, mensual, corporativo) prefieren los usuarios al ver precios concretos? | Solo disposición declarada |
+| KG-05 | Knowledge gap | ¿Cuántas empresas aceptarían un piloto y qué indicadores querrían ver? | Sin contacto comercial |
+| I-01 | Idea | Indicador visible de batería y estado en cada tarjeta del garaje. | Cap. III, US-07 y US-30 |
+| I-02 | Idea | Desbloqueo con QR como método principal y desde la app como alternativa. | Cap. III, US-19 y US-20 |
+| I-03 | Idea | Panel corporativo con uso de vehículos y reportes de movilidad. | Cap. III, US-40 y US-42 |
+| C-01 | Claim | "WeRide reduce el tiempo de traslado de trayectos cortos." | Propuesta de valor |
+| C-02 | Claim | "WeRide ofrece una alternativa económica y sostenible frente a taxis y transporte público." | Propuesta de valor |
+
+*Fuente: Elaboración propia a partir de los capítulos I, II y III.*
+
+### 8.1.3. Experiment-Ready Questions
+
+Cada pregunta transforma un vacío de conocimiento en algo que puede responderse con datos.
+
+**Tabla 8.2. Preguntas listas para experimentar**
+
+| ID | Pregunta | Relacionada con |
+| --- | --- | --- |
+| Q-01 | ¿Qué porcentaje de visitantes únicos de la landing hace clic en "Go to App" o en la descarga? | KG-01, A-01 |
+| Q-02 | ¿Cuánto tiempo y cuántos pasos necesita un usuario nuevo para encontrar, reservar y desbloquear un vehículo? | KG-02, A-02 |
+| Q-03 | ¿Qué tasa de tareas completadas sin ayuda logra un usuario nuevo en ese flujo? | KG-02 |
+| Q-04 | ¿Cuál es el tiempo de respuesta del desbloqueo (solicitud a estado "desbloqueado") y qué porcentaje cumple 5 segundos o menos? | KG-03 |
+| Q-05 | ¿Mostrar la batería y el estado en las tarjetas del garaje reduce el abandono de reservas respecto a no mostrarlo? | A-04, I-01 |
+| Q-06 | ¿Qué plan eligen los visitantes cuando ven precios reales de cada opción? | KG-04, A-03 |
+| Q-07 | ¿Cuántas empresas solicitan información o aceptan un piloto del plan corporativo? | KG-05, A-05 |
+| Q-08 | ¿Los colaboradores de una empresa piloto usan el servicio de forma recurrente durante cuatro semanas? | A-05, A-01 |
+| Q-09 | ¿Qué nivel de satisfacción (NPS) reportan los usuarios tras sus primeros viajes? | A-01, C-02 |
+| Q-10 | ¿La disponibilidad de la flota piloto alcanza o supera el 85 %? | A-03 |
+
+*Fuente: Elaboración propia.*
+
+### 8.1.4. Question Backlog
+
+Las preguntas se priorizan por **impacto** en la decisión de producto y por **incertidumbre** (qué tan poco se sabe). El orden refleja qué conviene aprender primero.
+
+**Tabla 8.3. Question Backlog priorizado**
+
+| Prioridad | Pregunta | Impacto | Incertidumbre | Esfuerzo | Experimento |
+| ---: | --- | --- | --- | --- | --- |
+| 1 | Q-02, Q-03 (flujo de reserva y desbloqueo) | Alto | Alta | Bajo | EXP-01 |
+| 2 | Q-04 (tiempo de desbloqueo) | Alto | Media | Bajo | EXP-04 |
+| 3 | Q-05 (indicador de batería) | Alto | Alta | Medio | EXP-03 |
+| 4 | Q-01, Q-06 (landing y planes) | Medio | Alta | Bajo | EXP-02 |
+| 5 | Q-07 (interés corporativo) | Alto | Alta | Medio | EXP-02 y EXP-05 |
+| 6 | Q-08, Q-09, Q-10 (uso recurrente, NPS, disponibilidad) | Alto | Alta | Alto | EXP-05 |
+
+*Fuente: Elaboración propia.*
+
+### 8.1.5. Experiment Cards
+
+**Tabla 8.4. Experiment Card EXP-01 — Test de usabilidad del flujo de reserva**
+
+| Campo | Contenido |
+| --- | --- |
+| Nombre | Usabilidad del flujo encontrar, reservar y desbloquear |
+| Pregunta | Q-02, Q-03 |
+| Hipótesis | H-02 |
+| Método | Test de usabilidad moderado con tareas y "think aloud", más cuestionario SUS |
+| Qué se hará | 5 participantes del segmento B2C realizan 3 tareas en la aplicación web: ubicar un vehículo cercano, reservarlo y desbloquearlo. Se registra tiempo, errores y comentarios. |
+| Métrica de éxito | Tiempo medio de la tarea completa menor a 60 s, tasa de tareas completadas sin ayuda de 80 % o más, SUS de 68 o más |
+| Decisión si se cumple | Mantener el flujo y pasar a optimizar detalles |
+| Decisión si no se cumple | Rediseñar los pasos con mayor fricción antes del piloto |
+
+**Tabla 8.5. Experiment Card EXP-02 — Landing page y puerta falsa del plan corporativo**
+
+| Campo | Contenido |
+| --- | --- |
+| Nombre | Interés en la landing: acceso a la app, planes y plan corporativo |
+| Pregunta | Q-01, Q-06, Q-07 |
+| Hipótesis | H-03, H-04 |
+| Método | Medición de clics y experimento de puerta falsa (*fake door*): botón "Solicitar demo corporativa" que registra el interés sin construir aún el servicio completo |
+| Qué se hará | Instrumentar los llamados a la acción de la landing (Go to App, descarga, planes, plan corporativo) y publicar un formulario de interés corporativo. Se difunde en canales de la universidad y contactos de empresas. |
+| Métrica de éxito | 10 % o más de visitantes únicos hace clic en "Go to App", y al menos 3 empresas dejan una solicitud de demo |
+| Decisión si se cumple | Priorizar el desarrollo del plan corporativo (US-39 a US-42) |
+| Decisión si no se cumple | Revisar el mensaje de la landing y el segmento B2B antes de invertir en el panel corporativo |
+
+**Tabla 8.6. Experiment Card EXP-03 — Indicador de batería y estado (A/B)**
+
+| Campo | Contenido |
+| --- | --- |
+| Nombre | Efecto del indicador de batería y estado en el abandono de reservas |
+| Pregunta | Q-05 |
+| Hipótesis | H-05 |
+| Método | Prueba A/B: variante A (control) sin indicador y variante B con batería y estado visibles en la tarjeta del vehículo |
+| Qué se hará | Asignar a cada sesión una variante de forma aleatoria y medir cuántas reservas iniciadas se completan |
+| Métrica de éxito | La tasa de abandono baja de 30 % (valor supuesto, a calibrar con los primeros datos) a 15 % o menos |
+| Tamaño de muestra | 121 sesiones por variante (ver 8.2.5) |
+| Decisión si se cumple | Mantener el indicador como funcionalidad estándar |
+| Decisión si no se cumple | Retirar el indicador de las tarjetas y mostrarlo solo en el detalle |
+
+**Tabla 8.7. Experiment Card EXP-04 — Tiempo de desbloqueo**
+
+| Campo | Contenido |
+| --- | --- |
+| Nombre | Medición del tiempo de respuesta del desbloqueo |
+| Pregunta | Q-04 |
+| Hipótesis | H-06 |
+| Método | Experimento técnico: medir el tiempo del flujo de desbloqueo contra la API desplegada, con el vehículo simulado |
+| Qué se hará | Ejecutar 35 desbloqueos contra el backend desplegado, midiendo desde el cliente de prueba el tiempo total del flujo: creación de la solicitud de desbloqueo y actualización a estado desbloqueado. El vehículo se simula, por lo que se mide la latencia del software y no la del hardware IoT. |
+| Métrica de éxito | 95 % de los desbloqueos responden en 5 s o menos |
+| Decisión si se cumple | Dar por válida la arquitectura de desbloqueo para el piloto |
+| Decisión si no se cumple | Optimizar la ruta de solicitud (consultas, notificación) y repetir |
+
+**Tabla 8.8. Experiment Card EXP-05 — Piloto B2B con panel corporativo**
+
+| Campo | Contenido |
+| --- | --- |
+| Nombre | Piloto cerrado con una empresa |
+| Pregunta | Q-07, Q-08, Q-09, Q-10 |
+| Hipótesis | H-01, H-04, H-07 |
+| Método | Piloto cerrado de cuatro semanas con acompañamiento manual (concierge): el equipo prepara los reportes del panel y recoge retroalimentación |
+| Qué se hará | Una empresa o grupo de 5 a 10 colaboradores usa el servicio; se mide uso semanal, utilización por vehículo, disponibilidad de la flota y NPS; al final se entrevista al administrador sobre disposición a pagar |
+| Métrica de éxito | NPS de 40 o más, uso recurrente de al menos 3 de cada 5 colaboradores cada semana, disponibilidad de flota de 85 % o más, y la empresa acepta continuar con un plan de pago |
+| Decisión si se cumple | Convertir el piloto en caso de éxito y escalar a más empresas |
+| Decisión si no se cumple | Analizar causas (uso, precio, flota) y ajustar el plan corporativo |
+
+*Fuente: Elaboración propia.*
+
+## 8.2. Experiment Design
+
+### 8.2.1. Hypotheses
+
+Las hipótesis retoman las del capítulo I con el formato "Creemos que… Sabremos que es verdad cuando…".
+
+**Tabla 8.9. Hipótesis de los experimentos**
+
+| ID | Tipo | Creemos que… | Sabremos que es verdad cuando… | Experimento |
+| --- | --- | --- | --- | --- |
+| H-01 | Negocio | WeRide logrará una operación sostenible si la telemetría reduce el tiempo de inactividad y los costos de mantenimiento. | Al menos una empresa acepta el piloto y la disponibilidad de flota es de 85 % o más. | EXP-05 |
+| H-02 | Usuario | Los usuarios nuevos pueden encontrar y desbloquear un vehículo en menos de 60 segundos viendo su estado en tiempo real. | Tiempo medio menor a 60 s y 80 % o más de tareas completadas sin ayuda. | EXP-01 |
+| H-03 | Usuario | Los visitantes de la landing se interesan en la propuesta si entienden el servicio y los planes. | 10 % o más de visitantes únicos hace clic en "Go to App". | EXP-02 |
+| H-04 | Negocio | Las empresas valoran un plan corporativo con panel de uso y reportes. | Al menos 3 solicitudes de demo y una empresa dispuesta a pagar el plan tras el piloto. | EXP-02, EXP-05 |
+| H-05 | Funcionalidad | Mostrar batería y estado del vehículo reduce el abandono de reservas. | La tasa de abandono baja de 30 % a 15 % o menos entre variantes. | EXP-03 |
+| H-06 | Funcionalidad | El desbloqueo digital responde con rapidez suficiente para no generar fricción. | 95 % de los desbloqueos responde en 5 s o menos. | EXP-04 |
+| H-07 | Valor | Un uso simple y confiable genera satisfacción y uso recurrente. | NPS de 40 o más y uso semanal recurrente de los colaboradores. | EXP-05 |
+
+*Fuente: Elaboración propia a partir del capítulo I.*
+
+### 8.2.2. Domain Business Metrics
+
+Las métricas de negocio se organizan con el marco AARRR (adquisición, activación, retención, ingresos, recomendación) y se complementan con métricas operativas propias de una flota compartida.
+
+**Tabla 8.10. Métricas de negocio del dominio**
+
+| Categoría | Métrica | Definición | Objetivo |
+| --- | --- | --- | --- |
+| Adquisición | Tasa de clic a la app | Visitantes únicos que hacen clic en "Go to App" entre visitantes únicos de la landing | 10 % o más |
+| Activación | Tasa de reserva completada | Usuarios nuevos que completan su primera reserva entre usuarios registrados | 10 % o más (vista a reserva, cap. I) |
+| Activación | Tiempo a primer desbloqueo | Tiempo desde la apertura de la app hasta el primer desbloqueo | Menos de 60 s |
+| Retención | Uso semanal recurrente | Usuarios con al menos un viaje cada semana entre usuarios activos | Positivo tras 4 semanas |
+| Ingresos | Utilización por vehículo | Viajes por vehículo por día | 4 a 5 viajes al día; mejora de 20 % en las semanas iniciales |
+| Recomendación | NPS | Porcentaje de promotores menos porcentaje de detractores | 40 o más en el piloto |
+| Operación | Disponibilidad de flota | Vehículos disponibles entre vehículos totales de la zona | 85 % o más |
+| Operación | Incidentes por vehículo | Fallas o reportes de problema por vehículo | Reducción de 30 % o más |
+
+*Fuente: Elaboración propia a partir de las métricas de éxito del capítulo I.*
+
+### 8.2.3. Measures
+
+Una medida es la forma concreta y repetible de calcular cada métrica.
+
+**Tabla 8.11. Medidas operativas**
+
+| Medida | Cómo se calcula | Fuente de datos | Frecuencia |
+| --- | --- | --- | --- |
+| Visitantes únicos de la landing | Conteo de sesiones únicas | Analítica web | Diaria |
+| Clics en llamados a la acción | Conteo del evento `cta_click` por botón | Analítica web | Diaria |
+| Reservas iniciadas y completadas | Registros de reservas y su estado (borrador, pendiente, completada) | Base de datos del backend (recurso de reservas) | Diaria |
+| Tiempo de la tarea de reserva | Marca de tiempo final menos inicial por participante | Registro del test de usabilidad | Por sesión |
+| Tiempo de desbloqueo | Tiempo total, medido con cronómetro en el cliente de prueba, de crear la solicitud de desbloqueo y actualizar su estado | Script de medición contra la API (recurso de solicitudes de desbloqueo) | Por evento |
+| Viajes por vehículo | Conteo de viajes por vehículo y por día | Recurso de viajes y del historial | Diaria |
+| Disponibilidad de flota | Vehículos con estado disponible entre total, medido cada hora | Recurso de vehículos | Horaria |
+| NPS | Encuesta de una pregunta (0 a 10) al finalizar el viaje | Formulario dentro de la app | Por viaje |
+| Solicitudes de demo corporativa | Conteo de envíos del formulario de interés | Formulario de la landing | Diaria |
+
+*Fuente: Elaboración propia.*
+
+### 8.2.4. Conditions
+
+Las condiciones fijan en qué contexto se ejecuta cada experimento para que los resultados sean comparables.
+
+**Tabla 8.12. Condiciones de los experimentos**
+
+| Experimento | Participantes | Entorno | Duración | Control / variante | Criterio de parada |
+| --- | --- | --- | --- | --- | --- |
+| EXP-01 | 5 usuarios del segmento B2C (jóvenes universitarios) | Aplicación web desplegada, vehículos de prueba cargados | 1 semana | Sin grupo de control (estudio cualitativo) | 5 participantes completos |
+| EXP-02 | Visitantes de la landing por difusión en la universidad y contactos de empresas | Landing pública con analítica | 2 semanas | Sin control; se compara contra el umbral | Fin del periodo o 100 visitantes únicos |
+| EXP-03 | Usuarios de la aplicación web | Garaje de vehículos con asignación aleatoria de variante | Hasta alcanzar la muestra o 4 semanas | A: sin indicador; B: con batería y estado | 121 sesiones por variante |
+| EXP-04 | Sistema (sin participantes) | Backend desplegado en Render y vehículo simulado | 1 día | Sin control; se compara contra el umbral de 5 s | 35 desbloqueos medidos |
+| EXP-05 | 5 a 10 colaboradores de una empresa | Aplicación web, flota simulada o piloto acotado | 4 semanas | Sin control; se compara con las metas | Fin de la cuarta semana |
+
+*Fuente: Elaboración propia.*
+
+### 8.2.5. Scale Calculations and Decisions
+
+Siguiendo los lineamientos del curso, el tamaño de muestra se calcula con un nivel de significancia de α = 5 % (95 % de confianza), una potencia estadística de 80 % (probabilidad de error tipo II de 20 %) y un **efecto mínimo detectable (MDE)** definido para cada experimento. Los participantes y las sesiones se toman de los segmentos objetivo (universitarios y jóvenes profesionales en B2C, y empresas en B2B) para que los hallazgos sean representativos del grupo de interés.
+
+**Tabla 8.12-A. Parámetros estadísticos por experimento**
+
+| Experimento | α | Potencia | MDE | Tamaño de muestra |
+| --- | --- | --- | --- | --- |
+| EXP-01 (usabilidad) | 5 % | No aplica (estudio cualitativo) | Detectar problemas que afecten al menos al 31 % de los usuarios | 5 participantes |
+| EXP-02 (landing) | 5 % | No aplica (estimación) | Margen de error de ±5 puntos porcentuales | 139 visitantes únicos |
+| EXP-03 (A/B) | 5 % | 80 % | 15 puntos porcentuales (de 30 % a 15 %) | 121 sesiones por variante |
+| EXP-04 (desbloqueo) | 5 % | No aplica (estimación) | Margen de error de ±1 s en el tiempo medio | 35 mediciones |
+| EXP-05 (piloto) | 5 % | No aplica (piloto cerrado) | NPS de 40 o más | 5 a 10 colaboradores |
+
+**Estimación de una proporción (EXP-02, conversión).** Para estimar una conversión esperada de 10 % con un margen de error de ±5 puntos:
+
+n = Z² · p · (1 − p) / e² = 1,96² · 0,10 · 0,90 / 0,05² ≈ **139 visitantes únicos**
+
+**Comparación de dos proporciones (EXP-03, A/B).** Con una tasa de abandono supuesta de 30 % en el control y una meta de 15 % en la variante B, con 95 % de confianza y 80 % de potencia:
+
+n por variante = (Zα/2 · √(2 · p̄ · q̄) + Zβ · √(p₁q₁ + p₂q₂))² / (p₁ − p₂)² ≈ **121 sesiones por variante** (MDE de 15 puntos porcentuales)
+
+El 30 % es un supuesto que se calibrará con los primeros datos reales. Si la meta fuera una reducción menor (de 20 % a 14 %), la muestra necesaria subiría a unas 615 sesiones por variante, lo que excede el tráfico esperado del piloto.
+
+**Usabilidad (EXP-01).** La probabilidad de encontrar un problema de usabilidad con n participantes es 1 − (1 − 0,31)ⁿ. Con 5 participantes se detecta cerca del 84 % de los problemas; con 8, cerca del 95 %.
+
+**Tiempo medio de desbloqueo (EXP-04).** Para estimar el tiempo medio con un margen de ±1 s, suponiendo una desviación estándar de 3 s: n = (1,96 · 3 / 1)² ≈ **35 mediciones**.
+
+**Tabla 8.13. Decisiones de escala**
+
+| Situación | Decisión |
+| --- | --- |
+| El tráfico no alcanza la muestra calculada en EXP-02 o EXP-03 | Extender la duración hasta 4 semanas; si aun así no se alcanza, tratar el resultado como **indicativo** y confirmarlo en el piloto de EXP-05 |
+| EXP-01 muestra problemas graves con los primeros 3 participantes | Corregir antes de continuar con los 2 restantes (se detecta cerca del 67 % de los problemas con 3 participantes) |
+| Los resultados cumplen las metas de forma clara | Pasar a la siguiente fase del backlog y ampliar el alcance del piloto |
+
+*Fuente: Elaboración propia.*
+
+### 8.2.6. Methods Selection
+
+**Tabla 8.14. Selección de métodos**
+
+| Pregunta | Tipo de dato | Método elegido | Por qué |
+| --- | --- | --- | --- |
+| Q-02, Q-03 | Cualitativo y cuantitativo | Test de usabilidad moderado y SUS | Permite ver dónde se atasca el usuario con pocos participantes |
+| Q-01, Q-06 | Cuantitativo | Analítica de clics en la landing | Es barato y mide comportamiento real |
+| Q-07 | Cuantitativo | Puerta falsa (*fake door*) | Mide interés antes de construir el servicio completo |
+| Q-05 | Cuantitativo | Prueba A/B | Aísla el efecto de una sola funcionalidad |
+| Q-04 | Cuantitativo | Medición técnica contra la API | El tiempo de respuesta es objetivo y se mide automáticamente |
+| Q-08, Q-09, Q-10 | Mixto | Piloto cerrado con acompañamiento y encuesta NPS | Reproduce el uso real en un grupo acotado |
+
+*Fuente: Elaboración propia.*
+
+### 8.2.7. Data Analytics: Goals, KPIs and Metrics Selection
+
+Se aplica el enfoque Goal–Question–Metric: de cada objetivo se derivan preguntas y de estas, los indicadores.
+
+**Tabla 8.15. Objetivos, KPIs y métricas**
+
+| Objetivo | KPI | Métricas que lo componen | Meta | Experimento |
+| --- | --- | --- | --- | --- |
+| Atraer usuarios a la plataforma | Tasa de clic a la app | Visitantes únicos, clics en "Go to App" | 10 % o más | EXP-02 |
+| Lograr que el primer uso sea fácil | Éxito del primer uso | Tiempo a primer desbloqueo, tareas completadas sin ayuda, SUS | Menos de 60 s, 80 % o más, SUS de 68 o más | EXP-01 |
+| Reducir la fricción en la reserva | Tasa de abandono de reserva | Reservas iniciadas, reservas completadas | 15 % o menos | EXP-03 |
+| Garantizar un desbloqueo confiable | Desbloqueos rápidos | Tiempo de desbloqueo (percentil 95) | 5 s o menos | EXP-04 |
+| Validar el modelo B2B | Interés y retención corporativa | Solicitudes de demo, uso semanal recurrente, aceptación del plan | 3 solicitudes, 3 de 5 colaboradores activos, 1 empresa dispuesta a pagar | EXP-02, EXP-05 |
+| Asegurar calidad del servicio | Satisfacción y disponibilidad | NPS, disponibilidad de flota, incidentes por vehículo | NPS de 40 o más, disponibilidad de 85 % o más | EXP-05 |
+
+*Fuente: Elaboración propia.*
+
+### 8.2.8. Web and Mobile Tracking Plan
+
+El plan de seguimiento define qué eventos se registran en la landing, la aplicación web y la aplicación móvil. Los eventos usan nombres en minúsculas con guion bajo y propiedades comunes (`user_id` anónimo, `platform`, `variant`, `timestamp`). Las métricas de reservas, viajes, desbloqueos y vehículos se obtienen además directamente de la base de datos del backend, lo que evita depender solo de la analítica del cliente.
+
+**Herramientas propuestas:** una herramienta de analítica web para la landing y la aplicación web (por ejemplo Google Analytics 4), una herramienta de analítica móvil para la aplicación (por ejemplo Firebase Analytics) y consultas sobre la base de datos del backend para las métricas operativas.
+
+**Tabla 8.16. Plan de seguimiento de eventos**
+
+| Evento | Cuándo se dispara | Propiedades | Plataforma | Métrica que alimenta |
+| --- | --- | --- | --- | --- |
+| `landing_view` | Se carga la landing | `source`, `device` | Web | Visitantes únicos |
+| `cta_click` | Clic en Go to App, descarga, planes o plan corporativo | `cta_id`, `section` | Web | Tasa de clic a la app |
+| `demo_request_submit` | Se envía el formulario de interés corporativo | `company_size` | Web | Solicitudes de demo |
+| `signup_complete` | Registro exitoso | `method` | Web y móvil | Activación |
+| `vehicle_list_view` | Se abre el garaje o el mapa | `variant`, `filters_used` | Web y móvil | Embudo de reserva |
+| `vehicle_card_view` | Se visualiza una tarjeta de vehículo | `vehicle_id`, `variant`, `battery_shown` | Web y móvil | Efecto del indicador (EXP-03) |
+| `booking_start` | Se inicia una reserva | `vehicle_id`, `variant` | Web y móvil | Reservas iniciadas |
+| `booking_complete` | Se confirma la reserva | `vehicle_id`, `variant` | Web y móvil | Tasa de abandono |
+| `booking_cancel` | Se cancela una reserva | `vehicle_id`, `reason` | Web y móvil | Cancelaciones |
+| `unlock_request` | El usuario solicita desbloquear | `vehicle_id`, `method` (QR o app) | Web y móvil | Tiempo de desbloqueo |
+| `unlock_result` | Llega el estado del desbloqueo | `vehicle_id`, `status`, `duration_ms` | Backend | Tiempo de desbloqueo (percentil 95) |
+| `trip_end` | Finaliza un viaje | `trip_id`, `duration`, `distance` | Web y móvil | Viajes por vehículo |
+| `nps_submit` | El usuario responde la encuesta | `score` | Web y móvil | NPS |
+| `plan_select` | Se elige un plan | `plan_id` | Web y móvil | Preferencia de planes |
+
+**Reglas de privacidad:** los identificadores de usuario se anonimizan, no se registran datos de pago y la analítica se activa solo con el consentimiento del usuario.
+
+*Fuente: Elaboración propia.*
+
+## 8.3. Experimentation
+
+### 8.3.1. To-Be User Stories
+
+Para poder ejecutar los experimentos se necesitan capacidades que hoy no existen en el producto: instrumentación, variantes, encuestas y formularios. Estas historias complementan las 56 definidas en el capítulo III (se numeran a partir de US-57).
+
+**Tabla 8.17. Historias de usuario To-Be**
+
+| ID | Título | Historia | Criterios de aceptación | Experimento |
+| --- | --- | --- | --- | --- |
+| US-57 | Analítica de la landing | Como equipo de producto, quiero registrar visitas y clics en los llamados a la acción de la landing para medir el interés de los visitantes. | Dado que un visitante abre la landing, cuando hace clic en un botón de acción, entonces se registra el evento `cta_click` con el identificador del botón. | EXP-02 |
+| US-58 | Formulario de interés corporativo | Como representante de una empresa, quiero solicitar una demo del plan corporativo para conocer su funcionamiento. | Dado que el visitante completa el formulario con datos válidos, cuando lo envía, entonces se registra la solicitud y se muestra una confirmación. | EXP-02 |
+| US-59 | Analítica del flujo de reserva | Como equipo de producto, quiero registrar los eventos del flujo de reserva y desbloqueo para medir tiempos y abandono. | Dado que un usuario inicia una reserva, cuando avanza o abandona, entonces se registran `booking_start`, `booking_complete` o `booking_cancel` con el vehículo y la variante. | EXP-01, EXP-03 |
+| US-60 | Variantes de experimento | Como equipo de producto, quiero asignar variantes de forma aleatoria a cada sesión para ejecutar pruebas A/B. | Dado que una sesión nueva entra al garaje, cuando se carga la pantalla, entonces se le asigna la variante A o B de forma estable durante toda la sesión. | EXP-03 |
+| US-61 | Indicador de batería y estado | Como usuario, quiero ver la batería y el estado del vehículo en la tarjeta para decidir si lo reservo. | Dado que la sesión está en la variante B, cuando se muestra una tarjeta, entonces aparecen la batería y el estado del vehículo. | EXP-03 |
+| US-62 | Medición del tiempo de desbloqueo | Como equipo técnico, quiero registrar el tiempo entre la solicitud y el resultado del desbloqueo para verificar el objetivo de 5 segundos. | Dado que un usuario solicita un desbloqueo, cuando el sistema responde, entonces se guarda la duración en milisegundos y el estado. | EXP-04 |
+| US-63 | Encuesta NPS tras el viaje | Como usuario, quiero responder una pregunta breve de satisfacción al terminar mi viaje para dar mi opinión. | Dado que el viaje finalizó, cuando se muestra la encuesta, entonces el usuario puede puntuar de 0 a 10 y el resultado se guarda. | EXP-05 |
+| US-64 | Panel de métricas del experimento | Como equipo de producto, quiero consultar en un solo lugar los KPIs de cada experimento para tomar decisiones. | Dado que existen datos registrados, cuando se abre el panel, entonces se muestran los KPIs de la Tabla 8.15 con su meta y su valor actual. | Todos |
+
+*Fuente: Elaboración propia.*
+
+### 8.3.2. To-Be Product Backlog
+
+**Tabla 8.18. Product Backlog To-Be**
+
+| Orden | ID | Título | Experimento | Story Points |
+| ---: | --- | --- | --- | ---: |
+| 1 | US-59 | Analítica del flujo de reserva | EXP-01, EXP-03 | 5 |
+| 2 | US-62 | Medición del tiempo de desbloqueo | EXP-04 | 3 |
+| 3 | US-57 | Analítica de la landing | EXP-02 | 3 |
+| 4 | US-58 | Formulario de interés corporativo | EXP-02 | 3 |
+| 5 | US-60 | Variantes de experimento | EXP-03 | 5 |
+| 6 | US-61 | Indicador de batería y estado | EXP-03 | 3 |
+| 7 | US-63 | Encuesta NPS tras el viaje | EXP-05 | 3 |
+| 8 | US-64 | Panel de métricas del experimento | Todos | 5 |
+
+El orden sigue la prioridad del Question Backlog (Tabla 8.3): primero lo necesario para EXP-01 y EXP-04, luego la landing y el A/B, y al final el piloto y el panel. Los puntos de historia son una estimación inicial del equipo y se ajustarán en la planificación del sprint.
+
+*Fuente: Elaboración propia.*
+
+## 8.4. Experiment Aftermath & Analysis
+
+### 8.4.1. Analysis and Interpretation of Results
+
+**Estado de los experimentos.** Se ejecutó el experimento EXP-04. Los demás experimentos están diseñados (sección 8.1.5) y se ejecutarán cuando se construyan las capacidades de medición de las historias US-57 a US-64; los resultados que no se han obtenido no se reportan.
+
+**Tabla 8.20. Estado de ejecución de los experimentos**
+
+| Experimento | Estado | Resultado |
+| --- | --- | --- |
+| EXP-01 Usabilidad del flujo de reserva | Planificado | Pendiente |
+| EXP-02 Landing y puerta falsa | Planificado | Pendiente (requiere US-57 y US-58) |
+| EXP-03 Indicador de batería (A/B) | Planificado | Pendiente (requiere US-60 y US-61) |
+| EXP-04 Tiempo de desbloqueo | **Ejecutado** | Hipótesis H-06 confirmada para la parte de software |
+| EXP-05 Piloto B2B | Planificado | Pendiente |
+
+**Resultados de EXP-04.** Se ejecutó un script de medición contra el backend desplegado en Render (https://backend-weride-2wpb.onrender.com). Después de despertar el servicio y de tres pasadas de calentamiento que no se cuentan, se midieron 35 flujos de desbloqueo. Cada flujo consiste en crear una solicitud de desbloqueo (`POST /api/v1/unlockRequests`) y actualizar su estado a desbloqueado (`PATCH /api/v1/unlockRequests/{id}`), y el tiempo se mide desde el cliente de prueba.
+
+**Tabla 8.21. Resultados de EXP-04 (n = 35)**
+
+| Estadístico | Valor |
+| --- | --- |
+| Media | 1 675,3 ms |
+| Desviación estándar | 293,2 ms |
+| Mínimo | 1 431,6 ms |
+| Máximo | 2 623,3 ms |
+| Percentil 95 | 2 354,1 ms |
+| Intervalo de confianza del 95 % para la media | 1 578 ms a 1 773 ms |
+| Mediciones dentro de 5 s | 35 de 35 (100 %) |
+
+![Resultados de la ejecución de EXP-04](assets/exp04-resultados.png)
+
+*Figura 8.1. Salida del script de medición de EXP-04.*
+
+**Interpretación.** La hipótesis H-06 planteaba que al menos el 95 % de los desbloqueos respondería en 5 segundos o menos. Se obtuvo el 100 %, con un tiempo medio de 1,68 s y un percentil 95 de 2,35 s, es decir, menos de la mitad del límite. Como la desviación estándar observada (0,29 s) fue mucho menor que la supuesta para el cálculo de la muestra (3 s), las 35 mediciones resultan más que suficientes para el margen de error planteado. La variación entre mediciones es baja; el valor máximo (2,62 s) es un caso aislado.
+
+**Limitaciones.** Los vehículos están simulados, por lo que el resultado mide la latencia del software (red desde el cliente, API y base de datos) y no el tiempo de respuesta del hardware IoT real. Además, la medición incluye el tiempo de red entre el cliente de prueba y el servicio en la nube, y se hizo con el plan gratuito de Render, de modo que en otro plan o ubicación los tiempos podrían variar.
+
+**Conclusión.** La hipótesis H-06 se confirma para la parte de software: el servicio no es un obstáculo para cumplir el objetivo de 5 segundos. Queda por validar la latencia con hardware real.
+
+### 8.4.2. Re-scored and Re-prioritized Question Backlog
+
+A partir de lo aprendido en EXP-04 se actualiza el Question Backlog de la Tabla 8.3: la pregunta Q-04 se responde para el software y se agrega una nueva pregunta sobre el hardware. Las demás conservan su prioridad, y el orden se ajusta para empezar por las que más impacto tienen y no tienen respuesta aún.
+
+**Tabla 8.22. Question Backlog repuntuado y repriorizado**
+
+| Prioridad | Pregunta | Estado | Cambio respecto a la versión anterior |
+| ---: | --- | --- | --- |
+| 1 | Q-02, Q-03 (flujo de reserva y desbloqueo) | Abierta | Sube a primera prioridad: ahora se sabe que el servicio responde rápido, así que el riesgo restante está en la usabilidad |
+| 2 | Q-05 (indicador de batería) | Abierta | Sin cambio de contenido; pasa de la posición 3 a la 2 |
+| 3 | Q-01, Q-06 (landing y planes) | Abierta | Sube de la posición 4 a la 3 |
+| 4 | Q-07 (interés corporativo) | Abierta | Sube de la posición 5 a la 4 |
+| 5 | Q-08, Q-09, Q-10 (uso recurrente, NPS, disponibilidad) | Abierta | Sube de la posición 6 a la 5 |
+| 6 | **Q-11 (nueva):** ¿Cuál es la latencia del desbloqueo con hardware IoT real? | Nueva | Surge de la limitación de EXP-04 |
+| — | Q-04 (tiempo de desbloqueo del software) | **Respondida** | Hipótesis H-06 confirmada con 35 de 35 mediciones dentro de 5 s |
+
+*Fuente: Elaboración propia.*
+
+## 8.5. Continuous Learning
+
+### 8.5.1. Shareback Session Artifacts: Learning Workflow
+
+El aprendizaje de cada experimento se comparte con el equipo en una sesión breve de revisión (*shareback session*) al cerrar cada experimento, con el siguiente flujo:
+
+1. **Planificar:** se confirma la pregunta, la hipótesis, la métrica y la muestra de la Experiment Card.
+2. **Ejecutar:** se corre el experimento en las condiciones definidas y se registran los datos con el plan de seguimiento.
+3. **Analizar:** se comparan los resultados con la meta de la hipótesis.
+4. **Compartir:** en la sesión de revisión se presenta una **Learning Card** con el resultado y la decisión.
+5. **Decidir:** se elige entre persistir (mantener), pivotar (cambiar el enfoque) o detener, y se actualizan el Product Backlog y el Question Backlog.
+
+**Tabla 8.19. Plantilla de Learning Card**
+
+| Campo | Contenido |
+| --- | --- |
+| Experimento | ID y nombre |
+| Hipótesis | Enunciado de la hipótesis probada |
+| Resultado | Valor obtenido de la métrica frente a la meta |
+| ¿Se confirmó la hipótesis? | Sí, no o parcialmente |
+| Aprendizaje clave | Qué se descubrió |
+| Decisión | Persistir, pivotar o detener |
+| Acciones | Historias o tareas que se agregan o se cambian en el backlog |
+
+**Tabla 8.23. Learning Card de EXP-04**
+
+| Campo | Contenido |
+| --- | --- |
+| Experimento | EXP-04 — Tiempo de respuesta del flujo de desbloqueo |
+| Hipótesis | H-06: el desbloqueo digital responde con rapidez suficiente para no generar fricción (95 % de los desbloqueos en 5 s o menos) |
+| Resultado | 35 de 35 mediciones dentro de 5 s; media de 1,68 s; percentil 95 de 2,35 s |
+| ¿Se confirmó la hipótesis? | Sí, para la parte de software |
+| Aprendizaje clave | La API y la base de datos no limitan el tiempo de desbloqueo. El riesgo restante está en la latencia del hardware IoT, que aún está simulado. |
+| Decisión | Persistir con la arquitectura actual del flujo de desbloqueo |
+| Acciones | Agregar la pregunta Q-11 al Question Backlog; incorporar la medición de la latencia (US-62) en el sistema para repetir el experimento con hardware real |
+
+Los resultados de cada experimento se registran en una Learning Card una vez ejecutado, y no se reportan resultados de experimentos que aún no se hayan realizado.
 
 ## Conclusiones
 - El proyecto de micromovilidad eléctrica compartida responde a necesidades reales de movilidad en áreas urbanas peruanas: congestión, tiempos de traslado elevados, y demanda por alternativas más económicas y sostenibles. La combinación de scooters, bicicletas y motos eléctricas gestionadas desde una única plataforma web representa una propuesta con alto potencial de adopción, especialmente en segmentos juveniles y corporativos.

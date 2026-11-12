@@ -308,47 +308,65 @@ User Flow Diagrams are visual representations that show the steps a user takes t
 
 Web Applications Prototyping es una metodología esencial en el desarrollo de aplicaciones web, que implica la creación de bocetos visuales o modelos preliminares de una aplicación antes de su implementación completa. 
 
-## 4.6.Domain - DrivenSoftware Architecture.
-
-Esta sección se expone la arquitectura de software del proyecto WeRide. La propuesta fue elaborada con un enfoque orientado al dominio, de manera que los elementos más relevantes de la plataforma estén correctamente representados y respondan a los requerimientos de los usuarios. Seguidamente, se incluyen diagramas esenciales que ilustran la interacción entre los distintos componentes del sistema y los actores externos.
+### 4.6. Domain-Driven Software Architecture
+ 
+La arquitectura de WeRide se describe con el modelo C4 en tres niveles: contexto, contenedores y componentes. Los diagramas se elaboraron con Structurizr (Structurizr DSL) y reflejan la solución implementada.
+ 
+#### Decisiones y estilos arquitectónicos
+ 
+- **Cliente-servidor y Single Page Application:** la Web Application, desarrollada con Angular y TypeScript, se ejecuta en el navegador y consume la API por HTTP.
+- **RESTful API:** el backend, desarrollado con Java 17 y Spring Boot, expone sus recursos mediante servicios REST documentados con OpenAPI (Swagger UI) y protegidos con autenticación basada en JWT.
+- **Domain-Driven Design:** el backend se organiza en bounded contexts (IAM, Profile, Booking, Garage, TravelHistory, Location, Notifications, Plan, Trip y UnlockRequest) y un contexto Shared con la clase base de auditoría. La Web Application organiza sus componentes con el mismo criterio.
+- **Arquitectura en capas por contexto:** cada bounded context separa las capas de interfaces (controladores REST), application (servicios), domain (aggregates, entities y value objects) e infrastructure (repositorios).
+- **CQRS:** los servicios de la capa application se separan en servicios de comandos (que modifican el estado) y servicios de consultas (que lo leen).
+- **Monolito modular:** el backend se despliega como una única aplicación, cuyos módulos son los bounded contexts. Estos se comunican entre sí solo por identificadores, sin referencias directas entre objetos.
+- **Persistencia relacional:** MySQL, accedida mediante Spring Data JPA.
+- **Despliegue:** el backend se ejecuta en una máquina virtual de Microsoft Azure, como servicio de systemd detrás de un reverse proxy nginx; el backend cuenta además con Dockerfile y docker-compose.
 
 ### 4.6.1 Design-Level Event Storming.
 
-**Command Bounded Context**
+#### Bounded Contexts
 
-![EventStorming](assets/Chapter04/eventStorming/event-storming1.jpg)
-
-**Vehicle Managment Bounded Context**
-
-![EventStorming](assets/Chapter04/eventStorming/event-storming2.jpg)
-
-**Level & Storm Managment Bounded Context**
-
-![EventStorming](assets/Chapter04/eventStorming/event-storming3.jpg)
-
-**Payment Managment Bounded Context**
-
-![EventStorming](assets/Chapter04/eventStorming/event-storming4.jpg)
+| Bounded Context | Responsabilidad | Aggregate principal |
+|---|---|---|
+| IAM | Cuentas, roles, registro e inicio de sesión con JWT | Account |
+| Profile | Datos personales del usuario | Profile |
+| Booking | Reservas, costos, pago e incidencias | Booking |
+| Garage | Catálogo de vehículos y sus características | Vehicle |
+| TravelHistory | Historial resumido de viajes | TravelHistory |
+| Location | Estaciones de alquiler, horarios y servicios | Location |
+| Notifications | Avisos dirigidos al usuario | Notification |
+| Plan | Planes de suscripción y sus beneficios | Plan |
+| Trip | Viajes con ruta, métricas e incidentes | Trip |
+| UnlockRequest | Solicitudes de desbloqueo de vehículos | UnlockRequest |
+| Shared | Clase base de auditoría y configuración común | AuditableAbstractAggregateRoot |
 
 ---
 
-### 4.6.2. Software Architecture ContextDiagram.
 
-El diagrama de contexto de **WeRide** ofrece una visión global de las interacciones principales entre el sistema central y los actores externos que lo rodean. La plataforma está orientada a simplificar y optimizar la movilidad urbana mediante el uso compartido de vehículos eléctricos. En este nivel, se identifican actores clave como el Usuario (quien reserva, desbloquea y utiliza los vehículos), el Administrador (encargado de la gestión de la flota y promociones), y Empresas (clientes corporativos que gestionan suscripciones para empleados). Asimismo, se muestran las integraciones externas más relevantes: la Pasarela de Pago para procesar transacciones de suscripción y uso, el Servicio de Mapas para visualizar la ubicación de los vehículos y planificar rutas, y las Redes Sociales para compartir viajes y promociones. Esta representación de alto nivel permite entender de manera clara cómo WeRide se relaciona y coopera con su ecosistema digital y humano.
-
-![Software Architecture ContextDiagram](https://github.com/user-attachmentsassets/b4782c77-3da3-427d-a620-2b137a1117e7)
-
-### 4.6.3. Software Architecture Container Diagrams.
-
-El diagrama de contenedores detalla la organización interna de **WeRide**, mostrando cómo los diferentes componentes de software trabajan en conjunto para brindar la funcionalidad de la plataforma. La Aplicación Web y Móvil, implementadas en React y React Native, sirven como puntos de interacción donde los usuarios pueden localizar, reservar y gestionar vehículos eléctricos. Estas interfaces se conectan con una API en Node.js, que cumple el rol de enlace entre la capa de presentación y los servicios del backend. La información esencial de usuarios, vehículos, reservas, pagos y rutas se almacena en una Base de Datos PostgreSQL. Asimismo, se integran contenedores adicionales como el Servicio de Mapas (basado en Google Maps API o Mapbox) para la visualización de ubicaciones y rutas, y la Pasarela de Pago (Stripe o similar), destinada a la gestión de transacciones. En conjunto, este nivel del modelo permite comprender cómo se estructuran y comunican las partes técnicas del sistema.
-
-![Software Architecture Container Diagrams](https://github.com/user-attachmentsassets/0d402a91-fdea-467f-8783-8961f4d2eb86)
-
-### 4.6.4. Software Architecture Components Diagrams.
-
-El diagrama de componentes pone el foco en la arquitectura interna de la API de **WeRide**, encargada de coordinar la lógica de negocio central de la plataforma. Esta API, desarrollada en Node.js, se organiza en distintos componentes especializados, cada uno orientado a un dominio concreto. El Componente de Gestión de Usuarios administra la autenticación, perfiles y métodos de pago; Gestión de Vehículos permite realizar operaciones sobre los vehículos disponibles (ubicación, estado, batería); Reservas y Viajes abarca el ciclo completo de reserva, desbloqueo y finalización de viajes; Rutas y Mapas gestiona la localización y navegación de los vehículos; y Promociones y Notificaciones procesa tanto la gestión de descuentos como el envío de alertas a los usuarios. La interacción entre estos módulos sigue un flujo funcional definido: los usuarios gestionan reservas y viajes, los administradores supervisan la flota y las promociones, y las empresas pueden gestionar suscripciones corporativas. Esta separación de responsabilidades refleja un diseño guiado por el dominio, donde cada componente encapsula una función específica y colabora con los demás para dar soporte integral a la plataforma, junto a los Bounded Contexts desarrollados que explican de forma detallada la funcionalidad de cada componente existente en WeRide.
-
-![Software Architecture Components Diagrams](https://github.com/user-attachmentsassets/9b6573f9-6ec3-460e-b3e0-093f0faf0bd0)
+#### 4.6.2. Software Architecture Context Diagram
+ 
+El diagrama de contexto muestra WeRide como un único sistema, junto con las personas que lo usan y los sistemas externos con los que se comunica. Los usuarios corresponden a los dos segmentos objetivo: usuarios finales (universitarios y jóvenes profesionales, B2C) y clientes corporativos (B2B). Los sistemas externos son la pasarela de pago y el servicio de verificación por SMS, ambos en entorno sandbox.
+ 
+![Context Diagram de WeRide](assets/chapter04/c4-context.png)
+ 
+*Figura X. Diagrama de contexto de WeRide, elaborado en Structurizr.*
+ 
+#### 4.6.3. Software Architecture Container Diagrams
+ 
+El diagrama de contenedores muestra las unidades ejecutables y de almacenamiento de WeRide: la Landing Page (HTML, CSS y JavaScript), la Web Application (Angular), el reverse proxy (nginx), la RESTful API (Spring Boot) y la base de datos (MySQL). Las personas acceden a la Landing Page y a la Web Application desde el navegador; la Web Application consume la API a través del reverse proxy, y la API persiste en MySQL.
+ 
+![Container Diagram de WeRide](assets/chapter04/c4-containers.png)
+ 
+*Figura X. Diagrama de contenedores de WeRide, elaborado en Structurizr.*
+ 
+#### 4.6.4. Software Architecture Components Diagrams
+ 
+El diagrama de componentes detalla la RESTful API. Cada componente corresponde a un bounded context. Las flechas entre componentes representan referencias por identificador (por ejemplo, una reserva referencia al vehículo por su id) y todos los componentes persisten en la base de datos mediante Spring Data JPA. Los demás contextos referencian al usuario por el id de su cuenta (IAM).
+ 
+![Component Diagram de la RESTful API](assets/chapter04/c4-components.png)
+ 
+*Figura X. Diagrama de componentes de la RESTful API, elaborado en Structurizr.*
 
 
 ## 4.7.Software Object-Oriented Design.
