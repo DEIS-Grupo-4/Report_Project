@@ -1,147 +1,123 @@
 # Capítulo V: Product Implementation, Validation & Deployment.
 ## 5.1. Software Configuration Management.
-
-Esta guía define las decisiones y acuerdos fundamentales para el desarrollo, mantenimiento y despliegue de la aplicación **WeRide**, que gestiona el alquiler de vehículos. El objetivo es asegurar la coherencia, eficiencia y calidad a lo largo del ciclo de vida del proyecto.
-
----
-
+ 
+Esta sección define las decisiones y acuerdos fundamentales para el desarrollo, mantenimiento y despliegue de **WeRide**, plataforma de alquiler de bicicletas y scooters eléctricos. Su objetivo es asegurar coherencia, trazabilidad y calidad a lo largo del ciclo de vida del producto.
+ 
 ### 5.1.1. Software Development Environment Configuration.
-
-<table border="1">
-
-  <tr>
-    <td>Project Management</td>
-    <td><h4>Github</h4>Plataforma en línea que permite almacenar código fuente en repositorios. Gracias a la tecnología de control de versiones de Git se puede organizar el código y llevar un mejor trabajo en conjunto.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>Whatsapp</h4>Red Social destinada a la comunicación donde se realizaron acuerdos y recordatorios de las reuniones.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>Trello</h4>Software de administración y gestión de proyectos que se utilizó para establecer y designar las tareas</td>
-  </tr>
-  <tr>
-    <td>Requirements Management</td>
-    <td><h4>Miro</h4>Plataforma en línea de gestión de requisitos que permite colaborar y organizar proyectos de forma visual y representativa.
-</td>
-  </tr>
-  <tr>
-    <td>Product UX/UI Design</td>
-    <td><h4>Figma</h4>Aplicación que permite el diseño libre de interfaces a través de las múltiples herramientas que ofrece. Permitiendo la creación de prototipos interactivos que simulan la experiencia de usuario.
-</td>
-  </tr>
-  <tr>
-    <td>Software Development</td>
-    <td><h4>Git</h4>Es un software de control de versiones para los trabajos en equipos y confiabilidad del desarrollo.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>Node.js</h4>Node.js es un entorno de ejecución de JavaScript del lado del servidor, que permite desarrollar aplicaciones web escalables y de alto rendimiento fuera del navegador.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>HTML</h4>Lenguaje de etiquetas, utilizado para la estructuración y la presentación de contenido.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>CSS</h4>CSS es un lenguaje utilizado para estilizar y dar formato a documentos HTML.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>TypeScript</h4>TypeScript es un lenguaje de programación de alto nivel, interpretado y multi-paradigma, utilizado para crear interactividad en páginas web.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>VSCode</h4>Es un editor de código fuente con extensiones que ayudan al desarrollo.</td>
-  </tr>
-    <tr>
-    <td></td>
-    <td><h4>WebStorm</h4>Es un IDE centrado en desarrollo frontend, por su gran variedad de herramientas que agilizan el proceso de desarrollo.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>Angular</h4>Framework robusto para el desarrollo de aplicaciones web modernas y escalables, basado en el patrón de Single Page Application (SPA),  facilita la creación de interfaces dinámicas mediante TypeScript.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>IntelliJIdea</h4>Entorno de desarrollo integrado (IDE) utilizado principalmente para el desarrollo en Java, que ofrece herramientas avanzadas para la codificación, depuración y pruebas.</td>
-  </tr>
-  <tr>
-  <td></td>
-    <td><h4>Java</h4>Lenguaje de programación orientado a objetos, utilizado para desarrollar aplicaciones robustas y portables.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>Springboot</h4>Framework para el desarrollo de aplicaciones Java basadas en microservicios, que facilita la creación de aplicaciones robustas y escalables.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>Swagger</h4>Herramienta para diseñar, construir, documentar y consumir APIs RESTful.</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><h4>MySQLWorkbench</h4>Herramienta visual para el diseño, modelado, generación y administración de bases de datos MySQL.</td>
-  </tr>
-  <tr>
-    <td>Software Deployment</td>
-    <td><h4>Github Pages</h4>Plataforma que nos permite realizar el despliegue de nuestro landing page.</td>
-  </tr>
-</table>
-
----
-
+ 
+| Actividad | Producto | Propósito en el proyecto | Referencia |
+|---|---|---|---|
+| Project Management | GitHub | Almacenar el código fuente y el informe en repositorios, con control de versiones, Pull Requests e insights de colaboración. | https://github.com |
+| | Trello | Organizar y asignar las tareas de cada Sprint. | https://trello.com |
+| | WhatsApp | Coordinar acuerdos y recordatorios de reuniones. | https://www.whatsapp.com |
+| | Discord y Google Meet | Realizar las reuniones virtuales de planificación, seguimiento y retrospectiva. | https://discord.com · https://meet.google.com |
+| Requirements Management | Miro | Organizar visualmente requisitos, mapas y lluvia de ideas del equipo. | https://miro.com |
+| Product UX/UI Design | Figma | Diseñar wireframes, mock-ups y prototipos interactivos. | https://www.figma.com |
+| Software Development | Git | Control de versiones distribuido. | https://git-scm.com |
+| | Node.js | Entorno de ejecución para construir y servir la Web Application. | https://nodejs.org |
+| | HTML5, CSS3 y JavaScript | Estructura, estilo e interactividad de la Landing Page. | https://developer.mozilla.org |
+| | TypeScript y Angular | Desarrollo de la Web Application como Single Page Application. | https://angular.dev |
+| | Java 17 y Spring Boot | Desarrollo del backend con RESTful API. | https://spring.io/projects/spring-boot |
+| | Maven | Gestión de dependencias y construcción del backend. | https://maven.apache.org |
+| | MySQL y MySQL Workbench | Base de datos relacional y su administración visual. | https://www.mysql.com/products/workbench |
+| | json-server | Simular una API con `db.json` durante el desarrollo inicial de la Web Application. | https://github.com/typicode/json-server |
+| | Visual Studio Code y WebStorm | Entornos de desarrollo para la Landing Page y la Web Application. | https://code.visualstudio.com · https://www.jetbrains.com/webstorm |
+| | IntelliJ IDEA | Entorno de desarrollo para el backend en Java. | https://www.jetbrains.com/idea |
+| | Docker | Entorno reproducible: el backend incluye `Dockerfile` y `docker-compose.yml`. **[CONFIRMAR si se usa en el flujo de trabajo]** | https://www.docker.com |
+| Software Documentation | Swagger (OpenAPI) | Documentar y probar los endpoints de la RESTful API. | https://swagger.io |
+| | Markdown y Mermaid | Redacción del informe y diagramas de clases en el repositorio. | https://www.markdownguide.org · https://mermaid.js.org |
+| | dbdiagram.io | Diagrama de la base de datos. | https://dbdiagram.io |
+| | Structurizr | Diagramas de arquitectura con el modelo C4 (Structurizr DSL). | https://structurizr.com |
+| Software Deployment | GitHub Pages | Publicar la Landing Page. | https://pages.github.com |
+| | Vercel **[CONFIRMAR: o GitHub Pages]** | Publicar la Web Application. | https://vercel.com |
+| | Microsoft Azure (máquina virtual con Ubuntu 22.04) | Alojar el backend en un entorno real. | https://azure.microsoft.com |
+| | nginx y systemd | Reverse proxy y ejecución del backend como servicio en la máquina virtual. | https://nginx.org |
+ 
+<!-- Filas opcionales: agregar SOLO si el equipo realmente las usa
+| Software Testing | JUnit | Pruebas unitarias del backend. | https://junit.org |
+| | Karate | Pruebas de aceptación de la API REST. | https://github.com/karatelabs/karate |
+| | Selenium | Pruebas end-to-end de la Web Application. | https://www.selenium.dev |
+| Continuous Integration | Jenkins | Automatizar compilación, pruebas y despliegue. | https://www.jenkins.io |
+| | SonarQube | Análisis estático de calidad y seguridad del código. | https://www.sonarsource.com/products/sonarqube |
+-->
+ 
 ### 5.1.2. Source Code Management.
-
-Hemos optado por crear un repositorio en GitHub para nuestro proyecto, tanto para el informe como para la landing page. Esto facilitó la colaboración entre los miembros del equipo,aprovechando las herramientas útiles que esta plataforma ofrece para el manejo del código fuente y sus versiones.
-
-- URL del repositorio Report en GitHub: https://github.com/OpenSource-Grupo-4/ReportTB1
-- URL del repositorio Landing Page en GitHub: https://github.com/OpenSource-Grupo-4/Landing-Page
-- URL del repositorio de la Web Application en GitHub:https://github.com/OpenSource-Grupo-4/Frontend-WeRide
-- URL del respositorio de los Web Services en GitHub:https://github.com/OpenSource-Grupo-4/Backend-WeRide
-
----
-
+ 
+Se utiliza **GitHub** como plataforma de control de versiones, con un repositorio por producto:
+ 
+| Producto | Repositorio |
+|---|---|
+| Informe del proyecto (Report) | https://github.com/DEIS-Grupo-4/Report_Project |
+| Landing Page | **[CONFIRMAR URL]** |
+| Web Application (Frontend) | **[CONFIRMAR URL]** |
+| Web Services (Backend) | https://github.com/DEIS-Grupo-4/Backend-Weride-DEIS |
+ 
+El repositorio de los Web Services incluye el proyecto Spring Boot, sus pruebas y la documentación OpenAPI. **[CONFIRMAR: el alcance actual no incluye una aplicación móvil nativa]**.
+ 
+#### Flujo de trabajo: GitFlow
+ 
+El equipo aplica GitFlow como flujo de trabajo de ramas y colaboración:
+ 
+| Rama | Origen | Destino | Propósito |
+|---|---|---|---|
+| `main` (`master` en el backend) | - | - | Código estable y desplegado. Solo recibe fusiones desde `release/*` y `hotfix/*`. |
+| `develop` | `main` | - | Rama de integración donde se unen las funcionalidades terminadas. |
+| `feature/<contexto>-<descripcion>` | `develop` | `develop` | Una rama por funcionalidad o historia de usuario. Ejemplo: `feature/booking-draft`. |
+| `release/<x.y.z>` | `develop` | `main` y `develop` | Estabilización de una entrega antes de publicarla. |
+| `hotfix/<x.y.z>` | `main` | `main` y `develop` | Corrección urgente de un error en producción. |
+| `docs/<descripcion>` y `refactor/<descripcion>` | `develop` | `develop` | Ramas de trabajo para documentación y refactorización, con el mismo ciclo que una `feature`. |
+ 
+Los nombres de rama usan inglés, minúsculas y guiones. Los cambios se integran a `develop` mediante **Pull Request** revisado por al menos un compañero del equipo.
+ 
+#### Semantic Versioning
+ 
+Las versiones se nombran con el formato `MAJOR.MINOR.PATCH` (Semantic Versioning 2.0.0): `MAJOR` para cambios incompatibles, `MINOR` para nuevas funcionalidades compatibles y `PATCH` para correcciones. Cada release se marca con un tag, por ejemplo `v1.0.0`.
+ 
+#### Conventional Commits
+ 
+Los mensajes de commit siguen la especificación Conventional Commits: `<tipo>(<contexto opcional>): <descripción>`. Los tipos usados son `feat`, `fix`, `docs`, `refactor`, `style`, `test` y `chore`. Ejemplos:
+ 
+- `feat(booking): implement aggregate and command and query services`
+- `refactor: use Long for userId in notifications and trips`
+- `docs: add class diagram in three parts`
 ### 5.1.3. Source Code Style Guide & Conventions
-
-##### Landing Page:
-
-Para "**WeRide**", hemos utilizado "**HTML y CSS**". Para estructurar el contenido usamos etiquetas de section y divisiones para contenido específico de cada una de las secciones. Además, hemos empleado atributos como ***HTML Style*** para personalizar el aspecto visual, definiendo propiedades como color, tamaño de fuente y tipo de letra.
-
-Para resaltar elementos importantes, hemos aplicado ***HTML Text Formatting***, incluyendo etiquetas como b para negrita, strong para resaltado y del para mostrar cambios de precios. En cuanto a la navegación, hemos implementado una barra de navegación horizontal utilizando **CSS** para mejorar la experiencia del usuario al explorar el contenido.
-
-Los formularios, creados con **CSS**, permiten a los usuarios ingresar información relevante, como detalles de inicio de sesión, información de pago y dirección de envío. Para añadir interactividad, hemos agregado botones con efectos hover utilizando CSS y paginación CSS para facilitar la navegación entre las diferentes páginas de productos.
-
-Finalmente, en el **footer**, hemos incluido enlaces a las redes sociales de la organización para brindar a los usuarios una forma adicional de conectarse y seguir nuestras actualizaciones.
-
-##### Web Application:
-
-Para "**WeRide App**", hemos utilizado "**TypeScript, HTML y CSS**". La estructura del proyecto sigue el patrón de arquitectura de **Single Page Application (SPA)**, utilizando el framework **Angular** para organizar el código en módulos, componentes y servicios.
-
-Los componentes estan estructurados según DDD (Domain-Driven Design), donde cada componente representa un bounded context específico, como **auth**, **booking**, **garage**, **plans** y **trip**. Cada componente tiene su propio archivo HTML para la estructura, CSS para el estilo y TypeScript para la lógica y enrutamiento así como la comunicación entre componentes y servicios.
-
+ 
+El código y los artefactos se redactan con nomenclatura en inglés. Para cada lenguaje se adopta una guía de estilo de referencia:
+ 
+| Lenguaje | Uso en el proyecto | Guía adoptada |
+|---|---|---|
+| HTML y CSS | Landing Page | Google HTML/CSS Style Guide (https://google.github.io/styleguide/htmlcssguide.html) |
+| JavaScript | Landing Page | Google JavaScript Style Guide (https://google.github.io/styleguide/jsguide.html) |
+| TypeScript | Web Application en Angular | Google TypeScript Style Guide (https://google.github.io/styleguide/tsguide.html) y Angular Coding Style Guide (https://angular.io/guide/styleguide) |
+| Java | Backend con Spring Boot | Google Java Style Guide (https://google.github.io/styleguide/javaguide.html) |
+| Gherkin | Archivos `.feature` **[CONFIRMAR si se usan]** | Gherkin Conventions for Readable Specifications (https://specflow.org/gherkin/gherkin-conventions-for-readable-specifications/) |
+ 
+Convenciones propias del proyecto:
+ 
+- **Backend:** clases en `PascalCase`, métodos y atributos en `camelCase`, y tablas en `snake_case` y plural (por ejemplo `trip_photos`). Cada bounded context se organiza en las capas `interfaces`, `application`, `domain` e `infrastructure`.
+- **Web Application:** los componentes se organizan por bounded context (`auth`, `booking`, `garage`, `plans` y `trip`), cada uno con su archivo HTML, CSS y TypeScript.
 ### 5.1.4. Software Deployment Configuration.
-
-##### Landing Page:
-
-Utilizaremos GitHub Pages para alojar nuestra Landing Page. Para lograrlo, subiremos los archivos esenciales (HTML, CSS, etc.) a un repositorio público en GitHub. De
-esta manera, nuestra página estará disponible en línea y accesible para todos los usuarios.
-
-![GithubReportRepo](assets/chapter05/github-repo.png)
-
-##### Web Application:
-
-Utilizaremos Vercel para alojar nuestra Web Application.
-Para lograrlo, configuraremos un proyecto en Vercel y conectaremos nuestro repositorio de GitHub. Vercel se encargará de la construcción y el despliegue de nuestra aplicación automáticamente cada vez que realicemos un push a la rama principal.
-
-##### Web Services (Backend):
-
-Utilizamos Render como plataforma para alojar nuestro Backend de Web Services, empaquetado como contenedor Docker, junto con una base de datos MySQL administrada en Aiven. El despliegue se realiza desde el repositorio de GitHub y la configuración sensible se inyecta mediante variables de entorno. El detalle del despliegue se documenta en la sección 5.2.4.7.
-
-**Nota de decisión técnica:** El enunciado del curso sugiere el uso de ASP.NET Core y C# para el desarrollo del backend. Sin embargo, el equipo decidió continuar con el stack **Java 17 + Spring Boot + MySQL**, ya que corresponde a la arquitectura DDD/CQRS implementada y validada en el ciclo anterior del proyecto. Migrar a ASP.NET Core implicaría reescribir desde cero los bounded contexts, los controladores REST y la capa de persistencia ya implementada y probada en el ciclo anterior, lo cual representa un riesgo alto para los plazos del curso sin un beneficio funcional adicional para el producto.
-
-
----
+ 
+#### Landing Page
+ 
+Se publica con GitHub Pages: los archivos HTML, CSS y JavaScript del repositorio se sirven desde la rama configurada para Pages, y la página queda disponible en https://opensource-grupo-4.github.io/Landing-Page **[CONFIRMAR URL vigente]**.
+ 
+#### Web Application
+ 
+**[CONFIRMAR UNA SOLA OPCIÓN]** Se publica en Vercel: el proyecto se conecta al repositorio de GitHub y Vercel construye y despliega la aplicación automáticamente con cada push a la rama principal. *(Alternativa: GitHub Pages, si ese es el despliegue real.)*
+ 
+#### Web Services (Backend)
+ 
+El backend se aloja en una máquina virtual de Microsoft Azure con Ubuntu 22.04. El despliegue se realiza manualmente mediante acceso SSH:
+ 
+1. Instalar JDK 17, Maven, Git, MySQL y nginx en la máquina virtual.
+2. Clonar el repositorio y construir la aplicación con `mvn clean package`.
+3. Registrar la aplicación como servicio de systemd, para que se ejecute en segundo plano y se reinicie ante fallos.
+4. Configurar nginx como reverse proxy, que expone la API en los puertos 80 y 443 y reenvía las solicitudes a la aplicación en el puerto 8080.
+5. Verificar el servicio con los logs de systemd y con solicitudes a los endpoints.
+El detalle de los comandos y las evidencias se documenta en la sección 5.2.4.7. **[CONFIRMAR: si existe un flujo de despliegue automático con GitHub Actions, describirlo aquí; si no, eliminar esa mención en 5.2.4.8]**
+ 
+**Nota de decisión técnica:** el enunciado del curso sugiere ASP.NET Core y C# para el backend. El equipo decidió continuar con Java 17, Spring Boot y MySQL, porque corresponde a la arquitectura DDD y CQRS implementada y validada en el ciclo anterior. Migrar a ASP.NET Core implicaría reescribir los bounded contexts, los controladores REST y la capa de persistencia ya desplegada, lo cual representa un riesgo alto para los plazos del curso sin un beneficio funcional adicional.
 
 ## 5.2. Landing Page, Services & Applications Implementation.
 
