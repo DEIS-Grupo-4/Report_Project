@@ -315,7 +315,7 @@ La arquitectura de WeRide se describe con el modelo C4 en tres niveles: contexto
 #### Decisiones y estilos arquitectónicos
  
 - **Cliente-servidor y Single Page Application:** la Web Application, desarrollada con Angular y TypeScript, se ejecuta en el navegador y consume la API por HTTP.
-- **RESTful API:** el backend, desarrollado con Java 17 y Spring Boot, expone sus recursos mediante servicios REST documentados con OpenAPI (Swagger UI) y protegidos con autenticación basada en JWT.
+- **RESTful API:** el backend, desarrollado con Java 24 y Spring Boot, expone sus recursos mediante servicios REST documentados con OpenAPI (Swagger UI) y protegidos con autenticación basada en JWT.
 - **Domain-Driven Design:** el backend se organiza en bounded contexts (IAM, Profile, Booking, Garage, TravelHistory, Location, Notifications, Plan, Trip y UnlockRequest) y un contexto Shared con la clase base de auditoría. La Web Application organiza sus componentes con el mismo criterio.
 - **Arquitectura en capas por contexto:** cada bounded context separa las capas de interfaces (controladores REST), application (servicios), domain (aggregates, entities y value objects) e infrastructure (repositorios).
 - **CQRS:** los servicios de la capa application se separan en servicios de comandos (que modifican el estado) y servicios de consultas (que lo leen).
