@@ -18,15 +18,15 @@ Con este logo, WR se presenta como una marca confiable, eficiente y enfocada en 
 
 ***Logo original***
 
-![User Persona](assets/Chapter04/Logo1.png)
+![User Persona](assets/chapter04/Logo1.png)
 
 ***Logo con iniciales light color***
 
-![User Persona](assets/Chapter04/Logo3.png)
+![User Persona](assets/chapter04/Logo3.png)
 
 ***Colores invertidos***
 
-![User Persona](assets/Chapter04/Logo4.png)
+![User Persona](assets/chapter04/Logo4.png)
 
 
 <h3>Typography</h3>
@@ -203,48 +203,48 @@ En conjunto, este módulo no solo ofrece orientación geográfica en tiempo real
 ### 4.3.1. Landing Page Wireframe.  
   
 - Navbar  
-![Navbar](assets/Chapter04/WireframeLandingPage/Navbar.png)
+![Navbar](assets/chapter04/WireframeLandingPage/Navbar.png)
 - Hero  
-![Hero](assets/Chapter04/WireframeLandingPage/Hero.png)
+![Hero](assets/chapter04/WireframeLandingPage/Hero.png)
 - Disposable Vehicles Section.  
-![Vehicles](assets/Chapter04/WireframeLandingPage/Disposables_Vehicles_Section.png)
+![Vehicles](assets/chapter04/WireframeLandingPage/Disposables_Vehicles_Section.png)
 - Application user manual section.  
-![Manual](assets/Chapter04/WireframeLandingPage/Application_user_manual_section.png)
+![Manual](assets/chapter04/WireframeLandingPage/Application_user_manual_section.png)
 - Rates Section.  
-![Rates](assets/Chapter04/WireframeLandingPage/Rates_Section.png)
+![Rates](assets/chapter04/WireframeLandingPage/Rates_Section.png)
 - Locations section.  
-![Locations](assets/Chapter04/WireframeLandingPage/Locations_Section.png)
+![Locations](assets/chapter04/WireframeLandingPage/Locations_Section.png)
 - Who we are section.  
-![Wo we are](assets/Chapter04/WireframeLandingPage/Who_we_are_Section.png)
+![Wo we are](assets/chapter04/WireframeLandingPage/Who_we_are_Section.png)
 - About section.  
-![About](assets/Chapter04/WireframeLandingPage/About_Section.png)
+![About](assets/chapter04/WireframeLandingPage/About_Section.png)
 - Application download section.  
-![Download app](assets/Chapter04/WireframeLandingPage/Download_Section.png)
+![Download app](assets/chapter04/WireframeLandingPage/Download_Section.png)
 - Footer Section.  
-![Footer](assets/Chapter04/WireframeLandingPage/Footer_Section.png)
+![Footer](assets/chapter04/WireframeLandingPage/Footer_Section.png)
   
 ### 4.3.2. Landing Page Mock-up. 
    
 - Navbar  
-![Navbar](assets/Chapter04/Mock-upLandingPage/Navbar_Section.png)
+![Navbar](assets/chapter04/Mock-upLandingPage/Navbar_Section.png)
 - Hero  
-![Hero](assets/Chapter04/Mock-upLandingPage/Hero_Section.png)
+![Hero](assets/chapter04/Mock-upLandingPage/Hero_Section.png)
 - Disposable Vehicles Section.  
-![Vehicles](assets/Chapter04/Mock-upLandingPage/Disposables_Vehicles_Section.png)
+![Vehicles](assets/chapter04/Mock-upLandingPage/Disposables_Vehicles_Section.png)
 - Application user manual section.  
-![Manual](assets/Chapter04/Mock-upLandingPage/Application_User_manual_Section.png)
+![Manual](assets/chapter04/Mock-upLandingPage/Application_User_manual_Section.png)
 - Rates Section.  
-![Rates](assets/Chapter04/Mock-upLandingPage/Rates_Section.png)
+![Rates](assets/chapter04/Mock-upLandingPage/Rates_Section.png)
 - Locations section.  
-![Locations](assets/Chapter04/Mock-upLandingPage/Locations_section.png)
+![Locations](assets/chapter04/Mock-upLandingPage/Locations_section.png)
 - Who we are section.  
-![Wo we are](assets/Chapter04/Mock-upLandingPage/Who_we_are_Section.png)
+![Wo we are](assets/chapter04/Mock-upLandingPage/Who_we_are_Section.png)
 - About section.  
-![About](assets/Chapter04/Mock-upLandingPage/About_section.png)
+![About](assets/chapter04/Mock-upLandingPage/About_section.png)
 - Application download section.  
-![Download app](assets/Chapter04/Mock-upLandingPage/Download_Section.png)
+![Download app](assets/chapter04/Mock-upLandingPage/Download_Section.png)
 - Footer Section.  
-![Footer](assets/Chapter04/Mock-upLandingPage/Footer_Section.png)
+![Footer](assets/chapter04/Mock-upLandingPage/Footer_Section.png)
 
 ## 4.4.Web Applications UX/UI Design.
 
@@ -252,13 +252,13 @@ En conjunto, este módulo no solo ofrece orientación geográfica en tiempo real
 
 Wireframes are simplified, low-fidelity visual guides that outline the structure, layout, and key elements of a web application’s interface. They focus on placement of content, navigation, and functionality rather than visual design details like colors or images. Wireframes help designers and developers plan page layouts, organize information, and ensure usability before moving on to higher-fidelity mock-ups or prototypes.
 
-![WebAppW](assets/Chapter04/f1.png)
+![WebAppW](assets/chapter04/f1.png)
 
-![WebAppW](assets/Chapter04/f2.png)
+![WebAppW](assets/chapter04/f2.png)
 
-![WebAppW](assets/Chapter04/f3.png)
+![WebAppW](assets/chapter04/f3.png)
 
-![WebAppW](assets/Chapter04/f4.png)
+![WebAppW](assets/chapter04/f4.png)
 
 ### 4.4.2.Web Applications Wireflow Diagrams.
 
@@ -281,28 +281,28 @@ Contactar proveedores certificados.
 Visualizar métricas de rendimiento o consumo.
 Se incluye también una sección de perfil adaptable y configurable, especialmente útil para personas que requieren adaptaciones visuales, físicas o cognitivas.
 
-![WebAppW](assets/Chapter04/f4.png)
+![WebAppW](assets/chapter04/f4.png)
 
 
 ### 4.4.3. Web Applications Mock-ups.  
 
 Mock-ups are static or semi-interactive visual representations of a web application’s interface. They show the layout, design elements, content placement, and functionality of pages without fully implementing the system. Mock-ups help stakeholders, designers, and developers visualize the look and feel of the application, gather feedback, and validate design decisions before actual development begins. They are an essential step in the UI/UX design process to ensure usability, consistency, and alignment with user needs.
 
-![WebAppM](assets/Chapter04/wf1.png)
+![WebAppM](assets/chapter04/wf1.png)
 
-![WebAppM](assets/Chapter04/wf2.png)
+![WebAppM](assets/chapter04/wf2.png)
 
-![WebAppM](assets/Chapter04/w3.png)
+![WebAppM](assets/chapter04/w3.png)
 
-![WebAppM](assets/Chapter04/w4.png)
+![WebAppM](assets/chapter04/w4.png)
 
 ### 4.4.4. Web Applications User Flow Diagrams. 
 
 User Flow Diagrams are visual representations that show the steps a user takes to complete specific tasks within a web application. They map the navigation paths between screens or pages, highlighting decision points, actions, and outcomes. These diagrams help designers and developers understand how users interact with the system, identify potential usability issues, and ensure smooth navigation and task completion. They are essential for planning intuitive interfaces, improving user experience, and guiding development teams in implementing consistent workflows.
 
-![WFlow](assets/Chapter04/Frame%2010.png)
+![WFlow](assets/chapter04/Frame%2010.png)
 
-![WFlow](assets/Chapter04/Frame%202%20(1).png)
+![WFlow](assets/chapter04/Frame%202%20(1).png)
 
 ## 4.5. Web Applications Prototyping.
 
@@ -350,7 +350,7 @@ El diagrama de contexto muestra WeRide como un único sistema, junto con las per
  
 ![Context Diagram de WeRide](assets/chapter04/c4-context.png)
  
-*Figura X. Diagrama de contexto de WeRide, elaborado en Structurizr.*
+*Figura 1. Diagrama de contexto de WeRide, elaborado en Structurizr.*
  
 #### 4.6.3. Software Architecture Container Diagrams
  
@@ -358,7 +358,7 @@ El diagrama de contenedores muestra las unidades ejecutables y de almacenamiento
  
 ![Container Diagram de WeRide](assets/chapter04/c4-containers.png)
  
-*Figura X. Diagrama de contenedores de WeRide, elaborado en Structurizr.*
+*Figura 2. Diagrama de contenedores de WeRide, elaborado en Structurizr.*
  
 #### 4.6.4. Software Architecture Components Diagrams
  
@@ -366,7 +366,7 @@ El diagrama de componentes detalla la RESTful API. Cada componente corresponde a
  
 ![Component Diagram de la RESTful API](assets/chapter04/c4-components.png)
  
-*Figura X. Diagrama de componentes de la RESTful API, elaborado en Structurizr.*
+*Figura 3. Diagrama de componentes de la RESTful API, elaborado en Structurizr.*
 
 
 ## 4.7.Software Object-Oriented Design.
@@ -383,7 +383,7 @@ Las composiciones (rombo relleno) indican entidades y value objects que pertenec
  
 Incluye la gestión de cuentas y perfiles (IAM y Profile), las reservas (Booking), los vehículos (Garage) y la clase base de auditoría (Shared).
  
-![Class Diagram, parte 1: núcleo](assets/Chapter04/class-diagram/class-diagram-1-core.png)
+![Class Diagram, parte 1: núcleo](assets/chapter04/class-diagram/class-diagram-1-core.png)
  
 *Figura 1. Class Diagram de WeRide, parte 1.*
  
@@ -391,7 +391,7 @@ Incluye la gestión de cuentas y perfiles (IAM y Profile), las reservas (Booking
  
 Incluye los viajes realizados (Trip), su resumen histórico (TravelHistory) y las ubicaciones o estaciones de alquiler (Location).
  
-![Class Diagram, parte 2: operación](assets/Chapter04/class-diagram/class-diagram-2-operations.png)
+![Class Diagram, parte 2: operación](assets/chapter04/class-diagram/class-diagram-2-operations.png)
  
 *Figura 2. Class Diagram de WeRide, parte 2.*
  
@@ -399,7 +399,7 @@ Incluye los viajes realizados (Trip), su resumen histórico (TravelHistory) y la
  
 Incluye las notificaciones (Notifications), los planes de suscripción (Plan) y las solicitudes de desbloqueo de vehículos (UnlockRequest).
  
-![Class Diagram, parte 3: soporte](assets/Chapter04/class-diagram/class-diagram-3-support.png)
+![Class Diagram, parte 3: soporte](assets/chapter04/class-diagram/class-diagram-3-support.png)
  
 *Figura 3. Class Diagram de WeRide, parte 3.*
 
@@ -443,7 +443,7 @@ El diagrama de base de datos nos ayudara a la correcta definicion de entidades d
 
 La persistencia de WeRide utiliza MySQL como base de datos relacional, gestionada mediante Spring Data JPA e Hibernate. El esquema se deriva de las entidades JPA de los bounded contexts del backend (IAM, Profile, Booking, Garage, TravelHistory, Location, Notifications, Plan, Trip y UnlockRequest) y está compuesto por 17 tablas.
 
-![Database Diagram de WeRide](assets/Chapter04/database-diagram.png)
+![Database Diagram de WeRide](assets/chapter04/database-diagram.png)
 
 *Database Diagram de WeRide, elaborado en dbdiagram.io.*
 
