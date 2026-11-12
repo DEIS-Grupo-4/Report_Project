@@ -117,6 +117,8 @@ El detalle de los comandos y las evidencias se documenta en la sección 5.2.4.7.
 
 ## 5.2. Landing Page, Services & Applications Implementation.
 
+Los Sprints 1 a 4 documentan el desarrollo inicial de WeRide realizado por el equipo WeTech en el ciclo anterior. El equipo actual continúa el producto a partir de ese trabajo y documenta sus propias contribuciones desde el Sprint 4 para adelante.
+
 ### 5.2.1. Sprint 1
 
 #### 5.2.1.1. Sprint Planning 1.
