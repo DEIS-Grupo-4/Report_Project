@@ -1854,20 +1854,71 @@ Además de los servicios de aplicación, se realizan pruebas unitarias de contro
 
 ### 6.1.2. Core Integration Tests.
 
-Las pruebas de integración verifican que los controladores REST API, los servicios de aplicación y la capa de persistencia interactúen correctamente entre sí dentro del entorno de la aplicación. A diferencia de las pruebas unitarias, estas pruebas evalúan la integración con la base de datos relacional y el procesamiento de peticiones HTTP en los endpoints expuestos.
+Las pruebas de integración permiten comprobar que los distintos componentes del backend de WeRide trabajan correctamente cuando interactúan entre sí. A diferencia de las pruebas unitarias, que aíslan una clase o método mediante dependencias simuladas, estas pruebas ejecutan el contexto real de Spring Boot y verifican el recorrido de las solicitudes HTTP a través de los controladores REST, los servicios de aplicación, los mecanismos de autenticación y autorización, y los repositorios de persistencia.
 
-Para llevar a cabo estas pruebas, se utiliza el entorno de prueba web de **Spring Boot (** **@SpringBootTest** **con** **MockMvc** **)** junto con una base de datos en memoria (H2) para simular las operaciones de lectura y escritura sin alterar datos de producción.
+Para su implementación se utiliza Spring Boot Test mediante @SpringBootTest y @AutoConfigureMockMvc, lo que permite enviar solicitudes HTTP a los endpoints sin iniciar un servidor externo. Las peticiones se realizan con MockMvc y se autentican mediante tokens JWT obtenidos a través de los endpoints de registro e inicio de sesión. Asimismo, se utiliza H2 como base de datos en memoria con el perfil test, de modo que las operaciones de persistencia se ejecutan en un entorno aislado de la base de datos utilizada por la aplicación. Las clases de prueba emplean @Transactional para evitar que los datos creados durante una prueba permanezcan en la base de datos después de su ejecución.
 
-**Tabla 6.3\. Casos de prueba de integración para la API RESTful**
+**Tabla 6.3. Matriz de casos de prueba de integración para la API RESTful**
 
-| ID Caso de prueba | Endpoint y Método HTTP                | Escenario de Integración                                                                   | Resultado esperado                                                                                               |
-| ----------------- | ------------------------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| **IAM-IT-01**     | `POST /api/v1/authentication/sign-up` | Envío de solicitud HTTP con payload JSON conteniendo datos de un usuario nuevo.            | HTTP `201 Created`. La cuenta y el perfil son correctamente creados y persistidos en la base de datos.           |
-| **IAM-IT-02**     | `POST /api/v1/authentication/sign-in` | Autenticación vía petición HTTP con credenciales válidas almacenadas en la base de datos.  | HTTP `200 OK`. Se retorna la estructura JSON conteniendo el token de acceso JWT válido y los datos del usuario.  |
-| **PLN-IT-01**     | `POST /api/v1/plans`                  | Creación de un plan enviando un token JWT de administrador en la cabecera `Authorization`. | HTTP `201 Created`. El registro se guarda en la base de datos y se retorna la entidad creada con su ID generado. |
-| **PLN-IT-02**     | `GET /api/v1/plans`                   | Consulta pública de planes de suscripción disponibles en el sistema.                       | HTTP `200 OK`. Se obtiene una lista JSON con la totalidad de los planes activos persistidos.                     |
+| ID del caso | Bounded Context | Clase de prueba | Endpoint y método HTTP | Escenario de integración | Resultado esperado y verificación |
+| --- | --- | --- | --- | --- | --- |
+| **IAM-IT-01** | IAM | `AuthenticationIntegrationTest` | `POST /api/v1/authentication/sign-up` | Registrar un usuario nuevo mediante una solicitud JSON. | HTTP "201 Created". Se comprueba que la cuenta quede persistida, tenga un identificador y tenga asociado el identificador de su perfil. |
+| **IAM-IT-02** | IAM | `AuthenticationIntegrationTest` | `POST /api/v1/authentication/sign-in` | Iniciar sesión con las credenciales del usuario registrado. | HTTP "200 OK". La respuesta contiene un token JWT no vacío. |
+| **PLN-IT-01** | Plan | `PlanIntegrationTest` | `POST /api/v1/plans` | Crear un plan enviando un token JWT y un payload JSON con sus atributos. | HTTP "201 Created". La respuesta contiene el nombre "Premium QA" y se comprueba que el plan quede guardado mediante "PlanRepository". |
+| **PLN-IT-02** | Plan | `PlanIntegrationTest` | `GET /api/v1/plans` | Consultar los planes después de crear el plan de prueba. | HTTP "200 OK". La respuesta contiene una colección que incluye el plan "Premium QA". |
+| **BKG-IT-01** | Booking | `BookingIntegrationTest` | `POST /api/v1/bookings/draft` y `DELETE /api/v1/bookings/draft/{draftId}` | Crear un borrador con un vehículo y dos ubicaciones existentes; posteriormente, eliminarlo con el mismo usuario autenticado. | La creación devuelve HTTP "200 OK" y estado "draft". Se verifica que el "userId" provenga del usuario autenticado y que el borrador se persista. La eliminación devuelve HTTP "200 OK" y el registro deja de existir en "BookingRepository". |
+| **BKG-IT-02** | Booking | `BookingIntegrationTest` | `POST /api/v1/bookings` | Crear una reserva confirmada con un vehículo y ubicaciones previamente registrados. | La implementación actual devuelve HTTP "200 OK". La respuesta presenta estado "confirmed"; además, se comprueba en la base de datos que la reserva pertenece al usuario autenticado, mantiene el pago en estado "pending" y tiene calculado el costo final. |
+| **BKG-IT-03** | Booking | `BookingIntegrationTest` | `POST /api/v1/bookings/draft` | Intentar guardar un borrador cuya fecha de inicio se encuentra en el pasado. | HTTP "400 Bad Request". Se verifica que el sistema rechace la solicitud por incumplir la validación de fecha. |
+| **PRF-IT-01** | Profile | `ProfileIntegrationTest` | `GET /api/v1/profiles/me` | Consultar el perfil correspondiente a la cuenta autenticada después del registro. | HTTP "200 OK". La respuesta contiene el "userId" de la cuenta autenticada y se verifica que el perfil asociado exista en "ProfileRepository". |
+| **PRF-IT-02** | Profile | `ProfileIntegrationTest` | `PUT /api/v1/profiles/me` | Actualizar los nombres y el correo electrónico del perfil del usuario autenticado. | HTTP "200 OK". La respuesta devuelve los datos actualizados y se comprueba que los cambios queden persistidos en "ProfileRepository". |
+| **PRF-IT-03** | Profile | `ProfileIntegrationTest` | `GET /api/v1/profiles/{id}` | Intentar consultar el perfil de otra cuenta utilizando un token JWT diferente al del propietario. | HTTP "404 Not Found". Se comprueba que el usuario autenticado no pueda consultar el perfil de otro usuario. |
+| **TRP-IT-01** | Trip | `TripIntegrationTest` | `POST /api/v1/trips`, `GET /api/v1/trips`, `GET /api/v1/trips/{id}` y `DELETE /api/v1/trips/{id}` | Crear un viaje, consultarlo en el listado del usuario, recuperarlo por identificador y eliminarlo. El payload incluye un "userId" distinto para verificar que el controlador utilice la identidad autenticada. | La creación devuelve HTTP "201 Created", las consultas devuelven HTTP "200 OK", la eliminación devuelve HTTP "204 No Content". Se verifica que el viaje se asocie al usuario del JWT y que el registro se elimine de "TripRepository". |
+| **TRP-IT-02** | Trip | `TripIntegrationTest` | `GET /api/v1/trips/{id}` | Intentar consultar el viaje de otro usuario utilizando un token JWT diferente al del propietario. | HTTP "404 Not Found". El endpoint no expone el viaje que pertenece a otra cuenta. |
+| **NTF-IT-01** | Notifications | `NotificationIntegrationTest` | `POST /api/v1/notifications`, `GET /api/v1/notifications` y `PATCH /api/v1/notifications/{notificationId}/read` | Crear una notificación, consultar el listado y marcarla como leída. En la consulta se envía un "userId" distinto para verificar que el controlador utilice la identidad autenticada. | La creación devuelve HTTP "201 Created", la consulta y la actualización devuelven HTTP "200 OK". Se comprueba que la notificación se persista asociada al usuario autenticado y que, al marcarla como leída, "isRead" sea 'true' y "readAt" tenga un valor. |
+| **NTF-IT-02** | Notifications | `NotificationIntegrationTest` | `GET /api/v1/notifications/{notificationId}` y `DELETE /api/v1/notifications/{notificationId}` | Intentar consultar y eliminar una notificación propiedad de otro usuario. | Ambas solicitudes devuelven HTTP "404 Not Found". Se verifica que la notificación original continúe persistida y no sea eliminada por el usuario no propietario. |
+| **TH-IT-01** | Travel History | `TravelHistoryIntegrationTest` | `POST /api/v1/travel-history`, `GET /api/v1/travel-history/me` y `PUT /api/v1/travel-history/{id}` | Crear un registro del historial, consultarlo mediante el endpoint del usuario autenticado y actualizar su ubicación y vehículo. | La creación devuelve HTTP "201 Created", la consulta y actualización devuelven HTTP "200 OK". Se comprueba que el registro se persista y que los nuevos valores queden guardados en "TravelHistoryRepository". |
+| **TH-IT-02** | Travel History | `TravelHistoryIntegrationTest` | `GET /api/v1/travel-history/{userId}` y `PUT /api/v1/travel-history/{id}` | Intentar consultar y modificar el historial de otro usuario. | Ambas solicitudes devuelven HTTP "404 Not Found". Se comprueba que el registro original conserve el propietario y los datos previos a la solicitud no autorizada. |
 
 *Fuente: Elaboración propia.*
+
+#### Organización de las clases de integración
+
+Las pruebas se encuentran distribuidas en los directorios de sus respectivos bounded contexts dentro del repositorio **Backend-WeRide**. Esta organización facilita identificar qué parte del sistema se está integrando y mantiene separadas las pruebas de cada contexto.
+
+| Bounded Context | Clase de prueba | Ubicación dentro del repositorio |
+| --- | --- | --- |
+| IAM | `AuthenticationIntegrationTest.java` | `src/test/java/org/example/backendweride/platform/iam/infrastructure/auth/` |
+| Plan | `PlanIntegrationTest.java` | `src/test/java/org/example/backendweride/platform/plan/interfaces/` |
+| Booking | `BookingIntegrationTest.java` | `src/test/java/org/example/backendweride/platform/booking/interfaces/` |
+| Profile | `ProfileIntegrationTest.java` | `src/test/java/org/example/backendweride/platform/profile/interfaces/` |
+| Trip | `TripIntegrationTest.java` | `src/test/java/org/example/backendweride/platform/trip/interfaces/` |
+| Notifications | `NotificationIntegrationTest.java` | `src/test/java/org/example/backendweride/platform/notifications/interfaces/` |
+| Travel History | `TravelHistoryIntegrationTest.java` | `src/test/java/org/example/backendweride/platform/travelhistory/interfaces/` |
+
+Las clases utilizan dependencias reales de Spring y repositorios JPA, mientras que las demás clases utilizan el perfil "test" mediante "@ActiveProfiles("test")". Los métodos auxiliares de registro e inicio de sesión permiten obtener JWT para ejecutar los endpoints protegidos. En los escenarios que requieren entidades relacionadas y los datos de preparación se insertan previamente en la base H2 de pruebas.
+
+#### Ejecución de las pruebas
+
+
+![integration-test-iam](assets/chapter05/unitTest/integration-test-iam.png)
+
+
+![integration-test-booking](assets/chapter05/unitTest/integration-test-booking.png)
+
+
+![integration-test-notification](assets/chapter05/unitTest/integration-test-notification.png)
+
+
+![integration-test-plan](assets/chapter05/unitTest/integration-test-plan.png)
+
+
+![integration-test-profile](assets/chapter05/unitTest/integration-test-profile.png)
+
+
+![integration-test-trip](assets/chapter05/unitTest/integration-test-trip.png)
+
+
+![integration-test-travelhistory](assets/chapter05/unitTest/integration-test-travelhistory.png)
 
 
 ### 6.1.3. Core Behavior-Driven Development
