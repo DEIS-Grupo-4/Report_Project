@@ -29,17 +29,15 @@ Esta sección define las decisiones y acuerdos fundamentales para el desarrollo,
 | | dbdiagram.io | Diagrama de la base de datos. | https://dbdiagram.io |
 | | Structurizr | Diagramas de arquitectura con el modelo C4 (Structurizr DSL). | https://structurizr.com |
 | Software Deployment | GitHub Pages | Publicar la Landing Page. | https://pages.github.com |
-| | Vercel **[CONFIRMAR: o GitHub Pages]** | Publicar la Web Application. | https://vercel.com |
+| | Vercel | Publicar la Web Application. | https://vercel.com |
 | | Microsoft Azure (máquina virtual con Ubuntu 22.04) | Alojar el backend en un entorno real. | https://azure.microsoft.com |
 | | nginx y systemd | Reverse proxy y ejecución del backend como servicio en la máquina virtual. | https://nginx.org |
- 
-<!-- Filas opcionales: agregar SOLO si el equipo realmente las usa
 | Software Testing | JUnit | Pruebas unitarias del backend. | https://junit.org |
 | | Karate | Pruebas de aceptación de la API REST. | https://github.com/karatelabs/karate |
 | | Selenium | Pruebas end-to-end de la Web Application. | https://www.selenium.dev |
 | Continuous Integration | Jenkins | Automatizar compilación, pruebas y despliegue. | https://www.jenkins.io |
 | | SonarQube | Análisis estático de calidad y seguridad del código. | https://www.sonarsource.com/products/sonarqube |
--->
+
  
 ### 5.1.2. Source Code Management.
  
@@ -102,7 +100,7 @@ Se publica con GitHub Pages: los archivos HTML, CSS y JavaScript del repositorio
  
 #### Web Application
  
-**[CONFIRMAR UNA SOLA OPCIÓN]** Se publica en Vercel: el proyecto se conecta al repositorio de GitHub y Vercel construye y despliega la aplicación automáticamente con cada push a la rama principal. *(Alternativa: GitHub Pages, si ese es el despliegue real.)*
+Se publica en Vercel: el proyecto se conecta al repositorio de GitHub y Vercel construye y despliega la aplicación automáticamente con cada push a la rama principal.
  
 #### Web Services (Backend)
  
