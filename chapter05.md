@@ -23,7 +23,7 @@ Esta sección define las decisiones y acuerdos fundamentales para el desarrollo,
 | | json-server | Simular una API con `db.json` durante el desarrollo inicial de la Web Application. | https://github.com/typicode/json-server |
 | | Visual Studio Code y WebStorm | Entornos de desarrollo para la Landing Page y la Web Application. | https://code.visualstudio.com · https://www.jetbrains.com/webstorm |
 | | IntelliJ IDEA | Entorno de desarrollo para el backend en Java. | https://www.jetbrains.com/idea |
-| | Docker | Entorno reproducible: el backend incluye `Dockerfile` y `docker-compose.yml`. **[CONFIRMAR si se usa en el flujo de trabajo]** | https://www.docker.com |
+| | Docker | Entorno reproducible: el backend incluye `Dockerfile` y `docker-compose.yml`. | https://www.docker.com |
 | Software Documentation | Swagger (OpenAPI) | Documentar y probar los endpoints de la RESTful API. | https://swagger.io |
 | | Markdown y Mermaid | Redacción del informe y diagramas de clases en el repositorio. | https://www.markdownguide.org · https://mermaid.js.org |
 | | dbdiagram.io | Diagrama de la base de datos. | https://dbdiagram.io |
@@ -48,11 +48,9 @@ Se utiliza **GitHub** como plataforma de control de versiones, con un repositori
 | Producto | Repositorio |
 |---|---|
 | Informe del proyecto (Report) | https://github.com/DEIS-Grupo-4/Report_Project |
-| Landing Page | **[CONFIRMAR URL]** |
-| Web Application (Frontend) | **[CONFIRMAR URL]** |
+| Landing Page | https://github.com/DEIS-Grupo-4/Landing-Page.git |
+| Web Application (Frontend) | https://github.com/DEIS-Grupo-4/Fronted-Weride-DEIS.git |
 | Web Services (Backend) | https://github.com/DEIS-Grupo-4/Backend-Weride-DEIS |
- 
-El repositorio de los Web Services incluye el proyecto Spring Boot, sus pruebas y la documentación OpenAPI. **[CONFIRMAR: el alcance actual no incluye una aplicación móvil nativa]**.
  
 #### Flujo de trabajo: GitFlow
  
@@ -90,7 +88,7 @@ El código y los artefactos se redactan con nomenclatura en inglés. Para cada l
 | JavaScript | Landing Page | Google JavaScript Style Guide (https://google.github.io/styleguide/jsguide.html) |
 | TypeScript | Web Application en Angular | Google TypeScript Style Guide (https://google.github.io/styleguide/tsguide.html) y Angular Coding Style Guide (https://angular.io/guide/styleguide) |
 | Java | Backend con Spring Boot | Google Java Style Guide (https://google.github.io/styleguide/javaguide.html) |
-| Gherkin | Archivos `.feature` **[CONFIRMAR si se usan]** | Gherkin Conventions for Readable Specifications (https://specflow.org/gherkin/gherkin-conventions-for-readable-specifications/) |
+| Gherkin | Archivos `.feature` | Gherkin Conventions for Readable Specifications (https://specflow.org/gherkin/gherkin-conventions-for-readable-specifications/) |
  
 Convenciones propias del proyecto:
  
