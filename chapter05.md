@@ -154,14 +154,16 @@ Utilizamos Render como plataforma para alojar nuestro Backend de Web Services, e
     <th>Elemento</th>
     <th>Detalle</th>
   </tr>
+
   <tr>
     <td><strong>Sprint</strong></td>
-    <td>Sprint 1 — Implementación inicial: estructura de producto, landing y autenticación (WeRide)</td>
+    <td>Sprint 1 — Implementación inicial de la landing page de WeRide</td>
   </tr>
   <tr>
     <td><strong>Sprint Planning Background</strong></td>
-    <td>Sprint de arranque para validar funcionalidades esenciales del MVP: landing pública, registro, inicio de sesión y vista inicial de vehículos simulados. Se prioriza entregar valor temprano a usuarios universitarios y pilotos corporativos.</td>
+    <td>Durante este primer sprint, el equipo WeTech se enfocará en desarrollar la landing page de WeRide como primer punto de contacto con los usuarios. Se priorizará presentar la propuesta de valor, facilitar la navegación entre secciones, adaptar la interfaz a dispositivos móviles, mostrar el catálogo y las características de los vehículos eléctricos, y habilitar el acceso a la aplicación.</td>
   </tr>
+
   <tr>
     <td><strong>Fecha</strong></td>
     <td>2025-09-19</td>
@@ -190,27 +192,36 @@ Utilizamos Render como plataforma para alojar nuestro Backend de Web Services, e
     <td><strong>Sprint n-1 Retrospective</strong></td>
     <td>Se completó la estructura base de la landing page (HTML/CSS/JS). Lecciones aprendidas: mejorar granularidad en tareas y definir criterios de aceptación más claros.</td>
   </tr>
-  <tr>
-    <td><strong>Sprint Goal (Statement)</strong></td>
-    <td><strong>Our focus is on</strong> entregar un flujo de onboarding confiable y una landing inicial atractiva con visualización simulada de vehículos.<br><strong>We believe it delivers</strong> mayor adopción temprana y confianza de usuarios iniciales (estudiantes y pilotos corporativos).<br><strong>This will be confirmed when</strong> al menos 50 usuarios de prueba completen el registro y login; la duración media de sesión sea ≥ 2 minutos; y la vista del mapa (vehículos simulados) sea accedida en ≥ 60% de las sesiones.</td>
-  </tr>
-  <tr>
-    <td><strong>User Stories (SP)</strong></td>
-    <td>
-      - <strong>US-12 (3 SP)<br>
-      - <strong>US-10 (3 SP)<br>
-      - <strong>US-11 (5 SP)<br>
-      - <strong>US-14 (3 SP)<br>
-    </td>
-  </tr>
-  <tr>
-    <td><strong>Sprint 1 Velocity (forecast)</strong></td>
-    <td>17 puntos</td>
-  </tr>
-  <tr>
-    <td><strong>Sum of Story Points (commit)</strong></td>
-    <td>17 puntos</td>
-  </tr>
+
+<tr>
+  <td><strong>Sprint Goal (Statement)</strong></td>
+  <td>
+    <strong>Our focus is on</strong> implementar una landing page funcional, intuitiva y adaptable a dispositivos móviles, que permita a los visitantes conocer WeRide, explorar los vehículos eléctricos y acceder a la aplicación.<br>
+    <strong>We believe it delivers</strong> una experiencia inicial clara y accesible, facilitando que los usuarios comprendan la propuesta de valor de WeRide y conozcan las alternativas de movilidad disponibles.<br>
+    <strong>This will be confirmed when</strong> las seis User Stories seleccionadas cumplan sus criterios de aceptación y se verifique el funcionamiento de la navegación, la visualización del catálogo, la comparación de vehículos, el diseño responsive y el acceso a la aplicación.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>User Stories (SP)</strong></td>
+  <td>
+    - <strong>US-27 (3 SP)</strong><br>
+    - <strong>US-43 (2 SP)</strong><br>
+    - <strong>US-56 (5 SP)</strong><br>
+    - <strong>US-44 (3 SP)</strong><br>
+    - <strong>US-45 (5 SP)</strong><br>
+    - <strong>US-49 (2 SP)</strong><br>
+  </td>
+</tr>
+<tr>
+  <td><strong>Sprint 1 Velocity (forecast)</strong></td>
+  <td>20 puntos</td>
+</tr>
+<tr>
+  <td><strong>Sum of Story Points (commit)</strong></td>
+  <td>20 puntos</td>
+</tr>
+
 </table>
 
 
@@ -218,14 +229,19 @@ Utilizamos Render como plataforma para alojar nuestro Backend de Web Services, e
 
 #### User Stories seleccionadas para el Sprint 1
 
-| ID  | User Story                                                                                  | Puntos |
-|-----|---------------------------------------------------------------------------------------------|--------|
-| 12   | Como usuario quiero contactar con el soporte de la aplicación para resolver mis dudas.  |   5    |
-| 10   | Como usuario quiero tener acceso a la información de la aplicación para estar informado de las actualizaciones.                  |   5    |
-| 11   | Como usuario quiero saber dónde se ubican presencialmente para acudir a uno de los locales.     |   4    |
-| 14  | Como usuario, quiero reportar un problema con el vehículo para alertar a soporte y obtener ayuda rápida.   |   3    |
+| ID | User Story | Puntos |
+|---|---|---:|
+| US-27 | Como visitante, quiero conocer la propuesta de valor de WeRide desde la página de inicio para comprender qué servicio ofrece. | 3 |
+| US-43 | Como visitante, quiero desplazarme a las secciones de la landing page desde el menú para encontrar rápidamente la información que busco. | 2 |
+| US-56 | Como visitante, quiero navegar por la landing page desde mi celular para consultar sus secciones sin dificultades. | 5 |
+| US-44 | Como visitante, quiero conocer los tipos de vehículos eléctricos ofrecidos para identificar alternativas adecuadas a mis necesidades. | 3 |
+| US-45 | Como visitante, quiero consultar las especificaciones de cada tipo de vehículo para comparar sus características antes de elegir. | 5 |
+| US-49 | Como visitante, quiero abrir la aplicación mediante Go to App para comenzar a utilizar el servicio. | 2 |
 
-**Total de puntos:** 17
+**Total de puntos:** 20
+
+---
+
 
 ---
 
@@ -235,13 +251,15 @@ En esta sección se presenta la matriz de liderazgo y colaboración (Leadership-
 
 Los aspectos considerados en este Sprint incluyen: diseño de la landing page, desarrollo de funcionalidades de registro e inicio de sesión, implementación de la barra de navegación, y configuración del footer con enlaces de contacto y redes sociales.
 
-| Team Member (Apellido, Nombre)         | GitHub Username      | Landing Page Design | Registro/Inicio de Sesión | Barra de Navegación | Footer y Redes Sociales |
-|----------------------------------------|----------------------|---------------------|--------------------------|---------------------|------------------------|
-| Bonifacio, Samuel                     | samuelbonifacio015      | L                   | L                       | L                   | L                      |
-| Castro, Jefferson                      | JeffersonCastroPariona     | C                   | L                        | C                   | C                      |
-| Seminario, Diego                             | DiegoSeminario            | C                   | C                        | L                   | C                      |                     |
-| Romero, Jhimy                        | jhimyromeromeza       | L                   | L                        | L                   | C                      |
-| Morales, Arnold                        | Arnold-TI       | C                   | C                        | C                   | L                      |
+
+| Team Member (Apellido, Nombre) | GitHub Username | Landing Page Design | Navegación | Catálogo y Comparación de Vehículos | Diseño Responsive | Acceso a la App |
+|---|---|---|---|---|---|---|
+| Bonifacio, Samuel | samuelbonifacio015 | L | L | C | L | C |
+| Castro, Jefferson | JeffersonCastroPariona | C | C | L | C | L |
+| Seminario, Diego | DiegoSeminario | C | L | C | C | C |
+| Romero, Jhimy | jhimyromeromeza | L | L | C | C | C |
+| Morales, Arnold | Arnold-TI | C | C | L | L | C |
+
 
 **L:** Leader (Líder)  
 **C:** Collaborator (Colaborador)
@@ -252,16 +270,26 @@ Esta organización permite una asignación clara de responsabilidades y fomenta 
 
 #### 5.2.1.3. Sprint Backlog 1.
 
-| ID   | Title/Section                | Description                                                                                                                        | Estimation (Hours) | Assigned To                        | Status |
-|------|------------------------------|------------------------------------------------------------------------------------------------------------------------------------|--------------------|-------------------------------------|--------|
-| US01 | Landing Page                 | Como usuario, quiero acceder a una landing page clara y atractiva para conocer los beneficios y funcionalidades de WeRide.         | 3                  | Bonifacio Jaramillo, Samuel Jesus   | Done   |
-| US02 | Registro de Usuario          | Como usuario, quiero registrar una cuenta desde la landing page para poder acceder a los servicios de WeRide.                      | 3                  | Castro Pariona, Jefferson Ernesto   | Done   |
-| US03 | Inicio de Sesión             | Como usuario, quiero iniciar sesión desde la landing page para gestionar mis reservas y perfil.                                    | 3                  | Castro Pariona, Jefferson Ernesto   | Done   |
-| US04 | Barra de Navegación          | Como usuario, quiero una barra de navegación intuitiva y responsive para moverme fácilmente entre las secciones de la landing page.| 2                  | Seminario Castillo, Diego Vicente            | Done   |
-| US05 | Footer y Redes Sociales      | Como usuario, quiero un footer con enlaces de contacto y redes sociales para comunicarme o seguir novedades de WeRide.             | 2                  | Morales Sosa, Arnold Gabriel        | Done   |
-| US06 | Página de Información        | Como usuario, quiero una sección informativa sobre WeRide y sus beneficios para entender el propósito de la plataforma.            | 2                  | Bonifacio Jaramillo, Samuel Jesus   | Done   |
-| US07 | Validación de Formularios    | Como usuario, quiero que los formularios de registro e inicio de sesión validen mis datos para evitar errores y mejorar la seguridad.| 2                 | Castro Pariona, Jefferson Ernesto   | Done   |
-| US08 | Estilos Generales            | Como usuario, quiero una interfaz visualmente coherente (colores, fuentes, espaciados) para una experiencia agradable y moderna.   | 1                  | Romero Meza, Jhimy Pool   | Done   |
+| ID | Title/Section | Description | Estimation (Hours) | Assigned To | Status |
+|---|---|---|---:|---|---|
+| US-27 | Landing Page Informativa | Diseñar e implementar la estructura principal de la landing page, incluyendo el encabezado, presentación de WeRide y propuesta de valor. | 4 | Bonifacio Jaramillo, Samuel Jesus | Done |
+| US-27 | Estilos Generales | Aplicar colores, tipografías, espaciados y componentes visuales para mantener una identidad gráfica consistente. | 3 | Romero Meza, Jhimy Pool | Done |
+| US-43 | Barra de Navegación | Implementar el menú de navegación con enlaces funcionales a las secciones de la landing page. | 3 | Seminario Castillo, Diego Vicente | Done |
+| US-43 | Navegación entre Secciones | Configurar el desplazamiento y verificar que los enlaces conduzcan correctamente a cada sección. | 2 | Bonifacio Jaramillo, Samuel Jesus | Done |
+| US-56 | Diseño Responsive | Adaptar la estructura, imágenes y componentes de la landing page a dispositivos móviles y tablets. | 5 | Morales Sosa, Arnold Gabriel | Done |
+| US-56 | Validación Responsive | Comprobar la visualización y funcionamiento del menú, tarjetas y botones en diferentes resoluciones. | 3 | Romero Meza, Jhimy Pool | Done |
+| US-44 | Catálogo de Vehículos | Implementar una sección que muestre los tipos de vehículos eléctricos disponibles, incluyendo imágenes y nombres. | 4 | Castro Pariona, Jefferson Ernesto | Done |
+| US-45 | Comparación de Vehículos | Desarrollar la sección de comparación de vehículos con información sobre velocidad, autonomía, peso y tiempo de carga. | 5 | Castro Pariona, Jefferson Ernesto | Done |
+| US-45 | Selección de Categorías | Implementar la interacción que permita seleccionar diferentes tipos de vehículos y actualizar sus especificaciones. | 3 | Seminario Castillo, Diego Vicente | Done |
+| US-49 | Acceso a la Aplicación | Implementar el botón Go to App y configurar su redirección hacia la aplicación WeRide. | 3 | Castro Pariona, Jefferson Ernesto | Done |
+| US-49 | Verificación de Redirección | Comprobar que los accesos a la aplicación desde el encabezado y la portada dirijan a la ruta configurada. | 2 | Morales Sosa, Arnold Gabriel | Done |
+
+**Total de horas estimadas:** 37 horas.
+
+**Total de Story Points comprometidos:** 20 SP.
+
+---
+
 
 #### 5.2.1.4. Development Evidence for Sprint Review
 
@@ -321,6 +349,7 @@ A continuación, se adjuntan las capturas de evidencia de los insights de los re
 
 ## 5.2.2. Sprint 2
 
+
 ### 5.2.2.1. Sprint Planning 2
 
 <table>
@@ -328,139 +357,157 @@ A continuación, se adjuntan las capturas de evidencia de los insights de los re
     <th>Elemento</th>
     <th>Detalle</th>
   </tr>
-
   <tr>
     <td><strong>Sprint</strong></td>
-    <td>Sprint 2 — Implementación de base de datos local (<code>db.json</code>) y primera versión desplegada del Back/Front (WeRide)</td>
+    <td>Sprint 2 — Implementación de secciones informativas, comerciales y de contacto de la landing page de WeRide</td>
   </tr>
-
   <tr>
     <td><strong>Sprint Planning Background</strong></td>
-    <td>Sprint orientado a proveer una capa de datos simulada (db.json) que permita al frontend consumir lecturas IoT y estados de vehículos, y a la vez desarrollar los bounded contexts principales para validar flujos de negocio (auth, booking, garage, plans, trip). Se busca reducir dependencia de servicios externos y preparar la integración con el backend real en sprints posteriores.</td>
+    <td>Después de desarrollar la estructura inicial de la landing page durante el Sprint 1, el equipo WeTech continuará incorporando información relevante sobre el servicio. Se priorizará mostrar las ubicaciones disponibles, explicar el funcionamiento de WeRide, presentar los planes y tarifas, incluir la oferta corporativa B2B y facilitar los canales de contacto. También se incorporarán contenidos sobre beneficios, impacto y testimonios.</td>
   </tr>
-
   <tr>
     <td><strong>Fecha</strong></td>
     <td>2025-10-08</td>
   </tr>
-
   <tr>
     <td><strong>Hora</strong></td>
     <td>21:00 (GMT-5)</td>
   </tr>
-
   <tr>
     <td><strong>Lugar</strong></td>
     <td>Reunión virtual — Google Meet</td>
   </tr>
-
   <tr>
     <td><strong>Preparado por</strong></td>
     <td>WeTech</td>
   </tr>
-
   <tr>
     <td><strong>Asistentes</strong></td>
     <td>Samuel Bonifacio, Jefferson Castro, Diego Seminario, Jhimy Romero, Arnold Morales</td>
   </tr>
-
   <tr>
-    <td><strong>Sprint n-2 Review</strong></td>
-    <td>Se completó la primera versión desplegada del Frontend Web Application de WeRide; se validaron wireframes y se obtuvo feedback inicial de usuarios de prueba.</td>
+    <td><strong>Sprint n-1 Review</strong></td>
+    <td>Se revisaron los entregables del Sprint 1 relacionados con la estructura principal de la landing page, navegación, diseño responsive, catálogo y comparación de vehículos, así como el acceso a la aplicación. Los resultados y criterios de aceptación deben contrastarse con las evidencias del repositorio.</td>
   </tr>
-
   <tr>
-    <td><strong>Sprint n-2 Retrospective</strong></td>
-    <td>Buena coordinación y avance en frontend; se identificó la necesidad de una capa de datos simulada (db.json) y de criterios de aceptación más precisos para las integraciones.</td>
+    <td><strong>Sprint n-1 Retrospective</strong></td>
+    <td>Se identificó la necesidad de mantener una distribución clara de responsabilidades, mejorar la organización de los componentes y verificar los criterios de aceptación de cada funcionalidad antes de cerrar las tareas.</td>
   </tr>
-
   <tr>
     <td><strong>Sprint Goal (Statement)</strong></td>
     <td>
-      <strong>Our focus is on</strong> implementar una base de datos local (<code>db.json</code>) que simule endpoints y telemetría, y desarrollar los bounded contexts <strong>auth</strong>, <strong>booking</strong>, <strong>garage</strong>, <strong>plans</strong> y <strong>trip</strong> en el frontend para validar flujos clave.<br>
-      <strong>We believe it delivers</strong> mayor estabilidad del desarrollo frontend, permite pruebas deterministas y acelera la integración con el backend real para pilotos.<br>
-      <strong>This will be confirmed when</strong> el frontend consume correctamente <code>db.json</code> (endpoints simulados), los flujos de autenticación, reserva y gestión de vehículos funcionan end-to-end en entorno de pruebas, y se registran ≥ 30 interacciones de prueba entre usuarios y booking/garage durante la fase de validación.
+      <strong>Our focus is on</strong> completar las secciones informativas y comerciales de la landing page de WeRide, permitiendo consultar ubicaciones, funcionamiento del servicio, planes, beneficios y medios de contacto.<br>
+      <strong>We believe it delivers</strong> información más completa para que los visitantes comprendan cómo funciona WeRide, comparen alternativas y evalúen el servicio antes de utilizar la aplicación.<br>
+      <strong>This will be confirmed when</strong> las ocho User Stories seleccionadas cumplan sus criterios de aceptación y se compruebe que las secciones muestran información clara, mantienen una navegación funcional y permiten acceder a los canales de contacto correspondientes.
     </td>
   </tr>
-
   <tr>
     <td><strong>User Stories (SP)</strong></td>
     <td>
-      - <strong>US-06 (3 SP):</strong> Crear <code>db.json</code> con modelos: usuarios, vehículos, estado batería, ubicaciones y trips.<br>
-      - <strong>US-07 (5 SP):</strong> Implementar bounded context <strong>booking</strong>: reserva, confirmación y cancelación (frontend + lectura/sync con <code>db.json</code>).<br>
-      - <strong>US-08 (4 SP):</strong> Implementar bounded context <strong>garage</strong>: vista de vehículo, estado, reportes de incidencia y lógica de disponibilidad.<br>
-      - <strong>US-09 (3 SP):</strong> Implementar bounded context <strong>plans</strong>: planes/subscripciones mock (interfaz + lógica de selección).<br>
-      - <strong>US-10 (5 SP):</strong> Implementar bounded context <strong>trip</strong>: inicio/final de viaje simulado, registro de evento en <code>db.json</code> y visualización de historial.
+      - <strong>US-46 (3 SP)</strong><br>
+      - <strong>US-47 (3 SP)</strong><br>
+      - <strong>US-48 (3 SP)</strong><br>
+      - <strong>US-55 (3 SP)</strong><br>
+      - <strong>US-53 (2 SP)</strong><br>
+      - <strong>US-50 (2 SP)</strong><br>
+      - <strong>US-51 (2 SP)</strong><br>
+      - <strong>US-52 (2 SP)</strong>
     </td>
   </tr>
-
   <tr>
     <td><strong>Sprint 2 Velocity (forecast)</strong></td>
     <td>20 puntos</td>
   </tr>
-
   <tr>
     <td><strong>Sum of Story Points (commit)</strong></td>
     <td>20 puntos</td>
   </tr>
 </table>
 
+
 <hr>
+
 
 <h2>Objetivo del Sprint (versión SMART)</h2>
 
-<p><strong>Objetivo:</strong> Implementar una base de datos simulada (<code>db.json</code>) y desarrollar los bounded contexts auth, booking, garage, plans y trip en el frontend para permitir pruebas end-to-end controladas.</p>
+<p><strong>Objetivo:</strong> Completar durante el Sprint 2 ocho funcionalidades informativas y comerciales de la landing page de WeRide, con un compromiso total de 20 Story Points, para que los visitantes puedan conocer las ubicaciones, el funcionamiento del servicio, los planes y los medios de contacto.</p>
 
 <ul>
-  <li><strong>Específico:</strong> <code>db.json</code> con entidades clave y endpoints simulados; booking/garage/trip/plans/auth funcionales en entorno de pruebas.</li>
-  <li><strong>Medible:</strong> 30 interacciones de prueba en booking/garage/trip; todas las historias con criterios de aceptación verificados.</li>
-  <li><strong>Alcanzable:</strong> Basado en la velocity estimada (20 SP) y competencias del equipo.</li>
-  <li><strong>Relevante:</strong> Permite validar integraciones sin dependencia de backend real y acelera la preparación del piloto.</li>
-  <li><strong>Tiempo-bound:</strong> Entrega al cierre del Sprint 2 (1 iteración).</li>
+  <li><strong>Específico:</strong> Implementar las secciones de ubicaciones, funcionamiento del servicio, planes y tarifas, plan corporativo B2B, contacto, beneficios, indicadores de impacto y testimonios.</li>
+  <li><strong>Medible:</strong> Verificar el cumplimiento de los criterios de aceptación de las ocho User Stories seleccionadas.</li>
+  <li><strong>Alcanzable:</strong> Se establece un compromiso de 20 Story Points, sujeto a la capacidad estimada del equipo.</li>
+  <li><strong>Relevante:</strong> Permite comunicar la propuesta de valor de WeRide y facilitar la evaluación del servicio por usuarios particulares y empresas.</li>
+  <li><strong>Tiempo-bound:</strong> Las funcionalidades deberán completarse al cierre del Sprint 2.</li>
 </ul>
+
+
 
 
 #### User Stories seleccionadas para el Sprint 2
 
-| ID  | User Story | Puntos |
-|-----|-------------|--------|
-| 01  | Como usuario quiero poder iniciar sesión o registrarme en la app para usarla diariamente. | 5 |
-| 02  | Como usuario, quiero introducir mi número de celular para validar mi identidad y recibir notificaciones importantes. | 4 |
-| 03  | Como usuario, quiero introducir un código de verificación para validar mi identidad en la aplicación. | 4 |
-| 04  | Como usuario quiero poder crear un perfil para colocar mis datos. | 5 |
-| 05  | Como usuario quiero poder ver una pantalla principal estética que me atraiga a usar el servicio. | 2 |
+| ID | User Story | Puntos |
+|---|---|---:|
+| US-46 | Como visitante, quiero consultar las zonas y puntos de referencia donde opera WeRide para evaluar si el servicio me resulta accesible. | 3 |
+| US-47 | Como visitante, quiero conocer los pasos para registrarme, utilizar y devolver un vehículo para comprender el proceso de uso de WeRide. | 3 |
+| US-48 | Como visitante, quiero comparar los planes, precios y beneficios disponibles para evaluar cuál se adapta a mis necesidades. | 3 |
+| US-55 | Como representante de una empresa, quiero consultar las condiciones del Business Plan para evaluar su utilidad para mis colaboradores. | 3 |
+| US-53 | Como visitante, quiero encontrar los datos de contacto de WeRide para realizar consultas generales sobre el servicio. | 2 |
+| US-50 | Como visitante, quiero conocer las ventajas de la movilidad eléctrica que propone WeRide para evaluar su utilidad. | 2 |
+| US-51 | Como visitante, quiero consultar indicadores de alcance de WeRide para conocer la dimensión del servicio. | 2 |
+| US-52 | Como visitante, quiero leer experiencias de usuarios para conocer opiniones sobre el servicio antes de utilizarlo. | 2 |
 
-**Total de puntos:** 20  
+**Total de puntos:** 20
 
 ---
 
+
+---
+
+
 ### 5.2.2.2. Aspect Leaders and Collaborators
 
-| Team Member (Apellido, Nombre) | GitHub Username | Base de Datos (db.json) | Registro de Usuario | Reserva de Vehículo | Pagos | Integración y Pruebas |
-|--------------------------------|------------------|-------------------------|---------------------|---------------------|-------|----------------------|
-| Bonifacio, Samuel | samuelbonifacio015 | L | L | L | L | L |
-| Castro, Jefferson | JeffersonCastroPariona | L | L | L | L | L |
-| Seminario, Diego | DiegoSeminario | C | C | L | C | C |
-| Romero, Jhimy | jhimyromeromeza | L | C | C | C | L |
-| Morales, Arnold | Arnold-TI | L | L| L | L | C |
+En esta sección se presenta la matriz de liderazgo y colaboración (Leadership-and-Collaboration Matrix, LACX) correspondiente al Sprint 2 de WeRide. Su propósito es identificar a los integrantes responsables de las funcionalidades seleccionadas y facilitar la coordinación del trabajo.
+
+Los aspectos considerados incluyen la visualización de ubicaciones (US-46), información sobre el funcionamiento del servicio (US-47), planes y tarifas (US-48), plan corporativo B2B (US-55), contacto (US-53), beneficios (US-50), indicadores de impacto (US-51) y testimonios (US-52).
+
+| Team Member (Apellido, Nombre) | GitHub Username | Ubicaciones | Funcionamiento del Servicio | Planes y Tarifas / B2B | Contacto y Beneficios | Impacto y Testimonios |
+|---|---|---|---|---|---|---|
+| Bonifacio, Samuel | samuelbonifacio015 | L | C | C | C | C |
+| Castro, Jefferson | JeffersonCastroPariona | C | C | L | C | C |
+| Seminario, Diego | DiegoSeminario | C | L | C | C | C |
+| Romero, Jhimy | jhimyromeromeza | C | C | C | C | L |
+| Morales, Arnold | Arnold-TI | C | C | C | L | C |
 
 **L:** Leader (Líder)  
 **C:** Collaborator (Colaborador)
 
+Esta distribución permite identificar un líder principal por aspecto y mantener la participación del equipo durante el desarrollo del Sprint 2.
+
 ---
+
 
 ### 5.2.2.3. Sprint Backlog 2
 
 | ID | Title/Section | Description | Estimation (Hours) | Assigned To | Status |
-|----|----------------|--------------|--------------------|--------------|--------|
-| US21 | Registro de Usuario | Como usuario, quiero registrar una cuenta desde la aplicación para acceder a los servicios de WeRide. | 3 | Castro Pariona, Jefferson Ernesto | Done |
-| US22 | Visualización de Vehículos | Como usuario, quiero visualizar los vehículos disponibles para elegir uno según mis necesidades. | 4 | Seminario Castillo, Diego Vicente | Done |
-| US23 | Reserva de Vehículo | Como usuario, quiero poder reservar un vehículo seleccionando fecha y hora de uso. | 4 | Romero Meza, Jhimy Pool | Done |
-| US24 | Pago en Línea | Como usuario, quiero realizar el pago de mi reserva de manera segura mediante una interfaz simple y funcional. | 5 | Morales Sosa, Arnold Gabriel | Done |
-| US25 | Archivo db.json | Como desarrollador, quiero crear un archivo db.json con los datos de usuarios, vehículos y reservas para pruebas locales. | 2 | Bonifacio Jaramillo, Samuel Jesús | Done |
-| US26 | Pruebas e Integración | Como equipo, queremos realizar pruebas de funcionamiento e integración del flujo completo del sistema. | 2 | Todos | Done |
+|---|---|---|---:|---|---|
+| US-46 | Sección de Ubicaciones | Implementar la sección Locations con los nombres, direcciones y puntos de referencia donde opera WeRide. | 4 | Bonifacio Jaramillo, Samuel Jesus | To Do |
+| US-46 | Tarjetas de Ubicaciones | Diseñar las tarjetas de ubicación y verificar que la información permanezca visible cuando una imagen no esté disponible. | 2 | Bonifacio Jaramillo, Samuel Jesus | To Do |
+| US-47 | Sección How It Works | Implementar una sección que explique los pasos para registrarse, utilizar y devolver un vehículo. | 4 | Seminario Castillo, Diego Vicente | To Do |
+| US-48 | Sección de Planes y Tarifas | Implementar la visualización de los planes disponibles, incluyendo precios, duración, beneficios y condiciones. | 4 | Castro Pariona, Jefferson Ernesto | To Do |
+| US-55 | Plan Corporativo B2B | Incorporar el Business Plan con sus condiciones, beneficios y un medio de contacto para consultas empresariales. | 4 | Castro Pariona, Jefferson Ernesto | To Do |
+| US-53 | Información de Contacto | Implementar la sección Contact Us con los medios de contacto y enlaces correspondientes. | 3 | Morales Sosa, Arnold Gabriel | To Do |
+| US-50 | Beneficios del Servicio | Desarrollar una sección informativa sobre las ventajas de la movilidad eléctrica y la propuesta de WeRide. | 3 | Morales Sosa, Arnold Gabriel | To Do |
+| US-51 | Indicadores de Impacto | Implementar la sección Our Impact con indicadores y etiquetas que distingan los datos reales de los demostrativos. | 3 | Romero Meza, Jhimy Pool | To Do |
+| US-52 | Testimonios | Implementar la sección Testimonials, mostrando las experiencias de usuarios y señalando los testimonios demostrativos cuando corresponda. | 3 | Romero Meza, Jhimy Pool | To Do |
+| US-48 | Verificación de Planes | Comprobar que los planes publicados muestren correctamente precios, duración y beneficios. | 2 | Castro Pariona, Jefferson Ernesto | To Do |
+| US-47 | Verificación de Contenido | Comprobar que los pasos de funcionamiento del servicio se presenten en el orden correcto y sean comprensibles. | 2 | Seminario Castillo, Diego Vicente | To Do |
+
+**Total de horas estimadas:** 34 horas.
+
+**Total de Story Points comprometidos:** 20 SP.
 
 ---
+
 
 ### 5.2.2.4. Development Evidence for Sprint Review
 
