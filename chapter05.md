@@ -1332,8 +1332,6 @@ El siguiente acuerdo de servicio rige el uso de la plataforma **WeRide** por par
 ---
 ### 5.3.2 Registro de Entrevistas
 
-### 5.3.2 Registro de Entrevistas
-
 **Segmento 1: Universitarios y Jóvenes Profesionales (B2C)**
 
 #### Entrevista 1
@@ -1858,7 +1856,7 @@ Las pruebas de integración permiten comprobar que los distintos componentes del
 
 Para su implementación se utiliza Spring Boot Test mediante @SpringBootTest y @AutoConfigureMockMvc, lo que permite enviar solicitudes HTTP a los endpoints sin iniciar un servidor externo. Las peticiones se realizan con MockMvc y se autentican mediante tokens JWT obtenidos a través de los endpoints de registro e inicio de sesión. Asimismo, se utiliza H2 como base de datos en memoria con el perfil test, de modo que las operaciones de persistencia se ejecutan en un entorno aislado de la base de datos utilizada por la aplicación. Las clases de prueba emplean @Transactional para evitar que los datos creados durante una prueba permanezcan en la base de datos después de su ejecución.
 
-**Tabla 6.3. Matriz de casos de prueba de integración para la API RESTful**
+**Tabla 6.7. Matriz de casos de prueba de integración para la API RESTful**
 
 | ID del caso | Bounded Context | Clase de prueba | Endpoint y método HTTP | Escenario de integración | Resultado esperado y verificación |
 | --- | --- | --- | --- | --- | --- |
@@ -2057,7 +2055,7 @@ Feature: Vehicle Fleet Management (Garage)
 
 *(En el repositorio los escenarios incluyen el cuerpo JSON completo del vehículo; aquí se resumen por extensión.)*
 
-**Tabla 6.5. Casos de prueba BDD ejecutados con Karate**
+**Tabla 6.8. Casos de prueba BDD ejecutados con Karate**
 
 | ID | Feature | Escenario | Resultado esperado | Resultado obtenido |
 | --- | --- | --- | --- | --- |
@@ -2083,21 +2081,20 @@ Feature: Vehicle Fleet Management (Garage)
 *Figura 6.2. Reporte HTML generado por Karate.*
 
 ### 6.1.4. Core System Tests.
-Las pruebas de sistema (*End-to-End* / E2E) evalúan la aplicación completa de manera integral, simulando la interacción real de los usuarios en la interfaz Web (Vue.js) y en la aplicación Móvil. Estas pruebas verifican la comunicación entre el frontend, las APIs RESTful del backend y la base de datos en escenarios de uso reales.
+Las pruebas de sistema (*End-to-End* / E2E) evalúan la aplicación completa de manera integral, simulando la interacción real de los usuarios en la interfaz Web (Angular) y en la aplicación Móvil. Estas pruebas verifican la comunicación entre el frontend, las APIs RESTful del backend y la base de datos en escenarios de uso reales.
 
-Se utiliza **Playwright** para la automatización web y **Appium** para la automatización de la interfaz móvil.
+Se definió la matriz de casos de sistema de la tabla siguiente. Las herramientas previstas para automatizarlos son **Playwright** (web) y **Appium** (móvil); a la fecha de este avance su ejecución automatizada está **pendiente**, y el flujo de la API se cubre con las pruebas BDD de la sección 6.1.3.
 
-**Tabla 6.4\. Matriz de Pruebas de Sistema (End-to-End)**
+**Tabla 6.9\. Matriz de Pruebas de Sistema (End-to-End)**
 
 | ID Caso de prueba | Plataforma               | Flujo de Usuario Evaluado (Happy/Unhappy Path)                                                | Resultado esperado                                                                                              |
 | ----------------- | ------------------------ | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| **SYS-E2E-01**    | Web Browser (Vue.js)     | Flujo completo de registro de usuario, inicio de sesión y redirección al Dashboard principal. | El usuario completa el formulario, recibe la confirmación de cuenta y visualiza correctamente su panel privado. |
-| **SYS-E2E-02**    | Web Browser (Vue.js)     | Selección de un plan de suscripción y procesamiento de la suscripción.                        | La interfaz actualiza el estado del plan del usuario y muestra el comprobante digital correspondiente.          |
+| **SYS-E2E-01**    | Web Browser (Angular)    | Flujo completo de registro de usuario, inicio de sesión y redirección al Dashboard principal. | El usuario completa el formulario, recibe la confirmación de cuenta y visualiza correctamente su panel privado. |
+| **SYS-E2E-02**    | Web Browser (Angular)    | Selección de un plan de suscripción y procesamiento de la suscripción.                        | La interfaz actualiza el estado del plan del usuario y muestra el comprobante digital correspondiente.          |
 | **SYS-E2E-03**    | Mobile App (Android/iOS) | Autenticación desde la aplicación móvil con credenciales inválidas.                           | La app muestra un mensaje de error accesible indicando "Invalid credentials" sin cerrar la aplicación.          |
 
 *Fuente: Elaboración propia.*
 
-![localtime](assets/chapter05/unitTest/test-karate-dash.png)
 
 ---
 
@@ -2107,7 +2104,7 @@ Se utiliza **Playwright** para la automatización web y **Appium** para la autom
 
 Para el análisis estático del backend de WeRide se evaluaron tres alternativas y se eligió SonarQube, porque cubre en una sola herramienta las convenciones de código, la calidad y la seguridad del backend en Java, y porque se integra con Maven y con la tubería de integración continua descrita en el Capítulo VII.
 
-**Tabla 6.3. Comparación de herramientas de análisis estático**
+**Tabla 6.10. Comparación de herramientas de análisis estático**
 
 | Criterio | SonarQube Community Build | ESLint | Checkmarx |
 | --- | --- | --- | --- |
@@ -2147,7 +2144,7 @@ mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dski
 
 El token de acceso no se incluye en el repositorio ni en este informe.
 
-**Tabla 6.4. Resultados del análisis estático de `Backend-WeRide` (11/11/2026)**
+**Tabla 6.11. Resultados del análisis estático de `Backend-WeRide` (11/11/2026)**
 
 | Métrica | Resultado | Calificación |
 | --- | --- | --- |
@@ -2182,6 +2179,135 @@ El token de acceso no se incluye en el repositorio ni en este informe.
 - El único hallazgo de seguridad corresponde a una decisión de diseño justificada (API sin estado con JWT).
 - La principal oportunidad de mejora es medir la cobertura de pruebas unitarias.
 
+
+### 6.2.2. Reviews
+
+La revisión de código se realiza mediante **Pull Requests** en GitHub, tal como se define en la sección 5.1.2: ningún cambio llega a una rama compartida sin que otro integrante lo revise. Además de la revisión humana, cada cambio se valida con la compilación, las pruebas automatizadas y el análisis estático de la sección 6.2.1.
+
+**Criterios de revisión aplicados**
+
+- El proyecto compila (`mvn compile` y `mvn test-compile`) y las pruebas existentes se ejecutan.
+- No se incluyen credenciales ni archivos locales de configuración (por ejemplo, `application.properties` con datos de la base de datos).
+- El cambio sigue las convenciones de la sección 6.2.1.1 y los mensajes de commit siguen Conventional Commits.
+- La descripción del Pull Request explica qué cambia, cómo se verificó y qué queda pendiente.
+
+**Tabla 6.12. Pull Request revisado en este avance**
+
+| Campo | Detalle |
+| --- | --- |
+| Repositorio | `DEIS-Grupo-4/Backend-Weride-DEIS` |
+| Pull Request | #2 — *Fix compilation (types-consistency) + Karate BDD tests* |
+| Autor | Aless7666 |
+| Fecha | 11/11/2026 |
+| Alcance | 2 commits, 13 archivos (+213 / −8) |
+| Revisores solicitados | jhimyromeroza, giorgiorgior, FranKo024 y amazcoffee2-spec |
+| Hallazgo principal | La rama `main` no compilaba tras el merge de `refactor/types-consistency`: 4 errores en el código y 8 en los tests por tipos de `userId` y un getter ausente en `TravelHistory`. |
+| Corrección | Se alinearon `userId` de Notifications y Trip a `String` (como esperan los repositorios, servicios y tests existentes) y se agregó el getter de `createdAt` en `TravelHistory`. La migración de `userId` a `Long` queda pendiente de completarse en todas las capas. |
+| Verificación | Compilación sin errores; 73 de 79 pruebas unitarias aprobadas; Karate 8/8 aprobadas. |
+| Pendientes ajenos al PR | 2 pruebas de `BookingCommandServiceImplTest` (dependen de fechas) y 4 de `SecurityHttpIntegrationTest` (tabla `accounts` no encontrada en H2). |
+| Estado | Unido a `main` el 11/11/2026 con la conformidad del equipo. |
+
+*Fuente: Pull Request #2 de `Backend-Weride-DEIS`.*
+
+Este caso mostró el valor de la revisión: un cambio que parecía terminado dejó la rama principal sin compilar y se detectó antes de desplegar.
+
+
+## 6.3. Validation Interviews
+
+Las entrevistas de validación se realizaron sobre la propuesta de valor de WeRide y su Landing Page. El material completo (guía de preguntas, grabaciones y resúmenes) se encuentra en la sección 5.3; aquí se resume según la estructura de este capítulo.
+
+### 6.3.1. Diseño de Entrevistas
+
+Se diseñó una guía de preguntas por segmento, con preguntas sobre lo que el usuario entiende de la Landing Page, qué le genera confianza y qué información le falta para registrarse. Los segmentos son:
+
+- **Segmento 1:** universitarios y jóvenes profesionales (B2C).
+- **Segmento 2:** empresas y planes corporativos (B2B).
+
+La guía completa se presenta en la sección 5.3.1.
+
+### 6.3.2. Registro de Entrevistas
+
+**Tabla 6.13. Entrevistas realizadas**
+
+| Segmento | Entrevistado | Edad | Distrito | Duración |
+| --- | --- | --- | --- | --- |
+| B2C | Williams Avendaño | 20 años | Surco | 10:44 |
+| B2C | Patrick Cárdenas | 19 años | Ate | 8:30 |
+| B2C | Patrick Correa | 20 años | San Miguel | 28:22 |
+| B2B | Ricardo Del Aguila | 27 años | San Miguel | 13:14 |
+| B2B | Matias Flores Flores | 26 años | San Isidro | 9:20 |
+| B2B | Angie Santos | 46 años | Santiago de Surco | 7:31 |
+
+*Fuente: elaboración propia. El resumen, las grabaciones y las características de cada entrevistado están en la sección 5.3.2.*
+
+### 6.3.3. Evaluaciones según heurísticas
+
+La evaluación heurística de usabilidad sobre WeRide se documenta en la sección 5.3.3 (auditoría de UX con 14 observaciones). Su resumen y las modificaciones asociadas se presentan en la sección 6.4.2.
+
+## 6.4. Auditoría de Experiencias de Usuario
+
+### 6.4.1. Auditoría realizada
+
+#### 6.4.1.1. Información del grupo auditado
+
+> **Pendiente de completar por el equipo:** grupo, producto, integrantes y enlace del sitio o aplicación evaluados en la auditoría que realizó el Grupo 4 a otro grupo.
+
+#### 6.4.1.2. Cronograma de auditoría realizada
+
+> **Pendiente de completar por el equipo:** fechas y responsables.
+
+#### 6.4.1.3. Contenido de auditoría realizada
+
+> **Pendiente de completar por el equipo:** heurísticas evaluadas, observaciones y severidades de la auditoría realizada.
+
+### 6.4.2. Auditoría recibida
+
+#### 6.4.2.1. Información del grupo auditor
+
+| Campo | Detalle |
+| --- | --- |
+| Auditor | Apaza Bocanegra, Elizabeth Noelia |
+| Curso | Desarrollo de Aplicaciones Open Source |
+| Sección | 7380 |
+| Producto evaluado | WeRide |
+| Clientes (equipo auditado) | Bonifacio Jaramillo, Samuel Jesus; Castro Pariona, Jefferson Ernesto; Morales Sosa, Arnold Gabriel; Romero Meza, Jhimy Pool; Seminario Castillo, Diego Vicente |
+
+*Fuente: auditoría de UX recibida (sección 5.3.3).*
+
+#### 6.4.2.2. Cronograma de auditoría recibida
+
+> **Pendiente de completar por el equipo:** fecha de la auditoría y fecha en que se entregaron los resultados.
+
+#### 6.4.2.3. Contenido de auditoría recibida
+
+La auditoría evaluó la usabilidad, el diseño inclusivo y la arquitectura de información de WeRide y reportó **14 observaciones**. El detalle de cada una, con su evidencia, se encuentra en la sección 5.3.3.
+
+**Tabla 6.14. Observaciones de la auditoría recibida**
+
+| N.° | Observación | Severidad (1 a 4) |
+| --- | --- | --- |
+| 1 | Falta de Login en la Landing Page | 2 |
+| 2 | Funciones inaccesibles en el Login | 3 |
+| 3 | Interfaz demasiado limpia, sin distribución clara e imágenes muy grandes | 1 |
+| 4 | Cards demasiado amplias; botones de filtrado y favoritos no funcionan | 3 |
+| 5 | No hay datos para bicicletas eléctricas | 2 |
+| 6 | No permite cancelar reservas | 4 |
+| 7 | No permite guardar nuevas reservas desde Booking | 4 |
+| 8 | La sección "Viaje" en Ver Detalles está inactiva | 2 |
+| 9 | El botón "Pagar" de la sección Planes está inactivo | 3 |
+| 10 | Botones Settings y User de la barra principal inactivos | 2 |
+| 11 | No hay opciones de traducción y se dificulta la comprensión de recibos | 1 |
+| 12 | Reservar vehículo está inactivo | 4 |
+| 13 | El botón de reservar dentro de las cards está inactivo | 3 |
+| 14 | No permite usar el botón "Edit Booking" | 3 |
+
+*Fuente: auditoría de UX recibida. Distribución: 3 observaciones de severidad 4, 5 de severidad 3, 4 de severidad 2 y 2 de severidad 1.*
+
+#### 6.4.2.4. Resumen de modificaciones para subsanar hallazgos
+
+Las observaciones de mayor severidad (6, 7 y 12) afectan el flujo principal de reservas. Este flujo se verifica en el nuevo ciclo mediante el experimento **EXP-01** (test de usabilidad del flujo encontrar, reservar y desbloquear), descrito en el Capítulo VIII.
+
+> **Pendiente de completar por el equipo:** indicar, para cada observación, la modificación aplicada en la versión actual o su estado (corregida, en curso o descartada).
 
 # Capítulo VII: DevOps Practices
 
@@ -2438,6 +2564,28 @@ La verificación de salud es una comprobación de disponibilidad básica: confir
 | **Accesibilidad de la API documentada** | Swagger UI | Que el servicio esté iniciado, pero la documentación no pueda consultarse. | Verificar la ruta publicada y los registros del backend. |
 
 "GET /health" representa una comprobación de liveness sencilla, no debe presentarse como una supervisión completa de la salud de las dependencias. Como mejora, el monitoreo puede automatizar comprobaciones periódicas de disponibilidad y alertas ante fallos repetidos, así como también incorporar una verificación separada de conectividad con la base de datos.
+
+
+### 7.4.3. Alerting Pipeline Components
+
+A partir de los indicadores de la sección 7.4.2, el equipo define las siguientes reglas de alerta para el backend:
+
+| Regla | Condición | Severidad |
+| --- | --- | --- |
+| Servicio no disponible | `GET /health` no responde `UP` durante 3 minutos consecutivos | Alta |
+| Fallo de despliegue | La construcción o el inicio del servicio en Render termina en error | Alta |
+| Errores del servidor | Respuestas HTTP 5xx sostenidas en los registros del backend | Alta |
+| Latencia alta | Percentil 95 del flujo de desbloqueo superior a 5 s (meta del experimento EXP-04) | Media |
+
+*Estado: reglas definidas. Su evaluación hoy es manual, mediante la revisión de Render y de `/health`; automatizarla requiere agregar Spring Boot Actuator con Prometheus y Grafana, o una comprobación externa periódica.*
+
+La línea base de rendimiento proviene de EXP-04: 35 mediciones del flujo de desbloqueo con media de 1,675.3 ms y percentil 95 de 2,354.1 ms, todas por debajo de 5 s.
+
+### 7.4.4. Notification Pipeline Components
+
+Las alertas se comunicarían por correo electrónico (notificaciones del proveedor de despliegue) y por los canales de coordinación que el equipo ya usa (WhatsApp y Discord, sección 5.1.1). Cada notificación debe indicar el servicio afectado, la regla incumplida, la hora y la versión o commit desplegado más reciente, para relacionar el incidente con el último cambio.
+
+*Estado: canales definidos; la configuración de notificaciones automáticas está pendiente.*
 
 
 # Capítulo VIII: Experiment-Driven Development
@@ -2913,6 +3061,8 @@ Los resultados de cada experimento se registran en una Learning Card una vez eje
 
   
 
+## Bibliografía
+
 <ul>
   <li>Alexander, I., & Beus-Dukic, L. (2009). <em>Discovering Requirements: How to Specify Products and Services</em>. Wiley.</li>
   <li>Cohn, M. (2004). <em>User Stories Applied: For Agile Software Development</em>. Addison-Wesley.</li>
@@ -2927,7 +3077,17 @@ Los resultados de cada experimento se registran en una Learning Card una vez eje
   <li>Figma. (2024). <em>Figma Design Documentation</em>. Recuperado de: <a href="https://help.figma.com/" target="_blank" rel="noopener">https://help.figma.com/</a></li>
   <li>Google Maps Platform. (2024). <em>Maps JavaScript API Documentation</em>. Recuperado de: <a href="https://developers.google.com/maps/documentation/javascript" target="_blank" rel="noopener">https://developers.google.com/maps/documentation/javascript</a></li>
   <li>Node.js Foundation. (2024). <em>Node.js Documentation</em>. Recuperado de: <a href="https://nodejs.org/en/docs/" target="_blank" rel="noopener">https://nodejs.org/en/docs/</a></li>
-  <li>Vue.js. (2024). <em>Vue.js Guide</em>. Recuperado de: <a href="https://vuejs.org/guide/introduction.html" target="_blank" rel="noopener">https://vuejs.org/guide/introduction.html</a></li>
+  <li>Angular. (2025). <em>Angular Documentation</em>. Recuperado de: <a href="https://angular.dev/" target="_blank" rel="noopener">https://angular.dev/</a></li>
+  <li>SonarSource. (2026). <em>SonarQube Community Build Documentation</em>. Recuperado de: <a href="https://docs.sonarsource.com/sonarqube-community-build/" target="_blank" rel="noopener">https://docs.sonarsource.com/sonarqube-community-build/</a></li>
+  <li>Karate Labs. (2025). <em>Karate: Test Automation Made Simple</em>. Recuperado de: <a href="https://github.com/karatelabs/karate" target="_blank" rel="noopener">https://github.com/karatelabs/karate</a></li>
+  <li>Render. (2026). <em>Render Docs: Web Services, Docker y Health Checks</em>. Recuperado de: <a href="https://render.com/docs" target="_blank" rel="noopener">https://render.com/docs</a></li>
+  <li>Docker. (2026). <em>Multi-stage builds</em>. Recuperado de: <a href="https://docs.docker.com/build/building/multi-stage/" target="_blank" rel="noopener">https://docs.docker.com/build/building/multi-stage/</a></li>
+  <li>Jenkins. (2026). <em>Jenkins User Documentation</em>. Recuperado de: <a href="https://www.jenkins.io/doc/" target="_blank" rel="noopener">https://www.jenkins.io/doc/</a></li>
+  <li>Spring. (2026). <em>Spring Boot Reference Documentation</em>. Recuperado de: <a href="https://docs.spring.io/spring-boot/" target="_blank" rel="noopener">https://docs.spring.io/spring-boot/</a></li>
+  <li>OWASP. (2026). <em>Cross-Site Request Forgery Prevention Cheat Sheet</em>. Recuperado de: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" target="_blank" rel="noopener">https://cheatsheetseries.owasp.org/</a></li>
+  <li>Brooke, J. (1996). SUS: A "quick and dirty" usability scale. En P. W. Jordan et al. (Eds.), <em>Usability Evaluation in Industry</em>. Taylor &amp; Francis.</li>
+  <li>Conventional Commits. (2026). <em>Conventional Commits 1.0.0</em>. Recuperado de: <a href="https://www.conventionalcommits.org/" target="_blank" rel="noopener">https://www.conventionalcommits.org/</a></li>
+  <li>Semantic Versioning. (2026). <em>Semantic Versioning 2.0.0</em>. Recuperado de: <a href="https://semver.org/" target="_blank" rel="noopener">https://semver.org/</a></li>
 </ul>
 
 ## Anexos.
@@ -2949,6 +3109,18 @@ Los resultados de cada experimento se registran en una Learning Card una vez eje
 <a href="https://github.com/OpenSource-Grupo-4/Landing-Page" target="_blank" rel="noopener">Repositorio de Landing Page</a>
 
 <a href="https://opensource-grupo-4.github.io/Landing-Page" target="_blank" rel="noopener">Deploy de Landing Page</a>
+
+### Repositorios de la versión del curso Diseño de Experimentos (DEIS)
+
+<a href="https://github.com/DEIS-Grupo-4/Report_Project" target="_blank" rel="noopener">Repositorio del Informe</a>
+
+<a href="https://github.com/DEIS-Grupo-4/Backend-Weride-DEIS" target="_blank" rel="noopener">Repositorio de Backend Web Services (DEIS)</a>
+
+<a href="https://github.com/DEIS-Grupo-4/Fronted-Weride-DEIS" target="_blank" rel="noopener">Repositorio de Frontend Web Application (DEIS)</a>
+
+<a href="https://github.com/DEIS-Grupo-4/Landing-Page" target="_blank" rel="noopener">Repositorio de Landing Page (DEIS)</a>
+
+> **Pendiente de completar por el equipo:** enlace al repositorio de la aplicación móvil nativa, que proviene de un trabajo anterior del curso de desarrollo móvil y se declara como tal.
 
 <a href="https://www.canva.com/design/DAGzltc5qz0/jV9yXK8Nme4XSOk6AUhFgg/edit" target="_blank" rel="noopener">Presentación de Canvas</a>
 
