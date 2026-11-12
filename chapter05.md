@@ -17,13 +17,13 @@ Esta sección define las decisiones y acuerdos fundamentales para el desarrollo,
 | | Node.js | Entorno de ejecución para construir y servir la Web Application. | https://nodejs.org |
 | | HTML5, CSS3 y JavaScript | Estructura, estilo e interactividad de la Landing Page. | https://developer.mozilla.org |
 | | TypeScript y Angular | Desarrollo de la Web Application como Single Page Application. | https://angular.dev |
-| | Java 17 y Spring Boot | Desarrollo del backend con RESTful API. | https://spring.io/projects/spring-boot |
+| | Java 24 y Spring Boot | Desarrollo del backend con RESTful API. | https://spring.io/projects/spring-boot |
 | | Maven | Gestión de dependencias y construcción del backend. | https://maven.apache.org |
 | | MySQL y MySQL Workbench | Base de datos relacional y su administración visual. | https://www.mysql.com/products/workbench |
 | | json-server | Simular una API con `db.json` durante el desarrollo inicial de la Web Application. | https://github.com/typicode/json-server |
 | | Visual Studio Code y WebStorm | Entornos de desarrollo para la Landing Page y la Web Application. | https://code.visualstudio.com · https://www.jetbrains.com/webstorm |
 | | IntelliJ IDEA | Entorno de desarrollo para el backend en Java. | https://www.jetbrains.com/idea |
-| | Docker | Entorno reproducible: el backend incluye `Dockerfile` y `docker-compose.yml`. | https://www.docker.com |
+| | Docker | Entorno reproducible: el backend incluye `Dockerfile` y `docker-compose.yml`. **[CONFIRMAR si se usa en el flujo de trabajo]** | https://www.docker.com |
 | Software Documentation | Swagger (OpenAPI) | Documentar y probar los endpoints de la RESTful API. | https://swagger.io |
 | | Markdown y Mermaid | Redacción del informe y diagramas de clases en el repositorio. | https://www.markdownguide.org · https://mermaid.js.org |
 | | dbdiagram.io | Diagrama de la base de datos. | https://dbdiagram.io |
@@ -32,8 +32,9 @@ Esta sección define las decisiones y acuerdos fundamentales para el desarrollo,
 | | Vercel | Publicar la Web Application. | https://vercel.com |
 | | Microsoft Azure (máquina virtual con Ubuntu 22.04) | Alojar el backend en un entorno real. | https://azure.microsoft.com |
 | | nginx y systemd | Reverse proxy y ejecución del backend como servicio en la máquina virtual. | https://nginx.org |
-| Software Testing | JUnit | Pruebas unitarias del backend. | https://junit.org |
-| | Karate | Pruebas de aceptación de la API REST. | https://github.com/karatelabs/karate |
+| Software Testing | JUnit 5 y Mockito | Pruebas unitarias y de integración del backend (incluidas en `spring-boot-starter-test`). | https://junit.org |
+| | H2 Database | Base de datos en memoria para las pruebas de integración. | https://www.h2database.com |
+| | Karate | Pruebas de comportamiento (BDD) de la API REST con archivos `.feature`. | https://github.com/karatelabs/karate |
 | | Selenium | Pruebas end-to-end de la Web Application. | https://www.selenium.dev |
 | Continuous Integration | Jenkins | Automatizar compilación, pruebas y despliegue. | https://www.jenkins.io |
 | | SonarQube | Análisis estático de calidad y seguridad del código. | https://www.sonarsource.com/products/sonarqube |
@@ -76,6 +77,7 @@ Los mensajes de commit siguen la especificación Conventional Commits: `<tipo>(<
 - `feat(booking): implement aggregate and command and query services`
 - `refactor: use Long for userId in notifications and trips`
 - `docs: add class diagram in three parts`
+
 ### 5.1.3. Source Code Style Guide & Conventions
  
 El código y los artefactos se redactan con nomenclatura en inglés. Para cada lenguaje se adopta una guía de estilo de referencia:
@@ -92,6 +94,7 @@ Convenciones propias del proyecto:
  
 - **Backend:** clases en `PascalCase`, métodos y atributos en `camelCase`, y tablas en `snake_case` y plural (por ejemplo `trip_photos`). Cada bounded context se organiza en las capas `interfaces`, `application`, `domain` e `infrastructure`.
 - **Web Application:** los componentes se organizan por bounded context (`auth`, `booking`, `garage`, `plans` y `trip`), cada uno con su archivo HTML, CSS y TypeScript.
+
 ### 5.1.4. Software Deployment Configuration.
  
 #### Landing Page
@@ -106,14 +109,13 @@ Se publica en Vercel: el proyecto se conecta al repositorio de GitHub y Vercel c
  
 El backend se aloja en una máquina virtual de Microsoft Azure con Ubuntu 22.04. El despliegue se realiza manualmente mediante acceso SSH:
  
-1. Instalar JDK 17, Maven, Git, MySQL y nginx en la máquina virtual.
+1. Instalar JDK 24, Maven, Git, MySQL y nginx en la máquina virtual.
 2. Clonar el repositorio y construir la aplicación con `mvn clean package`.
 3. Registrar la aplicación como servicio de systemd, para que se ejecute en segundo plano y se reinicie ante fallos.
 4. Configurar nginx como reverse proxy, que expone la API en los puertos 80 y 443 y reenvía las solicitudes a la aplicación en el puerto 8080.
 5. Verificar el servicio con los logs de systemd y con solicitudes a los endpoints.
-El detalle de los comandos y las evidencias se documenta en la sección 5.2.4.7. **[CONFIRMAR: si existe un flujo de despliegue automático con GitHub Actions, describirlo aquí; si no, eliminar esa mención en 5.2.4.8]**
  
-**Nota de decisión técnica:** el enunciado del curso sugiere ASP.NET Core y C# para el backend. El equipo decidió continuar con Java 17, Spring Boot y MySQL, porque corresponde a la arquitectura DDD y CQRS implementada y validada en el ciclo anterior. Migrar a ASP.NET Core implicaría reescribir los bounded contexts, los controladores REST y la capa de persistencia ya desplegada, lo cual representa un riesgo alto para los plazos del curso sin un beneficio funcional adicional.
+**Nota de decisión técnica:** el enunciado del curso sugiere ASP.NET Core y C# para el backend. El equipo decidió continuar con Java 24, Spring Boot y MySQL, porque corresponde a la arquitectura DDD y CQRS implementada y validada en el ciclo anterior. Migrar a ASP.NET Core implicaría reescribir los bounded contexts, los controladores REST y la capa de persistencia ya desplegada, lo cual representa un riesgo alto para los plazos del curso sin un beneficio funcional adicional.
 
 ## 5.2. Landing Page, Services & Applications Implementation.
 
