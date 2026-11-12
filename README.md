@@ -6,13 +6,16 @@
 
 # <span style="font-size: 30px;">Diseño de Experimentos de Ingeniería de Software (1ASI0732)</span>
 
-## <span style="font-size: 26px;">INFORME DE TRABAJO FINAL</span>
+## <span style="font-size: 26px;">INFORME DE AV2</span>
 ## <span style="font-size: 22px;">FACULTAD DE INGENIERÍA DE SOFTWARE</span>
 
 ### <span style="font-size: 22px;">STARTUP: <strong>WeTech</strong></span>
 ### <span style="font-size: 22px;">PRODUCTO: <strong>WeRide</strong></span>
-### <span style="font-size: 20px;">SECCIÓN: 9090</span>
+### <span style="font-size: 20px;">NRC: 9090</span>
 ### <span style="font-size: 20px;">PROFESOR: Juan Antonio Flores Moroco</span>
+
+### STARTUP: **WeTech**
+### PRODUCTO: **WeRide**
 
 ---
 
@@ -29,11 +32,11 @@
   </thead>
   <tbody>
     <tr>
-      <td style="padding: 10px; border: 1px solid #aaa;">Alessandro Franco Sarmiento Mendoza</td>
+      <td style="padding: 10px; border: 1px solid #aaa;">Sarmiento Mendoza, Alessandro Franco</td>
       <td style="padding: 10px; border: 1px solid #aaa;">U202215537</td>
     </tr>
     <tr>
-      <td style="padding: 10px; border: 1px solid #aaa;">Giordano Sebastian Trejo Espejo</td>
+      <td style="padding: 10px; border: 1px solid #aaa;">Trejo Espejo, Giordano Sebastian </td>
       <td style="padding: 10px; border: 1px solid #aaa;">U202316162</td>
     </tr>
     <tr>
@@ -41,7 +44,7 @@
       <td style="padding: 10px; border: 1px solid #aaa;">U202321510</td>
     </tr>
     <tr>
-      <td style="padding: 10px; border: 1px solid #aaa;">Franco Sebastian Laymito Delgado</td>
+      <td style="padding: 10px; border: 1px solid #aaa;">Laymito Delgado, Franco Sebastian</td>
       <td style="padding: 10px; border: 1px solid #aaa;">U202311959</td>
     </tr>
     <tr>
@@ -114,15 +117,15 @@ Para la elaboración del informe del proyecto utilizamos GitHub como herramienta
 A través del repositorio del informe registramos cambios, realizamos revisiones continuas y mantenemos el historial de actualizaciones alineado con cada entrega del curso.
 
 ### Repositorios relevantes
-- https://github.com/orgs/OpenSource-Grupo-4/repositories  
-- https://github.com/OpenSource-Grupo-4/ReportTB1  
-- https://github.com/OpenSource-Grupo-4/Landing-Page  
-- https://github.com/OpenSource-Grupo-4/Frontend-WeRide  
-- https://github.com/OpenSource-Grupo-4/Backend-WeRide  
+- https://github.com/orgs/DEIS-Grupo-4/repositories  
+- https://github.com/DEIS-Grupo-4/Report_Project  
+- https://github.com/DEIS-Grupo-4/Landing-Page  
+- https://github.com/DEIS-Grupo-4/Fronted-Weride-DEIS  
+- https://github.com/DEIS-Grupo-4/Backend-WeRide  
 
 ---
 
-## Entrega TB1: V1.0
+## Entrega AV1: V1.0
 
 Durante la entrega TB1 el equipo desarrolló el Sprint 1, donde se trabajaron las primeras historias de usuario asociadas al proyecto y se construyó la primera versión de la Landing Page.  
 En esta etapa también se inició la estructura del informe, estableciendo la base de contenidos y el orden de secciones.
@@ -134,7 +137,7 @@ En esta etapa también se inició la estructura del informe, estableciendo la ba
 
 ---
 
-## Entrega TP1: V2.0
+## Entrega TP: V2.0
 
 En la entrega TP1 se desarrolló el Sprint 2, enfocado en las historias de usuario del Frontend para la aplicación de alquiler de bicicletas y scooters eléctricas.  
 Se trabajó la experiencia del usuario, pantallas principales y simulación del backend utilizando JSON Server para representar datos IoT de localización.
@@ -146,7 +149,7 @@ Se trabajó la experiencia del usuario, pantallas principales y simulación del 
 
 ---
 
-## Entrega TB2: V3.0
+## Entrega AV2: V3.0
 
 En la entrega TB2 el equipo trabajó en el desarrollo del backend utilizando Java, aplicando principios de Domain-Driven Design (DDD) y el patrón CQRS.  
 Se implementaron los agregados principales, la lógica del dominio y las capas internas del proyecto siguiendo buenas prácticas de arquitectura.
@@ -155,18 +158,6 @@ Se implementaron los agregados principales, la lógica del dominio y las capas i
 <img src="assets/chapter01/insigtTB1.png" alt="Insights TB2" style="max-width:800px; display:block; margin:12px auto;">
 <img src="assets/chapter01/commits.png" alt="Commits TB2" style="max-width:800px; display:block; margin:12px auto;">
 <img src="assets/chapter01/contribucion.png" alt="Contribuciones TB2" style="max-width:800px; display:block; margin:12px auto;">
-
----
-
-## Entrega Final (TF): V4.0
-
-En la entrega final se trabajó el Sprint 4, integrando Frontend y Backend, resolviendo incidencias y mejorando la estabilidad general del sistema.  
-Adicionalmente, se realizaron mejoras completas al informe, ajustándolo a los requerimientos del curso y asegurando coherencia con el Registro de Versiones.
-
-### Evidencias
-<img src="assets/chapter01/insigtTB1.png" alt="Insights TF" style="max-width:800px; display:block; margin:12px auto;">
-<img src="assets/chapter01/commits.png" alt="Commits TF" style="max-width:800px; display:block; margin:12px auto;">
-<img src="assets/chapter01/contribucion.png" alt="Contribuciones TF" style="max-width:800px; display:block; margin:12px auto;">
 
 <!-- salto de hoja-->
 <div style="page-break-before: always;"></div>
