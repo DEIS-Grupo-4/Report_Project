@@ -2306,6 +2306,46 @@ pipeline {
 5. Se configuró el disparo automático con un webhook de GitHub o, si Jenkins no es accesible desde internet, con sondeo del repositorio (*Poll SCM*, `H/5 * * * *`).
 6. Se hizo push del `Jenkinsfile` a `develop` y se verificó la primera ejecución.
 
+## 7.2. Continuous Delivery
+
+La entrega continua busca que cada versión que supera las validaciones de calidad quede preparada para su publicación, manteniendo un proceso repetible y reduciendo los errores causados por compilaciones o configuraciones manuales. En WeRide, este proceso se apoya en GitHub para el control de versiones, Maven para compilar, Docker para construir una imagen reproducible y la configuración de despliegue descrita en la sección 7.3.
+
+### 7.2.1. Tools and Practices
+
+**Herramientas:**
+
+| Herramienta | Función en la entrega de WeRide |
+| --- | --- |
+| **Git y GitHub** | Mantienen el historial de cambios y permiten identificar el commit que corresponde a cada versión candidata. |
+| **Maven** | Compila el backend Java y genera el archivo JAR de la aplicación. El proyecto utiliza "pom.xml" para declarar dependencias, plugins y versión de Java. |
+| **JUnit 5 y Spring Boot Test** | Permiten ejecutar las pruebas unitarias y de integración antes de considerar una versión lista para entregar. Mockito se usa en las pruebas unitarias que necesitan colaboradores simulados. |
+| **Karate** | Ejecuta los escenarios BDD de los archivos "auth.feature" y "vehicles.feature" desde el repositorio donde se mantiene esa suite. Antes de ejecutar dichos escenarios, debe estar disponible un backend accesible mediante "baseUrl". |
+| **Docker** | Empaqueta el backend y su entorno de ejecución en una imagen construida a partir del "Dockerfile" del repositorio. |
+| **Render** | Aloja la versión del backend preparada para su publicación, según el flujo de despliegue descrito en la sección 7.3. |
+
+**Prácticas:**
+
+- **Entrega basada en una versión identificable:** los cambios se conservan en Git y pueden asociarse con un commit revisable antes de publicar la aplicación.
+- **Validación antes de entregar:** se deben ejecutar las pruebas unitarias y de integración descritas en el capítulo VI. Los escenarios Karate se ejecutan contra una instancia levantada del backend y su resultado se revisa antes de aceptar la versión candidata.
+- **Empaquetado reproducible:** el "Dockerfile" utiliza una etapa de construcción con Maven y Java 24 y una etapa de ejecución con Java 24. Esto evita depender de que el servidor de despliegue tenga instalado localmente el entorno de desarrollo.
+- **Separación entre código y configuración:** la URL de base de datos, las credenciales y el secreto de JWT deben configurarse mediante variables de entorno del entorno de ejecución; no deben incorporarse como valores sensibles en el artefacto.
+- **Criterio de promoción:** una versión se considera candidata a entrega cuando la compilación termina correctamente, las pruebas requeridas han sido revisadas y la configuración necesaria para ejecutarla está disponible. Un resultado fallido debe corregirse antes de continuar.
+
+### 7.2.2. Continuous Delivery Pipeline Components
+
+| Etapa | Descripción | Herramienta | Resultado esperado |
+| --- | --- | --- | --- |
+| **Selección de versión** | Se identifica el commit que se desea entregar y se verifica que pertenezca a la rama correspondiente al flujo de trabajo del equipo. | Git y GitHub | Código fuente identificable y revisable. |
+| **Build y pruebas** | Se compila el backend y se ejecutan las pruebas unitarias y de integración. La suite BDD se ejecuta contra una instancia disponible de la API. | Maven, JUnit 5, Spring Boot Test y Karate | Compilación correcta y resultados de pruebas revisados. |
+| **Empaquetado** | El "Dockerfile" construye el JAR y lo incorpora a una imagen de contenedor basada en Java 24. | Maven y Docker | Imagen del backend preparada para su ejecución. |
+| **Configuración del entorno** | Se comprueba la disponibilidad de las variables de entorno requeridas, entre ellas la conexión a MySQL y la configuración segura del token JWT. | Configuración del entorno de hospedaje | Artefacto listo para iniciarse en el entorno de destino. |
+| **Preparación para publicación** | Se identifica la versión que puede promoverse al entorno desplegado y se conserva el resultado de las validaciones realizadas. | GitHub y la plataforma de despliegue | Versión candidata lista para el proceso de despliegue descrito en 7.3. |
+| **Verificación de entrega** | Una vez iniciada la versión, se comprueba que la API responda a la verificación de salud y que sus endpoints principales estén disponibles. | Endpoint "/health" y Swagger UI | Evidencia de que la versión se inició y responde. |
+
+El Dockerfile actual ejecuta "mvn clean package -DskipTests" durante la construcción de la imagen. Por eso, la calidad de la entrega depende de que la etapa de integración continua ejecute y valide las pruebas por separado antes de permitir que la versión continúe al empaquetado/publicación. La construcción de la imagen por sí sola no demuestra que las pruebas hayan pasado.
+
+---
+
 ## 7.3. Continuous Deployment
 
 El despliegue continuo automatiza la publicación del backend de WeRide en un entorno accesible desde internet, de manera que cada versión aprobada pueda ser consumida por el frontend y verificada por el equipo y los evaluadores sin intervención manual.
@@ -2361,6 +2401,43 @@ El despliegue continuo automatiza la publicación del backend de WeRide en un en
 *Figura 7.2. Documentación Swagger UI del servicio desplegado.*
 
 
+## 7.4. Continuous Monitoring
+
+El monitoreo continuo permite observar la disponibilidad del backend después de su despliegue, detectar fallos que afecten a los usuarios y facilitar el diagnóstico cuando una versión presenta problemas. En WeRide, el punto de comprobación implementado en el código es el endpoint público "GET /health", definido en "HealthController". Este endpoint devuelve una respuesta JSON con el estado "UP" y el nombre del servicio "Backend-WeRide".
+
+La verificación de salud es una comprobación de disponibilidad básica: confirma que la aplicación responde a esa ruta, pero no realiza por sí sola una consulta a la base de datos ni verifica todos los servicios dependientes. Por ello, se complementa con la revisión del estado del despliegue, los registros de ejecución y la conexión a MySQL en el entorno hospedado.
+
+### 7.4.1. Tools and Practices
+
+**Herramientas:**
+
+| Herramienta o mecanismo | Uso en el monitoreo |
+| --- | --- |
+| **Endpoint `GET /health`** | Comprueba que el backend responda y devuelva "status: UP" y "service: Backend-WeRide". Está implementado en "HealthController.java". |
+| **Render** | Permite revisar el estado del servicio desplegado y consultar los registros disponibles para investigar reinicios, errores de inicio o problemas de ejecución. |
+| **Swagger UI** | Sirve como comprobación complementaria de que la documentación de la API está accesible después del despliegue. No sustituye las pruebas automatizadas ni la comprobación de salud. |
+| **Registros de la aplicación** | Ayudan a localizar excepciones, errores al procesar solicitudes y fallos de conexión con los servicios dependientes. |
+| **MySQL administrado** | La disponibilidad de la base de datos y los errores de conexión deben verificarse desde el proveedor de base de datos y contrastarse con los registros del backend. |
+
+**Prácticas de monitoreo:**
+
+- **Comprobación después de cada despliegue:** consultar "GET /health" y verificar que la respuesta contenga "status" igual a "UP". Si no responde, revisar el estado y los registros del servicio antes de considerar exitosa la publicación.
+- **Verificación de endpoints:** revisar Swagger UI y ejecutar una comprobación funcional de los endpoints principales cuando se publique una nueva versión.
+- **Revisión de errores:** inspeccionar los registros del backend cuando se produzcan respuestas HTTP inesperadas, excepciones o fallos de arranque.
+- **Seguimiento de la base de datos:** diferenciar los errores de conexión detectados por el backend con el estado del servicio MySQL y sus registros. El endpoint "/health" no comprueba directamente la base de datos.
+- **Trazabilidad de cambios:** relacionar los incidentes observados con la versión o commit recientemente desplegado, para facilitar la investigación y decidir si es necesario corregir o revertir el cambio.
+
+### 7.4.2. Monitoring Indicators
+
+| Indicador | Fuente | Qué permite detectar | Acción ante una anomalía |
+| --- | --- | --- | --- |
+| **Disponibilidad del backend** | `GET /health` | La API no responde o no devuelve el estado esperado. | Revisar el estado del servicio en Render y los registros de inicio. |
+| **Estado del despliegue** | Panel del proveedor de hospedaje | Una construcción fallida, un inicio incompleto o reinicios del contenedor. | Examinar el error de construcción o las últimas entradas del registro y corregir la versión. |
+| **Errores de API** | Registros del backend y pruebas funcionales | Excepciones o respuestas HTTP no esperadas. | Reproducir la solicitud, identificar el endpoint afectado y corregir la causa. |
+| **Conectividad con MySQL** | Registros del backend y estado del proveedor de base de datos | Errores de conexión, credenciales incorrectas o indisponibilidad de la base de datos. | Revisar variables de entorno, conectividad y estado de MySQL. |
+| **Accesibilidad de la API documentada** | Swagger UI | Que el servicio esté iniciado, pero la documentación no pueda consultarse. | Verificar la ruta publicada y los registros del backend. |
+
+"GET /health" representa una comprobación de liveness sencilla, no debe presentarse como una supervisión completa de la salud de las dependencias. Como mejora, el monitoreo puede automatizar comprobaciones periódicas de disponibilidad y alertas ante fallos repetidos, así como también incorporar una verificación separada de conectividad con la base de datos.
 
 
 # Capítulo VIII: Experiment-Driven Development
