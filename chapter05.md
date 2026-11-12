@@ -96,7 +96,7 @@ Convenciones propias del proyecto:
  
 #### Landing Page
  
-Se publica con GitHub Pages: los archivos HTML, CSS y JavaScript del repositorio se sirven desde la rama configurada para Pages, y la página queda disponible en https://opensource-grupo-4.github.io/Landing-Page **[CONFIRMAR URL vigente]**.
+Se publica con GitHub Pages: los archivos HTML, CSS y JavaScript del repositorio se sirven desde la rama configurada para Pages, y la página queda disponible en https://deis-grupo-4.github.io/Landing-Page/
  
 #### Web Application
  
@@ -307,7 +307,7 @@ El objetivo del primer Sprint fue el desarrollo e implementación de la Landing 
 
 1. Se creó una organización en GitHub y, dentro de ella, se crearon dos repositorios. Uno para el informe del trabajo y otro para la Landing Page ![GithubOrg](assets/chapter05/organization-os.png)
 2. Luego, a través de los commits, el equipo fue editando los archivos index.html y styles.css, además de ir añadiendo imágenes a utilizar en el directorio images. ![Commits-example](assets/chapter05/commits.png)
-3. Finalmente, se implementó GitHub Pages en el repositorio de GitHub y se desplegó la Landing Page, la que se puede visitar en el siguiente link: https://opensource-grupo-4.github.io/Landing-Page
+3. Finalmente, se implementó GitHub Pages en el repositorio de GitHub y se desplegó la Landing Page, la que se puede visitar en el siguiente link: https://deis-grupo-4.github.io/Landing-Page/
 
 #### 5.2.1.8. Team Collaboration Insights during Sprint.
 
@@ -978,7 +978,7 @@ Para el sprint 4, el equipo realizó el sprint planning meeting para la distribu
 
 ### 5.2.4.2. Aspect Leaders and Collaborators.
 
-Durante este Sprint, el equipo se enfocó en el **diseño visual, maquetación y despliegue de la Landing Page** de **Smart Stay**, junto con la implementación inicial del soporte multilenguaje y la adaptación responsiva del sitio web.  
+Durante este Sprint, el equipo se enfocó en el **diseño visual, maquetación y despliegue de la Landing Page** de **WeRide**, junto con la implementación inicial del soporte multilenguaje y la adaptación responsiva del sitio web.  
 Para optimizar el trabajo colaborativo, se elaboró la **Matriz de Liderazgo y Colaboración (LACX)**, donde se asignan los roles de **Líder (L)** y **Colaborador (C)** en los principales aspectos del Sprint.
 
 | **Team Member (Last Name, First Name)** | **GitHub Username**                                      | **Diseño visual y maquetación web (Frontend funcional)** | **Implementación técnica del cambio de idioma (Multilenguaje funcional)** | **Responsividad y pruebas en distintos dispositivos** | **Despliegue de la aplicación web** |
