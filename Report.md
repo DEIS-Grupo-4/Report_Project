@@ -4598,6 +4598,173 @@ El token de acceso no se incluye en el repositorio ni en este informe.
 - La principal oportunidad de mejora es medir la cobertura de pruebas unitarias.
 
 
+## 6.3. Validation Interviews
+
+Estas entrevistas de validación hacia WeRide tienen como objetivo conocer cómo los usuarios de los segmentos objetivo comprenden nuestra propuesta de valor, cómo navegan por la Landing Page y utilizan las principales funciones disponibles en la aplicación web. Antes de las sesiones, se solicita a los participantes que realicen tareas representativas del servicio y que expresen sus dudas, dificultades y recomendaciones mientras interactúan con la interfaz.
+
+Contamos con dos segmentos objetivo: 
+- Segmento 1: jóvenes universitarios, usuarios potenciales que podrían utilizar scooters u otros vehículos eléctricos para viajes cortos.
+- Segmento 2: empresas interesadas en planes corporativos, que evaluarían la utilidad de WeRide para sus colaboradores.
+
+### 6.3.1. Diseño de Entrevistas
+
+#### Objetivo de la sesión
+
+Evaluar si las personas comprenden la propuesta de valor de WeRide, encuentran la información necesaria para decidir si utilizarían el servicio y pueden reconocer cómo navegar por la aplicación web. Además, se busca identificar problemas de usabilidad, arquitectura de información y diseño inclusivo a partir de las observaciones e interacciones de los participantes.
+
+#### Elementos incluidos en la sesión
+
+1. Landing Page de WeRide: Asegurar la comprensión del servicio, sus beneficios y ubicación de las opciones para registrarse o iniciar sesión.
+2. Aplicación web: Seguir la navegación del usuario por las secciones disponibles.
+3. Observación de la interacción: Comprobar la facilidad para encontrar controles, y comprensión de los mensajes del sistema.
+4. Preguntas posteriores a las tareas: comentarios abiertos sobre dificultades que harían que la experiencia fuera más intuitiva o confiable.
+
+#### Flujos de usuario evaluados
+
+**Segmento 1: Jóvenes universitarios**
+
+- **Flujo 1 — Comprensión de la propuesta:** ingresar a la Landing Page, identificar qué ofrece WeRide y reconocer para qué tipo de desplazamientos podría utilizarse.
+- **Flujo 2 — Registro o inicio de sesión:** localizar la opción para crear una cuenta o iniciar sesión y reconocer qué información necesita el usuario para continuar.
+- **Flujo 3 — Exploración de vehículos:** ingresar a la aplicación, encontrar la sección de vehículos y revisar los datos disponibles, como marca, imagen, batería, precio y estado de disponibilidad.
+- **Flujo 4 — Acceso como invitado:** identificar si existe esta alternativa y comprender qué funciones están disponibles sin iniciar sesión.
+- **Flujo 5 — Reserva:** localizar un vehículo e intentar avanzar por el flujo de reserva hasta donde lo permita la versión evaluada, prestando atención a los mensajes y pasos siguientes.
+- **Flujo 6 — Planes y pago:** ubicar los planes, entender sus precios y beneficios e inspeccionar el flujo de pago sin completar una transacción real.
+- **Flujo 7 — Historial y ayuda:** encontrar dónde se consultarían los viajes anteriores y dónde se buscaría asistencia o información sobre seguridad.
+
+**Segmento 2: Empresas interesadas en planes corporativos**
+
+Segmento 2: Empresas y planes corporativos
+
+- **Flujo 1 — Comprensión de la propuesta empresarial:** ingresar a la Landing Page, identificar qué ofrece WeRide y comprender cómo el servicio de movilidad eléctrica podría beneficiar a una empresa y a sus colaboradores.
+- **Flujo 2 — Exploración de la oferta corporativa:** localizar la información relacionada con empresas o planes corporativos, revisar los beneficios ofrecidos e identificar qué información necesita una organización para contratar o solicitar el servicio.
+- **Flujo 3 — Registro o inicio de sesión:** localizar la opción para crear una cuenta o iniciar sesión y reconocer qué información se requiere para acceder a la aplicación y continuar con las funcionalidades disponibles.
+- **Flujo 4 — Exploración de vehículos:** ingresar a la aplicación, encontrar la sección de vehículos y revisar los datos disponibles, como marca, imagen, batería, precio y estado de disponibilidad, considerando su posible utilización por parte de los colaboradores de la empresa.
+- **Flujo 5 — Reserva y utilización del servicio:** localizar un vehículo e intentar avanzar por el flujo de reserva hasta donde lo permita la versión evaluada, identificando si el proceso sería comprensible para un colaborador y si existen indicaciones claras sobre los siguientes pasos.
+- **Flujo 6 — Planes, precios y pagos corporativos:** ubicar la sección de planes, revisar los precios y beneficios disponibles e inspeccionar el flujo de contratación o pago, prestando atención a la claridad de la información para una empresa, sin completar una transacción real.
+- **Flujo 7 — Gestión, historial y asistencia:** identificar dónde se consultarían las reservas o los viajes realizados, qué información podría necesitar una empresa para dar seguimiento al uso del servicio y dónde se buscaría ayuda o información sobre seguridad ante posibles inconvenientes.
+
+#### Guion de entrevista — Segmento 1: jóvenes universitarios
+
+Estas preguntas se hacen después de que el participante interactúe con la Landing Page y la aplicación web.
+
+1. *¿Qué entiendes que ofrece WeRide al ver la landing page?*
+2. *¿Qué elemento te llama más la atención o te genera confianza?*
+3. *¿Qué información te falta para sentirte seguro al registrarte?*
+4. *¿Te parece claro el llamado a la acción de la landing page? ¿Te invita a registrarte o conocer más?*
+5. *Al ingresar a la aplicación, ¿te resulta fácil entender cómo navegar y encontrar lo que necesitas?*
+6. *Si buscas un vehículo, ¿la información mostrada es suficiente para decidir cuál utilizar?*
+7. *Si eligieras continuar como invitado, ¿te quedaría claro qué funcionalidades puedes utilizar sin registrarte?*
+8. *¿Qué te pareció el proceso de buscar y reservar un vehículo? ¿Hubo algún paso poco claro?*
+9. *¿Qué te pareció la sección de planes y el proceso de pago?*
+10. *Si quisieras consultar tus viajes anteriores, ¿dónde buscarías esa información?*
+11. *¿Hubo algún momento en el que te sentiste perdido o no supiste qué hacer a continuación?*
+12. *¿Qué cambiarías de WeRide para que te resulte más útil y te anime a utilizar el servicio?*
+
+### 6.3.2. Registro de Entrevistas
+
+#### Evidencia de entrevista realizada
+
+| N.º | Segmento objetivo | Nombres y apellidos | Edad | Distrito | Fecha | Captura del video | Video en Microsoft Stream, inicio y duración |
+|---|---|---|---|---|---|---|---|
+| 1 | Segmento 1 — Jóvenes universitarios | Ian Figueroa | 21 | San Martin de Porres | 11/11/2026 | ![Entrevista de validación a Ian Figueroa](assets/chapter05/validation-ian.png) | URL: https://drive.google.com/file/d/10_GgZmK5eUw-QlIE2bUQw_OESvqTPKPu/view?usp=sharing |
+
+El entrevistado pudo comprender la propuesta de WeRide como una plataforma para alquilar scooters y otros vehículos eléctricos, útil para trayectos cortos, como desplazarse hacia la universidad. Las imágenes de los vehículos y la posibilidad de movilizarse de forma práctica llamaron su atención. Sin embargo, indicó que necesitaría conocer con mayor claridad los precios, los posibles cobros adicionales, los distritos en los que opera el servicio y las medidas de seguridad y asistencia en caso de accidente. 
+Respecto a la Landing Page, dijo que la idea general se entiende y despierta interés, aunque recomendó que las opciones de registro e inicio de sesión sean más fáciles de encontrar. Al navegar por la aplicación, reconoció secciones como vehículos, reservas, planes e historial, pero consideró útiles las indicaciones breves para orientar a quienes la utilizan por primera vez. Sobre la exploración de vehículos, comentó que datos como marca, imagen, batería y precio ayudan a comparar opciones; aun así, le gustaría disponer de un mapa y conocer la disponibilidad actual de los vehículos cercanos. También pidió que se expliquen claramente las funciones disponibles para invitados y cuáles requieren una cuenta. En relación con la reserva, la edición de reservas y el pago, destacó la importancia de recibir una respuesta clara de la aplicación después de cada acción, ya que la ausencia de una confirmación o de un siguiente paso puede generar dudas sobre si la operación se realizó correctamente.
+Finalmente, consideró útil la existencia de planes, siempre que sus precios y beneficios estén explicados. Esperaría encontrar el historial de viajes en una sección visible y contar con un canal de ayuda. Entre sus principales recomendaciones se encuentran mejorar la visibilidad de registro e inicio de sesión, explicar mejor las condiciones del servicio, proporcionar información sobre seguridad, mostrar la ubicación y disponibilidad de los vehículos y ofrecer mensajes claros para los flujos de reserva y pago.
+
+### 6.3.3. Evaluaciones según heurísticas
+
+La evaluación se realiza tomando como referencia las entrevistas realizadas, considerando sus opiniones.
+
+**WeRide - Landing Page y Aplicación Web**
+
+#### Tareas a evaluar
+
+1. Comprender la propuesta de valor de la Landing Page y reconocer los beneficios de WeRide.
+2. Localizar las opciones de registro e inicio de sesión.
+3. Navegar por la aplicación y encontrar la sección de vehículos.
+4. Interpretar los datos disponibles para elegir un vehículo.
+5. Identificar las condiciones del acceso como invitado.
+6. Intentar avanzar por el flujo de reserva y observar los mensajes de respuesta.
+7. Consultar los planes, sus beneficios y el flujo de pago sin ejecutar una transacción real.
+8. Encontrar dónde se consultan los viajes anteriores y dónde se puede solicitar ayuda.
+
+#### Escala de severidad
+
+| Nivel | Descripción |
+|---|---|
+| 1 | Problema de bajo impacto o poco frecuente que puede corregirse si existe disponibilidad de tiempo. |
+| 2 | Problema que puede dificultar la tarea, pero que el usuario normalmente puede superar; se recomienda asignarle prioridad baja o moderada. |
+| 3 | Problema que dificulta una tarea importante o puede impedir que algunos usuarios continúen; se recomienda una prioridad alta de corrección. |
+| 4 | Problema que impide continuar con una tarea central o afecta de manera crítica el uso del producto; debe corregirse antes del lanzamiento. |
+
+#### Tabla resumen
+
+| N.º | Problema observado o necesidad identificada | Severidad (1–4) | Heurística o principio relacionado |
+|---|---|---:|---|
+| 1 | Las opciones de registro e inicio de sesión no resultan suficientemente visibles para encontrarlas con rapidez. | 2 | Information Architecture: *Is it findable?* |
+| 2 | No queda suficientemente clara, antes de registrarse, la información sobre distritos cubiertos, precio total, posibles cobros adicionales, seguridad y asistencia. | 3 | Information Architecture: *Is it findable?*; Usability: información y orientación para la toma de decisiones. |
+| 3 | La interfaz debería aclarar qué funciones se pueden utilizar como invitado y cuáles requieren una cuenta. | 2 | Information Architecture: *Is it understandable?* / *Is it findable?* |
+| 4 | Los flujos de reserva, edición y pago necesitan mensajes claros que confirmen el resultado de la acción e indiquen el siguiente paso. | 3 | Usability: visibilidad del estado del sistema y retroalimentación al usuario. |
+| 5 | La información de los vehículos sería más útil con un mapa y una indicación visible de disponibilidad actual. | 2 | Information Architecture: *Is it useful?* / *Is it findable?* |
+
+#### Descripción de problemas
+
+#### PROBLEMA #1: Las opciones de registro e inicio de sesión no se encuentran con suficiente rapidez
+
+Severidad: 2
+
+Heurística violada: Information Architecture — Is it findable?
+
+Problema: el participante comprendió el propósito general de la Landing Page, pero indicó que le gustaría encontrar rápidamente las opciones para iniciar sesión o crear una cuenta. Cuando el acceso no es evidente, se añade esfuerzo al comienzo del flujo y se puede dificultar la transición desde el interés por el servicio hacia la aplicación.
+
+Recomendación: colocar el llamado a la acción principal en una posición visible y utilizar etiquetas directas, como «Crear cuenta» e «Iniciar sesión». Mantener la misma denominación en la Landing Page y en la aplicación para evitar confusión.
+
+#### PROBLEMA #2: La información necesaria para evaluar la confianza y el costo del servicio no está suficientemente clara para el participante
+
+Severidad: 3
+
+Heurística violada: Information Architecture — Is it findable? y Usability — orientación y claridad de la información para la toma de decisiones
+
+Problema: el participante solicitó información más clara sobre los distritos donde funciona el servicio, el precio total de los viajes, los posibles cobros adicionales y las medidas de seguridad o ayuda en caso de accidente. Estos datos pueden influir en la decisión de registrarse y utilizar un vehículo.
+
+Recomendación: agrupar la cobertura, las tarifas, los posibles cargos adicionales, las normas de seguridad y los canales de asistencia en una sección fácil de encontrar. Mostrar las condiciones relevantes antes de pedir al usuario que se registre o inicie una reserva.
+
+#### PROBLEMA #3: El acceso como invitado no explica de forma suficientemente clara sus límites
+
+Severidad: 2
+
+Heurística violada o relacionada: Information Architecture — Is it understandable? y Is it findable?
+
+Problema: el participante indicó que le gustaría saber desde el principio qué acciones puede realizar sin tener una cuenta y cuáles requieren iniciar sesión. Si la diferencia entre explorar la aplicación y reservar un vehículo no se explica, el usuario puede quedarse sin saber cómo continuar.
+
+Recomendación: explicar antes de entrar qué puede hacer un invitado y qué funciones requieren registro. Cuando una acción necesite autenticación, mostrar un mensaje que explique el motivo y ofrezca una opción clara para iniciar sesión o crear una cuenta.
+
+#### PROBLEMA #4: Los flujos de reserva, edición y pago necesitan retroalimentación más clara
+
+Severidad: 3
+
+Heurística violada o relacionada: Usability — visibilidad del estado del sistema y retroalimentación al usuario.
+
+Problema: el participante manifestó que, si una opción no responde como espera durante la reserva, la edición de una reserva o el pago, no sabe si la operación se completó ni qué debe hacer después. La ausencia de una confirmación, un mensaje de error o una indicación del siguiente paso puede hacer que el usuario abandone una tarea central del servicio.
+
+Recomendación: después de cada acción, mostrar un estado visible y comprensible —por ejemplo, «Reserva guardada», «No se pudo completar la operación» o «Continúa con el siguiente paso»—. Si la funcionalidad todavía no está disponible, comunicarlo explícitamente y evitar que el control parezca operativo sin ofrecer respuesta.
+
+#### PROBLEMA #5: La selección de vehículos requiere más información de ubicación y disponibilidad
+
+Severidad: 2.
+
+Heurística violada o relacionada: Information Architecture — Is it useful? y Is it findable?
+
+Problema: el participante consideró útiles datos como la marca, la imagen, la batería y el precio, pero expresó que necesitaría ver un mapa de vehículos cercanos y saber cuáles están disponibles en ese momento. Sin esta información, puede ser más difícil elegir una alternativa que resulte práctica para el desplazamiento que necesita realizar.
+
+Recomendación: cuando la plataforma disponga de los datos necesarios, agregar una vista de mapa o ubicación, además de un indicador de disponibilidad actualizado. Si la disponibilidad en tiempo real aún no está implementada, indicarlo para no generar expectativas que la interfaz no pueda cumplir.
+
+#### Conclusiones de la evaluación heurística
+
+Se indica que el participante comprende la propuesta general de WeRide y encuentra útiles las secciones principales de la aplicación, pero requiere mayor claridad sobre el costo y la cobertura del servicio, las condiciones de acceso como invitado y la información de disponibilidad de los vehículos.
+
+
 # Capítulo VII: DevOps Practices
 
 ## 7.1. Continuous Integration
