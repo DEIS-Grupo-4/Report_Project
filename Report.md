@@ -4547,6 +4547,35 @@ El equipo adoptó las siguientes convenciones para el código del backend:
 - **Validaciones.** Las restricciones de entrada se declaran con anotaciones de Bean Validation (por ejemplo `@Size(max = 20)` en el nombre de usuario).
 - **Flujo de trabajo en Git.** Ramas por funcionalidad (por ejemplo `feature/karate-bdd-tests`) y cambios integrados mediante Pull Request.
 
+**Verificación automatizada de convenciones mediante Checkstyle.**
+
+Para complementar las convenciones de codificación establecidas para el backend de WeRide, se incorporó Checkstyle. Se integra con Maven con maven-checkstyle-plugin, y las reglas del proyecto están en checkstyle.xml.
+
+La configuración abarca convenciones de nombres, organización de importaciones, uso de llaves, espacios en blanco, longitud de líneas y documentación Javadoc.
+
+La primera ejecución se usa para establecer la línea base de las infracciones detectadas en el backend. Después se realizan correcciones organizadas por grupos de reglas.
+
+**Tabla 6.4 Observaciones de Checkstyle en WeRide**
+
+| Ejecución | Actividad realizada | Infracciones detectadas | Estado |
+| --- | --- | ---: | --- |
+| Base | Análisis inicial del código existente | 1226 | Diagnóstico |
+| Tanda 1 | Corrección de formato y espacios en blanco | 1034 | [Resultado] |
+| Tanda 2 | Organización de importaciones y llaves | [N] | [Resultado] |
+| Tanda 3 | Corrección de convenciones de nombres | [N] | [Resultado] |
+| Tanda 4 | Corrección de documentación Javadoc | [N] | [Resultado] |
+| Validación final | Ejecución con las reglas definitivas | [N] | [Resultado] |
+
+*Fuente: Reportes de Checkstyle después de ejecutar Maven.*
+
+![Reporte base de Checkstyle](assets/checkstyle-baseline.png)
+
+*Figura 6.3 Reporte inicial de infracciones de estilo del backend*
+
+![Reporte final de Checkstyle](assets/checkstyle-final.png)
+
+*Figura 6.4 Reporte de Checkstyle después de corregir las infracciones detectadas*
+
 Como regla de verificación automática se usó el perfil de calidad por defecto de SonarQube para Java (*Sonar way*), que revisa en cada análisis el cumplimiento de buenas prácticas y convenciones del lenguaje.
 
 #### 6.2.1.2. Code Quality & Code Security
