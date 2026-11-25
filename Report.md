@@ -6049,4 +6049,4 @@ La matriz identifica los riesgos e impactos de WeRide, a quiénes afectan y qué
 | Avance 1 | Pendiente | Pendiente |
 | Trabajo Parcial | Pendiente | Pendiente |
 | Avance 2 | Pendiente | Pendiente |
-| Trabajo Final | upc-pre-202610-1asi07323-expo-tbn | Pendiente |
+| Trabajo Final | upc-pre-202610-1asi0732-9090-wetech-expo-tb2 | Pendiente |
