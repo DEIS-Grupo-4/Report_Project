@@ -1160,11 +1160,11 @@ El User Journey Mapping se desarrolló para comprender la experiencia de los usu
 
 - Camila Torres:  
 
-  ![CamilaTorres](assets/Chapter04/EmpathyMapping/Camila_Torres.png)  
+  ![CamilaTorres](assets/chapter04/EmpathyMapping/Camila_Torres.png)  
 
   - Luis Salazar:  
 
-  ![LuisSalazar](assets//Chapter04/EmpathyMapping/Luis_Salazar.png)  
+  ![LuisSalazar](assets/chapter04/EmpathyMapping/Luis_Salazar.png)  
 
 ### 2.3.5. As-Is Scenario Mapping.
 
@@ -2241,7 +2241,7 @@ User Flow Diagrams are visual representations that show the steps a user takes t
 
 ## 4.5. Web Applications Prototyping.
 
-Web Applications Prototyping es una metodología esencial en el desarrollo de aplicaciones web, que implica la creación de bocetos visuales o modelos preliminares de una aplicación antes de su implementación completa. 
+Web Applications Prototyping es una técnica esencial en el desarrollo de aplicaciones web, que implica la creación de bocetos visuales o modelos preliminares de una aplicación antes de su implementación completa. 
 
 ### 4.6. Domain-Driven Software Architecture
  
@@ -3113,7 +3113,7 @@ A continuación, se adjuntan las capturas de evidencia de los insights del repos
 <ul>
   <li><strong>Riesgo:</strong> Problemas de conexión o configuración con MySQL Workbench. <strong>Mitigación:</strong> scripts de bootstrap de DB y contenedores locales (Docker Compose) para entorno reproducible.</li>
   <li><strong>Riesgo:</strong> Falta de pruebas automatizadas. <strong>Mitigación:</strong> incluir pruebas unitarias básicas y pruebas de integración que validen CRUD contra una DB de prueba.</li>
-  <li><strong>Riesgo:</strong> Dependencias inseguras en librerías. <strong>Mitigación:</strong> revisar versiones y políticas de seguridad (dependabot/scan).</li>
+  <li><strong>Riesgo:</strong> Dependencias inseguras en bibliotecas de software. <strong>Mitigación:</strong> revisar versiones y políticas de seguridad (dependabot/scan).</li>
 </ul>
 
 
@@ -3660,7 +3660,7 @@ El siguiente acuerdo de servicio rige el uso de la plataforma **WeRide** por par
 
 **6. Responsabilidad y Seguridad.** WeRide no se hace responsable por daños derivados del uso indebido del vehículo o el incumplimiento de las normas de tránsito por parte del usuario. El usuario es responsable de reportar cualquier desperfecto del vehículo antes de iniciar su uso.
 
-**7. Privacidad de Datos.** El tratamiento de los datos personales del usuario se rige conforme a la Ley N° 29733 - Ley de Protección de Datos Personales del Perú. WeRide no comparte la información personal de sus usuarios con terceros sin su consentimiento, salvo requerimiento legal.
+**7. Privacidad de Datos.** El tratamiento de los datos personales del usuario se rige conforme a la Ley N° 29733 - Ley de Protección de Datos Personales del Perú. WeRide no comparte la información personal de sus usuarios con terceros sin su consentimiento, salvo exigencia legal.
 
 **8. Cancelaciones y Reembolsos.** [Pendiente: política de cancelación a definir por el equipo]
 
@@ -4325,7 +4325,6 @@ Las clases utilizan dependencias reales de Spring y repositorios JPA, mientras q
 ![integration-test-plan](assets/chapter05/unitTest/integration-test-plan.png)
 
 
-![integration-test-profile](assets/chapter05/unitTest/integration-test-profile.png)
 
 
 ![integration-test-trip](assets/chapter05/unitTest/integration-test-trip.png)
@@ -4569,9 +4568,7 @@ La primera ejecución se usa para establecer la línea base de las infracciones 
 
 *Figura 6.3. Reporte inicial de infracciones de estilo del backend*
 
-![Reporte final de Checkstyle](assets/checkstyle-final.png)
-
-*Figura 6.4. Reporte de Checkstyle después de corregir las infracciones detectadas*
+> **Pendiente de completar por el equipo:** captura del reporte final de Checkstyle tras corregir las infracciones.
 
 Como regla de verificación automática se usó el perfil de calidad por defecto de SonarQube para Java (*Sonar way*), que revisa en cada análisis el cumplimiento de buenas prácticas y convenciones del lenguaje.
 
@@ -4906,109 +4903,170 @@ Para implementar este entorno, se utilizaron herramientas y prácticas especiali
 
   - Automatización de Pipelines:
 
-    Jenkins: Es el servidor de automatización que usamos para los pipelines de CI/CD, como se trabaja en el curso. El pipeline se define como código en un `Jenkinsfile` en la raíz del repositorio (ver sección 7.1).
+    Jenkins: Es el servidor de automatización que usamos para los pipelines de CI/CD, como se trabaja en el curso. El pipeline se define como código en un `Jenkinsfile` en la raíz del repositorio (ver sección 7.1.2).
+
+  - Análisis de calidad:
+
+    SonarQube Community: analiza el código del backend desde el pipeline (etapa *SonarQube Analysis*) y aplica un *Quality Gate*. Checkstyle se usó para revisar el estilo del código (sección 6.4).
+
+  - Pruebas de aceptación y contenedores:
+
+    Karate 1.5.2 ejecuta las pruebas BDD de la API contra el servicio desplegado, y Docker construye y publica la imagen del backend en Docker Hub.
 
   - IDE y Linters:
 
-    WebStorm: Utilizado para el desarrollo frontend (Angular 20, TypeScript, HTML, CSS con Angular Material). La calidad del código frontend se refuerza con las pruebas unitarias de Karma y Jasmine configuradas en el proyecto.
+    IntelliJ IDEA (backend) y WebStorm (frontend): Utilizados para el desarrollo; el frontend usa Angular 20, TypeScript, HTML y CSS con Angular Material. La calidad del código frontend se refuerza con las pruebas unitarias de Karma y Jasmine configuradas en el proyecto.
 
   - Frameworks de Pruebas Automatizadas:
 
-    JUnit 5 y Mockito: Utilizados para la ejecución automática de pruebas unitarias y de integración en el backend, como Bounded Contexts de IAM y Plans durante el pipeline de CI.
+    JUnit 5 y Mockito: Utilizados para la ejecución automática de pruebas unitarias y de integración en el backend, sobre los Bounded Contexts del backend (IAM, Plans, Booking, entre otros). Se ejecutan con Maven de forma independiente al pipeline de Jenkins (ver limitaciones en 7.1.2).
 
 **Practices:**
 
   - GitFlow Workflow: La estructura de ramas del proyecto está de acuerdo con el modelo GitFlow. El código principal está en la rama main, mientras que el código en desarrollo se centra en la rama develop, y para cada nueva tarea, creamos ramas con el      prefijo feature/nombre.
     
-  - Conventional Commits: Todos los mensajes de los commits siguen la especificación de Conventional Commits. Utilizando prefijos como feat, fix, chore y test dependiendo de la modificación. Esto crea un historial de cambios legible para cualquiera.
+  - Conventional Commits: Los commits del equipo siguen la especificación de Conventional Commits, utilizando prefijos como feat, fix, chore y test dependiendo de la modificación. Esto crea un historial de cambios legible para cualquiera.
 
-  - Code Review y Pull Requests: Como se especifica en el curso, ningún código se integra directamente a develop o main. Todo código nuevo debe enviarse a través de un Pull Request. Y como práctica obligatoria, se requiere la revisión y aprobación de       un encargado miembro del equipo antes de realizar el merge.
+  - Code Review y Pull Requests: Como se especifica en el curso, ningún código se integra directamente a develop o main. Todo código nuevo debe enviarse a través de un Pull Request. Como práctica definida, se espera la revisión de otro integrante del equipo antes del merge.
 
-  - Ejecución de Pruebas en cada Pull Request: Como parte del pipeline de CI en Jenkins, cada vez que se abre o actualiza un Pull Request, se dispara el pipeline que construye el proyecto y ejecuta todo el paquete de pruebas unitarias y de             integración. Si alguna prueba falla, el pipeline se marca en rojo y el merge queda bloqueado hasta que el encargado corrija el error.
+  - Ejecución del pipeline: el pipeline de Jenkins se ejecuta de forma manual (*Build Now*) sobre la rama `main`; construye el proyecto, ejecuta las pruebas de aceptación BDD con Karate, analiza el código con SonarQube y publica la imagen. Las pruebas unitarias se ejecutan por separado (6 de 79 fallan; ver 7.1.2). El disparo automático por Pull Request queda como mejora, porque Jenkins corre en un equipo local y GitHub no puede notificarlo.
     
 
 ### 7.1.2. Build & Test Suite Pipeline Components
 
-El pipeline del repositorio **Backend-WeRide** se compone de las siguientes etapas:
- 
-| Etapa | Descripción | Herramienta | Resultado |
+El pipeline del backend se define como código en un `Jenkinsfile` y se ejecuta en un servidor Jenkins 2.580.2 que corre en un contenedor Docker del equipo (puerto 8081), junto con SonarQube (puerto 9000) en la red `devops-net`. Cada etapa que usa Maven se ejecuta dentro del contenedor `maven:3.9.11-eclipse-temurin-24`, que coincide con la versión de Java del proyecto. La siguiente tabla resume las etapas y los tiempos de la ejecución #3 del 23/11/2026, que terminó con resultado exitoso en 11 minutos.
+
+| Etapa | Descripción | Herramienta | Resultado (ejecución #3) |
 | --- | --- | --- | --- |
-| **Checkout** | Descarga el código de la rama que disparó el pipeline. | Jenkins + Git | Código fuente en el workspace |
-| **Build** | Compila el proyecto y empaqueta la aplicación sin ejecutar pruebas. | Maven | Archivo `.jar` |
-| **Unit & Integration Tests** | Ejecuta las pruebas unitarias y de integración (capítulo VI, secciones 6.1.1 y 6.1.2). | JUnit 5, Mockito, Spring Boot Test | Reportes JUnit publicados en Jenkins |
-| **Start API (test)** | Levanta la aplicación con el perfil de pruebas para que Karate pueda consumirla. | Java | API disponible en `localhost:8080` |
-| **Karate (BDD / Acceptance)** | Ejecuta los escenarios Given-When-Then sobre la API (sección 6.1.3). | Karate | Reporte HTML `karate-summary.html` archivado |
-| **Reports & Cleanup** | Publica los resultados y detiene la aplicación de pruebas. | Jenkins | Resultado visible en el panel del build |
- 
-**Jenkinsfile** (en la raíz del repositorio Backend-WeRide):
- 
+| **Checkout** | Descarga la rama `main` del repositorio `DEIS-Grupo-4/Backend-Weride-DEIS` con una credencial de lectura. | Jenkins + Git | Commit `7077d29` en el workspace (1 s). |
+| **Build** | Compila y empaqueta el backend sin ejecutar pruebas. | Maven | Archivo `.jar` generado (1 min 33 s). |
+| **BDD Tests (Karate)** | Despierta el servicio desplegado con `/health` (con reintentos) y ejecuta `KarateTestRunner` contra la URL de producción. Publica el resultado JUnit y archiva los reportes de Karate. | Karate, JUnit | 8 de 8 escenarios aprobados (3 min 59 s). |
+| **SonarQube Analysis** | Analiza el código fuente del backend y envía el resultado al servidor SonarQube. | SonarQube | Proyecto `backend-weride` analizado (1 min 23 s). |
+| **Quality Gate** | Espera la decisión del Quality Gate de SonarQube. No aborta el pipeline si falla (ver limitaciones). | SonarQube | Passed (12 s). |
+| **Docker Build & Push** | Construye la imagen con el `Dockerfile` del repositorio y la publica con dos etiquetas: el número de ejecución y `latest`. | Docker, Docker Hub | Imagen `aless2212/weride-backend` publicada (4 min 20 s). |
+
+**Jenkinsfile** (en la raíz del repositorio `Backend-Weride-DEIS`):
+
 ```groovy
 pipeline {
-  agent any
- 
-  tools {
-    maven 'Maven3'
-    jdk 'JDK17'
-  }
- 
-  stages {
-    stage('Checkout') {
-      steps { checkout scm }
+    agent any
+
+    environment {
+        DOCKERHUB_USER    = 'aless2212'
+        SONAR_PROJECT_KEY = 'backend-weride'
+        IMAGE             = "${DOCKERHUB_USER}/weride-backend"
+        TAG               = "${env.BUILD_NUMBER}"
+        RENDER_URL        = 'https://backend-weride-2wpb.onrender.com'
     }
- 
-    stage('Build') {
-      steps { sh 'mvn -B clean package -DskipTests' }
-    }
- 
-    stage('Unit & Integration Tests') {
-      steps { sh 'mvn -B test' }
-      post {
-        always { junit 'target/surefire-reports/*.xml' }
-      }
-    }
- 
-    stage('Start API (test)') {
-      steps {
-        sh '''
-          nohup java -jar target/*.jar --spring.profiles.active=test > api.log 2>&1 &
-          echo $! > api.pid
-          for i in $(seq 1 30); do
-            curl -s -o /dev/null http://localhost:8080/swagger-ui/index.html && break
-            sleep 2
-          done
-        '''
-      }
-    }
- 
-    stage('Karate (BDD / Acceptance)') {
-      steps { sh 'mvn -B -f karate-tests/pom.xml test' }
-      post {
-        always {
-          archiveArtifacts artifacts: 'karate-tests/target/karate-reports/**', allowEmptyArchive: true
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    credentialsId: 'github-creds',
+                    url: 'https://github.com/DEIS-Grupo-4/Backend-Weride-DEIS.git'
+            }
         }
-      }
+
+        stage('Build') {
+            agent {
+                docker {
+                    image 'maven:3.9.11-eclipse-temurin-24'
+                    args '-u root -v maven-repo:/root/.m2'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh 'mvn -B -DskipTests clean package'
+            }
+        }
+
+        stage('BDD Tests (Karate)') {
+            agent {
+                docker {
+                    image 'maven:3.9.11-eclipse-temurin-24'
+                    args '-u root -v maven-repo:/root/.m2'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh 'curl -sf --retry 12 --retry-delay 15 --retry-all-errors "$RENDER_URL/health"'
+                sh 'mvn -B test -Dtest=KarateTestRunner -DbaseUrl=$RENDER_URL'
+            }
+            post {
+                always {
+                    junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
+                    archiveArtifacts artifacts: 'target/karate-reports/**', allowEmptyArchive: true
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            agent {
+                docker {
+                    image 'maven:3.9.11-eclipse-temurin-24'
+                    args '-u root -v maven-repo:/root/.m2 --network devops-net'
+                    reuseNode true
+                }
+            }
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn -B -DskipTests org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.token=$SONAR_AUTH_TOKEN'
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: false
+                }
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DU', passwordVariable: 'DP')]) {
+                    sh 'echo "$DP" | docker login -u "$DU" --password-stdin'
+                    sh "docker build -t ${IMAGE}:${TAG} -t ${IMAGE}:latest ."
+                    sh "docker push ${IMAGE}:${TAG}"
+                    sh "docker push ${IMAGE}:latest"
+                }
+            }
+        }
     }
-  }
- 
-  post {
-    always {
-      sh 'if [ -f api.pid ]; then kill $(cat api.pid) || true; fi'
-    }
-    failure {
-      echo 'El pipeline falló: revisar los reportes de pruebas y el log api.log.'
-    }
-  }
 }
 ```
- 
+
 **Configuración de Jenkins utilizada:**
- 
-1. Se levantó Jenkins con Docker en el puerto 8081, para no chocar con el backend que usa el 8080: `docker run -d -p 8081:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk17`.
-2. Se instalaron los plugins **Pipeline**, **Git**, **GitHub** y **JUnit**.
-3. En *Manage Jenkins → Tools* se configuraron **JDK17** y **Maven3** (instalación automática), con los mismos nombres usados en el `Jenkinsfile`.
-4. Se creó un proyecto **Multibranch Pipeline** apuntando al repositorio Backend-WeRide.
-5. Se configuró el disparo automático con un webhook de GitHub o, si Jenkins no es accesible desde internet, con sondeo del repositorio (*Poll SCM*, `H/5 * * * *`).
-6. Se hizo push del `Jenkinsfile` a `develop` y se verificó la primera ejecución.
+
+1. Se reutilizó el entorno local de Jenkins y SonarQube en Docker (puertos 8081 y 9000, red `devops-net`).
+2. Se registraron tres credenciales en Jenkins: `dockerhub-creds` (usuario y contraseña de Docker Hub), `sonar-token` (token de SonarQube) y `github-creds` (token de acceso con permiso de lectura al repositorio privado). Los valores no se guardan en el `Jenkinsfile`.
+3. Se configuró en Jenkins el servidor de SonarQube con el nombre `SonarQube`, que usa el token anterior.
+4. Se creó un job de tipo *Pipeline* con el script anterior y se ejecutó con *Build Now*.
+
+**Incidencias de la puesta en marcha.** Las dos primeras ejecuciones fallaron y se corrigieron antes de llegar a la ejecución #3: la ejecución #1 falló en el *Checkout* porque el repositorio es privado y no tenía credencial (se creó `github-creds`); la ejecución #2 falló en el *Build* porque Jenkins no tenía permiso sobre el socket de Docker, que se restableció con `docker exec -u root jenkins chmod 666 /var/run/docker.sock`. Este permiso se pierde cuando Docker Desktop se reinicia y debe repetirse.
+
+![Etapas del pipeline de Jenkins en verde](assets/jenkins-pipeline.png)
+
+*Figura 7.1. Vista de etapas de la ejecución #3 del pipeline del backend en Jenkins.*
+
+![Salida de la consola de Jenkins con resultado exitoso](assets/jenkins-console-success.png)
+
+*Figura 7.2. Final de la consola de la ejecución #3: `Finished: SUCCESS`.*
+
+![Resumen del proyecto en SonarQube tras la ejecución del pipeline](assets/sonarqube-pipeline.png)
+
+*Figura 7.3. Resultado del análisis de SonarQube ejecutado desde el pipeline.*
+
+**Limitaciones.**
+
+- El pipeline **no ejecuta las pruebas unitarias ni de integración**: 6 de las 79 pruebas del backend siguen fallando (2 pruebas de `Booking` que dependen de fechas y 4 de `SecurityHttpIntegrationTest` por una tabla `accounts` ausente en la base H2 de pruebas). Se ejecutan localmente con Maven; corregirlas es una acción pendiente del equipo. Hasta entonces, el pipeline valida el comportamiento de la API con las pruebas BDD de Karate.
+- La etapa *Quality Gate* no aborta el pipeline porque el análisis se ejecutó sin el agente de cobertura JaCoCo, por lo que la cobertura aparece en 0.0 % y la regla predeterminada podría fallar por ese motivo y no por defectos del código.
+- La ejecución se inicia manualmente. El disparo automático con un *webhook* de GitHub no es posible mientras Jenkins corra en un equipo local sin dirección pública.
+- La etapa de Karate depende del arranque del servicio en el plan gratuito de Render, por eso incluye reintentos sobre `/health`.
+
+---
 
 ## 7.2. Continuous Delivery
 
@@ -5047,6 +5105,13 @@ La entrega continua busca que cada versión que supera las validaciones de calid
 | **Verificación de entrega** | Una vez iniciada la versión, se comprueba que la API responda a la verificación de salud y que sus endpoints principales estén disponibles. | Endpoint "/health" y Swagger UI | Evidencia de que la versión se inició y responde. |
 
 El Dockerfile actual ejecuta "mvn clean package -DskipTests" durante la construcción de la imagen. Por eso, la calidad de la entrega depende de que la etapa de integración continua ejecute y valide las pruebas por separado antes de permitir que la versión continúe al empaquetado/publicación. La construcción de la imagen por sí sola no demuestra que las pruebas hayan pasado.
+
+**Evidencia de empaquetado y publicación.** La etapa *Docker Build & Push* del pipeline (sección 7.1.2) construye la imagen con el `Dockerfile` del repositorio y la publica en Docker Hub como `aless2212/weride-backend`, con la etiqueta del número de ejecución (`3`) y con `latest`. La imagen pesa 156.85 MB (linux/amd64). Etiquetar cada imagen con el número de ejecución permite identificar qué versión se está entregando y volver a una anterior si fuera necesario.
+
+![Repositorio aless2212/weride-backend en Docker Hub con las etiquetas latest y 3](assets/dockerhub-backend.png)
+
+*Figura 7.4. Imagen del backend publicada en Docker Hub por el pipeline.*
+
 
 ---
 
@@ -5098,72 +5163,126 @@ El despliegue continuo automatiza la publicación del backend de WeRide en un en
 
 ![Servicio desplegado en Render](assets/chapter05/render-live.png)
 
-*Figura 7.1. Servicio del backend en ejecución en Render.*
+*Figura 7.5. Servicio del backend en ejecución en Render.*
 
 ![Swagger UI del backend desplegado](assets/chapter05/swagger-overview.png)
 
-*Figura 7.2. Documentación Swagger UI del servicio desplegado.*
+*Figura 7.6. Documentación Swagger UI del servicio desplegado.*
+
+**Evidencia del despliegue desde el repositorio del grupo.** El servicio de Render toma su código del repositorio `DEIS-Grupo-4/Backend-Weride-DEIS`, rama `main`, y construye la imagen con el `Dockerfile` de la raíz del repositorio.
+
+![Configuración de construcción del servicio en Render](assets/render-dashboard.png)
+
+*Figura 7.7. Origen del despliegue en Render: repositorio del grupo, rama `main` y `Dockerfile`.*
+
+![Respuesta del endpoint de salud del servicio desplegado](assets/render-health-up.png)
+
+*Figura 7.8. El endpoint `/health` del servicio desplegado responde `UP` (23/11/2026).*
+
+**Pruebas de aceptación contra producción.** El 23/11/2026 se ejecutó la suite BDD de Karate contra la URL pública del servicio. Los 8 escenarios pasaron: los 4 de autenticación (`auth.feature`, 6.0 s) y los 4 de gestión de vehículos (`vehicles.feature`, 29.0 s). El mayor tiempo de los escenarios de vehículos refleja la latencia del plan gratuito de Render, que reduce los recursos asignados al servicio.
+
+![Salida de Maven con 8 pruebas aprobadas contra el servicio desplegado](assets/karate-render-8-de-8.png)
+
+*Figura 7.9. Resultado de la ejecución de Karate contra Render: `Tests run: 8, Failures: 0, Errors: 0`.*
+
+![Reporte de Karate para auth.feature](assets/karate-render-auth.png)
+
+*Figura 7.10. Reporte de Karate de los escenarios de autenticación contra Render.*
+
+![Reporte de Karate para vehicles.feature](assets/karate-render-vehicles.png)
+
+*Figura 7.11. Reporte de Karate de los escenarios de gestión de vehículos contra Render.*
+
 
 
 ## 7.4. Continuous Monitoring
 
-El monitoreo continuo permite observar la disponibilidad del backend después de su despliegue, detectar fallos que afecten a los usuarios y facilitar el diagnóstico cuando una versión presenta problemas. En WeRide, el punto de comprobación implementado en el código es el endpoint público "GET /health", definido en "HealthController". Este endpoint devuelve una respuesta JSON con el estado "UP" y el nombre del servicio "Backend-WeRide".
+El monitoreo continuo permite observar la disponibilidad y la velocidad de respuesta del backend después de su despliegue, detectar fallos que afecten a los usuarios y facilitar el diagnóstico cuando una versión presenta problemas. Para WeRide se usa **Prometheus** (recolección y evaluación de reglas) y **Grafana** (visualización), ejecutados con Docker Compose, y el *Blackbox Exporter* de Prometheus, que consulta desde fuera el endpoint `/health` del servicio publicado en Render. Este enfoque de caja negra no exige modificar el código del backend.
 
-La verificación de salud es una comprobación de disponibilidad básica: confirma que la aplicación responde a esa ruta, pero no realiza por sí sola una consulta a la base de datos ni verifica todos los servicios dependientes. Por ello, se complementa con la revisión del estado del despliegue, los registros de ejecución y la conexión a MySQL en el entorno hospedado.
+**Alcance:** el monitoreo mide lo que se observa desde el exterior (disponibilidad, código HTTP, tiempo de respuesta y vigencia del certificado). **No** mide métricas internas de la aplicación (memoria, hilos, consultas a la base de datos), porque el backend aún no expone Spring Boot Actuator; esto se plantea como mejora.
 
 ### 7.4.1. Tools and Practices
 
-**Herramientas:**
+**Tabla 7.5. Herramientas de monitoreo**
 
-| Herramienta o mecanismo | Uso en el monitoreo |
-| --- | --- |
-| **Endpoint `GET /health`** | Comprueba que el backend responda y devuelva "status: UP" y "service: Backend-WeRide". Está implementado en "HealthController.java". |
-| **Render** | Permite revisar el estado del servicio desplegado y consultar los registros disponibles para investigar reinicios, errores de inicio o problemas de ejecución. |
-| **Swagger UI** | Sirve como comprobación complementaria de que la documentación de la API está accesible después del despliegue. No sustituye las pruebas automatizadas ni la comprobación de salud. |
-| **Registros de la aplicación** | Ayudan a localizar excepciones, errores al procesar solicitudes y fallos de conexión con los servicios dependientes. |
-| **MySQL administrado** | La disponibilidad de la base de datos y los errores de conexión deben verificarse desde el proveedor de base de datos y contrastarse con los registros del backend. |
+| Herramienta | Versión | Uso en el monitoreo |
+| --- | --- | --- |
+| **Prometheus** | 2.55.1 | Consulta el *Blackbox Exporter* cada 30 s, almacena las series de tiempo y evalúa las reglas de alerta. |
+| **Blackbox Exporter** | 0.25.0 | Realiza la petición `GET /health` al backend desplegado y comprueba que responda 200 y que el cuerpo contenga `"status":"UP"`. Expone `probe_success`, `probe_duration_seconds`, `probe_http_status_code` y `probe_ssl_earliest_cert_expiry`. |
+| **Grafana** | 11.3.0 | Muestra el tablero *WeRide - Backend (Render)*, aprovisionado desde archivos (fuente de datos y tablero versionados). |
+| **Docker Compose** | — | Levanta los tres contenedores con un solo comando: `docker compose up -d`. |
+| **Endpoint `GET /health`** | — | Implementado en `HealthController.java`; devuelve `{"status":"UP","service":"Backend-WeRide"}`. |
+| **Render** | — | Estado del despliegue y registros de la aplicación. |
 
 **Prácticas de monitoreo:**
 
-- **Comprobación después de cada despliegue:** consultar "GET /health" y verificar que la respuesta contenga "status" igual a "UP". Si no responde, revisar el estado y los registros del servicio antes de considerar exitosa la publicación.
-- **Verificación de endpoints:** revisar Swagger UI y ejecutar una comprobación funcional de los endpoints principales cuando se publique una nueva versión.
-- **Revisión de errores:** inspeccionar los registros del backend cuando se produzcan respuestas HTTP inesperadas, excepciones o fallos de arranque.
-- **Seguimiento de la base de datos:** diferenciar los errores de conexión detectados por el backend con el estado del servicio MySQL y sus registros. El endpoint "/health" no comprueba directamente la base de datos.
-- **Trazabilidad de cambios:** relacionar los incidentes observados con la versión o commit recientemente desplegado, para facilitar la investigación y decidir si es necesario corregir o revertir el cambio.
+- **Configuración como código:** los archivos `docker-compose.yml`, `prometheus.yml`, `blackbox.yml`, `alert.rules.yml` y el tablero de Grafana se guardan en la carpeta `monitoring/` del proyecto, de modo que cualquier integrante puede levantar el mismo entorno.
+- **Comprobación después de cada despliegue:** revisar el tablero y confirmar que la disponibilidad vuelva a 1 y que el tiempo de respuesta esté por debajo de 5 s.
+- **Relación con el pipeline:** el pipeline de Jenkins (7.1.2) verifica `/health` antes de ejecutar las pruebas BDD; el monitoreo continúa esa verificación después del despliegue.
+- **Revisión de registros:** ante una alerta, consultar los registros de Render para identificar el motivo.
+- **Trazabilidad de cambios:** relacionar los incidentes con el commit desplegado recientemente.
 
-### 7.4.2. Monitoring Indicators
+**Cómo se ejecuta:**
 
-| Indicador | Fuente | Qué permite detectar | Acción ante una anomalía |
+```bash
+cd monitoring
+docker compose up -d
+# Prometheus: http://localhost:9090   Grafana: http://localhost:3000
+```
+
+### 7.4.2. Monitoring Pipeline Components
+
+El flujo de monitoreo tiene cuatro componentes: el servicio observado (Render), el sondeo (Blackbox Exporter), el almacenamiento y evaluación (Prometheus) y la visualización (Grafana).
+
+**Tabla 7.6. Indicadores monitoreados**
+
+| Indicador | Métrica de Prometheus | Qué permite detectar | Acción ante una anomalía |
 | --- | --- | --- | --- |
-| **Disponibilidad del backend** | `GET /health` | La API no responde o no devuelve el estado esperado. | Revisar el estado del servicio en Render y los registros de inicio. |
-| **Estado del despliegue** | Panel del proveedor de hospedaje | Una construcción fallida, un inicio incompleto o reinicios del contenedor. | Examinar el error de construcción o las últimas entradas del registro y corregir la versión. |
-| **Errores de API** | Registros del backend y pruebas funcionales | Excepciones o respuestas HTTP no esperadas. | Reproducir la solicitud, identificar el endpoint afectado y corregir la causa. |
-| **Conectividad con MySQL** | Registros del backend y estado del proveedor de base de datos | Errores de conexión, credenciales incorrectas o indisponibilidad de la base de datos. | Revisar variables de entorno, conectividad y estado de MySQL. |
-| **Accesibilidad de la API documentada** | Swagger UI | Que el servicio esté iniciado, pero la documentación no pueda consultarse. | Verificar la ruta publicada y los registros del backend. |
+| **Disponibilidad del backend** | `probe_success` | La API no responde o no devuelve `UP`. | Revisar el estado del servicio en Render y los registros de inicio. |
+| **Código HTTP** | `probe_http_status_code` | Respuestas distintas de 200 (por ejemplo, 5xx). | Reproducir la solicitud y revisar los registros. |
+| **Tiempo de respuesta** | `probe_duration_seconds` | Lentitud del servicio; se contrasta con la meta de 5 s de EXP-04. | Revisar si el servicio salió del reposo del plan gratuito o si hay un problema de carga. |
+| **Vigencia del certificado TLS** | `probe_ssl_earliest_cert_expiry` | Certificado próximo a vencer. | Revisar la configuración del dominio en Render. |
 
-"GET /health" representa una comprobación de liveness sencilla, no debe presentarse como una supervisión completa de la salud de las dependencias. Como mejora, el monitoreo puede automatizar comprobaciones periódicas de disponibilidad y alertas ante fallos repetidos, así como también incorporar una verificación separada de conectividad con la base de datos.
+**Evidencia:**
 
+![Objetivo de Prometheus en estado UP](assets/prometheus-targets.png)
+
+*Figura 7.12. Prometheus: el objetivo `weride-backend-health` en estado UP.*
+
+![Tablero de Grafana del backend de WeRide](assets/grafana-dashboard.png)
+
+*Figura 7.13. Tablero de Grafana "WeRide - Backend (Render)".*
+
+![Tablero de Grafana después de varios minutos](assets/grafana-dashboard-2.png)
+
+*Figura 7.14. El mismo tablero con la serie de tiempo acumulada.*
+
+*Limitación:* `GET /health` es una comprobación de disponibilidad simple; no consulta la base de datos. La medición de latencia corresponde al endpoint de salud y no sustituye la medición del flujo de desbloqueo de EXP-04.
 
 ### 7.4.3. Alerting Pipeline Components
 
-A partir de los indicadores de la sección 7.4.2, el equipo define las siguientes reglas de alerta para el backend:
+Las reglas de alerta se definen en `alert.rules.yml` y las evalúa Prometheus cada 30 s.
 
-| Regla | Condición | Severidad |
-| --- | --- | --- |
-| Servicio no disponible | `GET /health` no responde `UP` durante 3 minutos consecutivos | Alta |
-| Fallo de despliegue | La construcción o el inicio del servicio en Render termina en error | Alta |
-| Errores del servidor | Respuestas HTTP 5xx sostenidas en los registros del backend | Alta |
-| Latencia alta | Percentil 95 del flujo de desbloqueo superior a 5 s (meta del experimento EXP-04) | Media |
+**Tabla 7.7. Reglas de alerta**
 
-*Estado: reglas definidas. Su evaluación hoy es manual, mediante la revisión de Render y de `/health`; automatizarla requiere agregar Spring Boot Actuator con Prometheus y Grafana, o una comprobación externa periódica.*
+| Alerta | Condición (expresión) | Duración | Severidad |
+| --- | --- | --- | --- |
+| `BackendNoDisponible` | `probe_success == 0` | 3 min | Alta |
+| `BackendLatenciaAlta` | `probe_duration_seconds > 5` | 3 min | Media |
+| `BackendCertificadoPorVencer` | Certificado vence en menos de 7 días | 10 min | Media |
 
-La línea base de rendimiento proviene de EXP-04: 35 mediciones del flujo de desbloqueo con media de 1,675.3 ms y percentil 95 de 2,354.1 ms, todas por debajo de 5 s.
+![Reglas de alerta en Prometheus](assets/prometheus-alertas.png)
+
+*Figura 7.15. Reglas de alerta cargadas en Prometheus.*
+
+*Nota sobre el plan gratuito de Render:* si el servicio entra en reposo, la primera respuesta puede tardar cerca de un minuto, lo que puede disparar `BackendLatenciaAlta`. Este comportamiento es esperado en el plan gratuito y se considera un hallazgo del monitoreo, no un fallo del código.
+
+La línea base de EXP-04 (35 mediciones del flujo de desbloqueo, media de 1,675.3 ms y percentil 95 de 2,354.1 ms) fundamenta el umbral de 5 s.
 
 ### 7.4.4. Notification Pipeline Components
 
-Las alertas se comunicarían por correo electrónico (notificaciones del proveedor de despliegue) y por los canales de coordinación que el equipo ya usa (WhatsApp y Discord, sección 5.1.1). Cada notificación debe indicar el servicio afectado, la regla incumplida, la hora y la versión o commit desplegado más reciente, para relacionar el incidente con el último cambio.
+Las alertas se visualizan en la pestaña *Alerts* de Prometheus y en Grafana. **Estado actual:** no se configuró un canal de notificación automática (correo o mensajería); para ello haría falta agregar *Alertmanager* o un punto de contacto de Grafana. Esta configuración queda como mejora, y mientras tanto la revisión del tablero es manual después de cada despliegue.
 
-*Estado: canales definidos; la configuración de notificaciones automáticas está pendiente.*
 
 # Capítulo VIII: Experiment-Driven Development
 
@@ -5534,6 +5653,128 @@ El orden sigue la prioridad del Question Backlog (Tabla 8.3): primero lo necesar
 
 *Fuente: Elaboración propia.*
 
+### 8.3.3. Pipeline-supported, Experiment-Driven To-Be Software Platform Lifecycle
+
+El pipeline del capítulo VII sostiene el ciclo de vida To-Be: cada cambio del backend pasa por la compilación, las pruebas BDD contra el servicio desplegado, el análisis estático y la publicación de la imagen, y el servicio desplegado permite medir los experimentos (EXP-04 se midió contra él). Esta sección reporta lo que se hizo y lo que no se hizo en el primer sprint To-Be. **Se ejecutó el pipeline de extremo a extremo y la medición de latencia de EXP-04 (mediante un script); las capacidades de medición dentro del producto (US-57 a US-64) aún no están implementadas.**
+
+#### 8.3.3.1. To-Be Sprint Backlogs
+
+**Tabla 8.18a. Sprint Planning del Sprint To-Be 1**
+
+| Campo | Contenido |
+| --- | --- |
+| Sprint # | Sprint To-Be 1 |
+| Fecha | 2026-11-11 al 2026-11-24 |
+| Preparado por | Sarmiento Mendoza, Alessandro Franco |
+| Sprint Goal | *Our focus is on* contar con un pipeline que construya, pruebe, analice y publique el backend, y con la medición del tiempo de desbloqueo. *We believe it delivers* confianza en cada versión y datos reales para decidir sobre el flujo de desbloqueo al equipo de producto. *This will be confirmed when* el pipeline termina en verde con Karate contra producción y se dispone de al menos 30 mediciones de desbloqueo. |
+| Historias incluidas | US-62 (3 puntos) y tareas técnicas transversales |
+| Suma de Story Points | 3 |
+
+**Tabla 8.18b. Sprint Backlog del Sprint To-Be 1**
+
+| US Id | US título | WI Id | Work-item / Task | Estimación (h) | Asignado a | Estado |
+| --- | --- | --- | --- | ---: | --- | --- |
+| US-62 | Medición del tiempo de desbloqueo | WI-01 | Script que mide 35 flujos de desbloqueo contra el servicio desplegado | 4 | Sarmiento Mendoza, Alessandro | Done |
+| US-62 | Medición del tiempo de desbloqueo | WI-02 | Registrar la duración en el sistema (instrumentación en la API) | 6 | Por asignar | To-do |
+| — | Tarea técnica | WI-03 | Pipeline de Jenkins: checkout, build, Karate, SonarQube, Quality Gate | 6 | Sarmiento Mendoza, Alessandro | Done |
+| — | Tarea técnica | WI-04 | Publicar la imagen del backend en Docker Hub desde el pipeline | 2 | Sarmiento Mendoza, Alessandro | Done |
+| — | Tarea técnica | WI-05 | Redesplegar el backend en Render desde el repositorio del grupo | 3 | Sarmiento Mendoza, Alessandro | Done |
+| — | Tarea técnica | WI-06 | Corregir las 6 pruebas unitarias y de integración que fallan | 4 | Por asignar | To-do |
+| — | Tarea técnica | WI-07 | Medir cobertura con JaCoCo y activar el Quality Gate estricto | 3 | Por asignar | To-do |
+
+Las historias US-57, US-58, US-59, US-60, US-61, US-63 y US-64 permanecen en el Product Backlog To-Be (sección 8.3.2) y no se incluyeron en este sprint.
+
+> **Pendiente de completar por el equipo:** captura del tablero de tareas del sprint y su enlace público, así como la hora y el lugar del *Sprint Planning*.
+
+#### 8.3.3.2. Implemented To-Be Landing Page Evidence
+
+No se implementaron cambios To-Be en la landing page. Las historias US-57 (analítica de la landing) y US-58 (formulario de interés corporativo), que sostienen el experimento EXP-02, están pendientes. Se mantiene la landing de la versión actual, en el repositorio `DEIS-Grupo-4/Landing-Page`, cuyo último commit es del 14/09/2026.
+
+#### 8.3.3.3. Implemented To-Be Frontend-Web Application Evidence
+
+No se implementaron cambios To-Be en la aplicación web. Las historias US-60 (variantes de experimento), US-61 (indicador de batería y estado), US-63 (encuesta NPS) y US-64 (panel de métricas) están pendientes. El repositorio `DEIS-Grupo-4/Fronted-Weride-DEIS` conserva su último commit del 14/09/2026.
+
+#### 8.3.3.4. Implemented To-Be Native-Mobile Application Evidence
+
+No se implementaron cambios To-Be en la aplicación móvil nativa, que proviene de un trabajo de un curso anterior. 
+
+> **Pendiente de completar por el equipo:** enlace al repositorio de la aplicación móvil.
+
+#### 8.3.3.5. Implemented To-Be RESTful API and/or Serverless Backend Evidence
+
+**Development Evidence.** Commits del repositorio `DEIS-Grupo-4/Backend-Weride-DEIS` relacionados con este sprint:
+
+**Tabla 8.18c. Commits de implementación**
+
+| Repositorio | Rama | Commit Id | Mensaje | Fecha |
+| --- | --- | --- | --- | --- |
+| DEIS-Grupo-4/Backend-Weride-DEIS | feature/karate-bdd-tests | d7867d4 | fix: make userId String in Notifications and Trip, add TravelHistory createdAt getter | 2026-11-11 |
+| DEIS-Grupo-4/Backend-Weride-DEIS | feature/karate-bdd-tests | 80ad3eb | test: add Karate BDD acceptance tests (auth, vehicles) | 2026-11-11 |
+| DEIS-Grupo-4/Backend-Weride-DEIS | main | 7077d29 | Merge pull request #2 from Aless7666/feature/karate-bdd-tests | 2026-11-11 |
+
+> **Pendiente de completar por el equipo:** commit del `Jenkinsfile` en la raíz del repositorio, que se versiona en una rama y un Pull Request propios.
+
+**Testing Suite Evidence.** Se ejecutaron las pruebas BDD con Karate (8 de 8 escenarios aprobados, secciones 6.1.3 y 7.3) y las pruebas unitarias y de integración (73 de 79 aprobadas; las 6 que fallan están descritas en la sección 7.1.2). Los commits de las pruebas son los de la Tabla 8.18c.
+
+**Execution Evidence.** El servicio desplegado responde en `/health` (Figura 7.8) y soporta el flujo de desbloqueo medido en EXP-04: 35 de 35 mediciones dentro de 5 s (sección 8.4.1, Figura 8.1).
+
+**Services Documentation Evidence.** Los endpoints cubiertos por las pruebas de aceptación están documentados con OpenAPI y Swagger UI en `https://backend-weride-2wpb.onrender.com/swagger-ui/index.html`:
+
+**Tabla 8.18d. Endpoints verificados con Karate**
+
+| Endpoint | Verbo | Escenario verificado |
+| --- | --- | --- |
+| `/api/v1/authentication/sign-up` | POST | Registro válido (201) y nombre de usuario vacío rechazado (400) |
+| `/api/v1/authentication/sign-in` | POST | Inicio de sesión con token JWT (200) y contraseña incorrecta rechazada |
+| `/api/v1/vehicles` | GET, POST | Listado devuelve un arreglo (200); creación de un vehículo (201) |
+| `/api/v1/vehicles/{id}` | GET, DELETE | Consulta por identificador (200), inexistente devuelve 404 y eliminación |
+
+**Software Deployment Evidence.** El servicio se despliega en Render desde el repositorio del grupo (Figura 7.7), la imagen se publica en Docker Hub (Figura 7.4) y el pipeline de Jenkins registra cada ejecución (Figuras 7.1 y 7.2).
+
+#### 8.3.3.6. Team Collaboration Insights
+
+**Tabla 8.18e. Commits por integrante en los repositorios del proyecto (23/11/2026)**
+
+| Repositorio | Integrante (autor de los commits) | Commits |
+| --- | --- | ---: |
+| Report_Project | Laymito Delgado, Franco Sebastian (FranKo024) | 33 |
+| Report_Project | Sarmiento Mendoza, Alessandro Franco (Aless7666) | 20 |
+| Report_Project | Trejo Espejo, Giordano Sebastian (igogriogriorgiori) | 10 |
+| Report_Project | Silva Hualpa, Rosangela | 4 |
+| Backend-Weride-DEIS | Romero Meza, Jhimy Pool (jhimyromeromeza) | 8 |
+| Backend-Weride-DEIS | Laymito Delgado, Franco Sebastian | 4 |
+| Backend-Weride-DEIS | Sarmiento Mendoza, Alessandro Franco | 3 |
+| Fronted-Weride-DEIS | Romero Meza, Jhimy Pool | 2 |
+| Landing-Page | Romero Meza, Jhimy Pool | 1 |
+
+El historial del backend incluye además commits heredados de la versión del curso anterior, que no se atribuyen al equipo actual. El número de commits no mide el esfuerzo por sí solo: el trabajo de coordinación, entrevistas y revisión no siempre queda en commits. 
+
+> **Pendiente de completar por el equipo:** capturas de la pestaña *Insights* de GitHub de cada repositorio y la interpretación del equipo sobre la distribución del trabajo.
+
+*Fuente: historial de commits de GitHub.*
+
+### 8.3.4. To-Be Validation Interviews
+
+#### 8.3.4.1. Diseño de Entrevistas
+
+Las entrevistas To-Be reutilizan el diseño de la sección 6.3.1 (segmentos, tareas y flujos de usuario) y agregan tres preguntas sobre las capacidades que sostienen los experimentos pendientes:
+
+1. **EXP-03:** ¿le ayudaría ver la batería y el estado del vehículo en la tarjeta antes de reservarlo? ¿Qué más querría ver?
+2. **EXP-05:** ¿respondería una pregunta breve de satisfacción al terminar su viaje? ¿En qué momento le molestaría menos?
+3. **EXP-02:** (segmento de empresas) ¿qué necesitaría saber para solicitar una demostración del plan corporativo?
+
+Las sesiones se graban en video y duran entre 10 y 15 minutos.
+
+#### 8.3.4.2. Registro de Entrevistas
+
+> **Pendiente de completar por el equipo:** registro de las entrevistas To-Be (nombres y apellidos, edad, distrito, fecha, captura del video, enlace y duración en Microsoft Stream, y resumen de cada una). El enunciado pide entre 3 y 5 entrevistas por segmento; el informe indicará exactamente cuántas se realizaron.
+
+**Tabla 8.18f. Registro de entrevistas To-Be**
+
+| N.º | Segmento objetivo | Nombres y apellidos | Edad | Distrito | Fecha | Enlace del video | Resumen |
+| ---: | --- | --- | ---: | --- | --- | --- | --- |
+| 1 | Pendiente | Pendiente | — | Pendiente | Pendiente | Pendiente | Pendiente |
+
 ## 8.4. Experiment Aftermath & Analysis
 
 ### 8.4.1. Analysis and Interpretation of Results
@@ -5630,13 +5871,97 @@ El aprendizaje de cada experimento se comparte con el equipo en una sesión brev
 
 Los resultados de cada experimento se registran en una Learning Card una vez ejecutado, y no se reportan resultados de experimentos que aún no se hayan realizado.
 
+## 8.6. To-Be Software Platform Pre-launch
+
+### 8.6.1. About-the-Product Intro Video
+
+El video *About-the-Product* presenta WeRide a los visitantes de la landing page y a los usuarios de la aplicación. Dura entre 1 y 3 minutos, usa el mismo tono cercano y práctico del producto e incluye, al menos, el testimonio positivo de una persona que participó en las entrevistas de validación.
+
+**Pauta del video:**
+
+| Secuencia | Contenido | Duración aproximada |
+| --- | --- | --- |
+| 1 | Problema: congestión y traslados cortos lentos o costosos en Lima. | 0:00 a 0:20 |
+| 2 | Propuesta: alquiler de scooters y vehículos eléctricos con reserva y desbloqueo digital. | 0:20 a 0:50 |
+| 3 | Recorrido de la aplicación: registro, búsqueda de vehículos, reserva y planes. | 0:50 a 1:50 |
+| 4 | Testimonio de una persona entrevistada. | 1:50 a 2:15 |
+| 5 | Cierre y llamado a la acción: crear una cuenta. | 2:15 a 2:30 |
+
+> **Pendiente de completar por el equipo:** captura de un cuadro del video, enlace en Microsoft Stream, enlace en YouTube (para incrustarlo en la landing) y duración final.
+
+### 8.6.2. Resumen usando Gees FrameWork
+
+El resumen aplica las cuatro lentes del marco GEES (Global, Economic, Environmental y Social) al estado real del sistema. Se indican los estándares internacionales como referencia de buenas prácticas; **no se declara certificación ni cumplimiento formal de ninguno de ellos.**
+
+**Tabla 8.24. Matriz de resumen del sistema (marco GEES)**
+
+| Lente GEES | Indicador / criterio clave | Hallazgo / estado del sistema | Estándar de referencia |
+| --- | --- | --- | --- |
+| **Global** | Tratamiento de datos personales y ubicación; dependencia de proveedores en la nube. | El backend corre en Render y la base de datos MySQL en Aiven. El tratamiento de datos personales se rige por la Ley N.º 29733 (sección de privacidad de los términos y condiciones). Las credenciales y el secreto JWT se configuran como variables de entorno, no en el código. | ISO/IEC 27001 (seguridad de la información) e ISO/IEC 27701 (privacidad) |
+| **Economic** | Costo de operación y continuidad del servicio. | El servicio usa planes gratuitos y créditos de prueba: Render gratuito (reposo tras inactividad, arranque lento) y un crédito de Aiven que vence el 24/11/2026. Mantener el servicio exigiría pasar a un plan de pago o migrar la base de datos. | ISO/IEC 25010 (calidad del software) |
+| **Environmental** | Eficiencia en el uso de recursos y gestión de baterías. | La imagen del backend pesa 156.85 MB gracias a la construcción en dos etapas. En el servicio físico, la gestión de baterías y de residuos electrónicos de los vehículos aún no está definida y es una acción pendiente. No se midió el consumo energético. | ISO 14001 (gestión ambiental) |
+| **Social** | Accesibilidad, inclusión y confianza del usuario. | Las entrevistas y la evaluación heurística (sección 6.3) detectaron que el registro, la información de seguridad y los mensajes de las reservas necesitan mejoras. La auditoría de accesibilidad con WCAG está pendiente. | WCAG 2.2 (accesibilidad web) |
+
+*Fuente: Elaboración propia a partir de los resultados de los capítulos VI, VII y VIII.*
+
+
+## Matriz de Evaluación Ética y de Impacto
+
+La matriz identifica los riesgos e impactos de WeRide, a quiénes afectan y qué acciones de diseño se proponen. Se distinguen las acciones **realizadas** de las **propuestas**, para no presentar como hecho lo que aún no se ha implementado.
+
+**Tabla 8.25. Matriz de evaluación ética y de impacto de WeRide**
+
+| Dimensión / criterio | Identificación de riesgos e impactos | Evaluación del impacto (afectados y magnitud) | Estrategias de mitigación y acciones de diseño |
+| --- | --- | --- | --- |
+| **1. Salud pública y seguridad** | **Negativo:** el uso de scooters aumenta el riesgo de caídas y de accidentes de tránsito, sobre todo sin casco o en horas de poca visibilidad. Una batería en mal estado puede causar incendios. **Positivo:** reemplaza viajes cortos en vehículos motorizados. | **Afectados:** usuarios, peatones y conductores. Magnitud alta por la gravedad posible de un accidente. | **Propuestas:** mostrar las normas de seguridad antes de reservar (un entrevistado lo pidió), recomendar el uso de casco, limitar la velocidad con el módulo IoT y definir un procedimiento de revisión de baterías. |
+| **2. Inclusión y accesibilidad** | **Negativo:** el servicio requiere teléfono inteligente, conexión a internet y lectura de códigos QR; personas con discapacidad visual o motriz podrían quedar excluidas. | **Afectados:** adultos mayores, personas con discapacidad y usuarios sin plan de datos. Magnitud media. | **Propuestas:** mantener interfaces en español (es_419) e inglés (en_US), atributos ARIA y contraste suficiente; realizar una auditoría WCAG; ofrecer otra forma de desbloqueo. La auditoría aún no se ha hecho. |
+| **3. Impacto social y cultural** | **Negativo:** vehículos mal estacionados obstruyen veredas y generan conflictos con peatones. | **Afectados:** peatones y comunidad del entorno. Magnitud media. | **Propuestas:** zonas de estacionamiento definidas en el mapa, sanciones por estacionar fuera de ellas y un canal de reportes de vehículos mal ubicados. |
+| **4. Impacto económico** | **Negativo:** cobros adicionales poco claros afectan a los usuarios; los entrevistados no entendieron el precio total antes de registrarse. La operación depende de planes gratuitos que vencen. **Positivo:** alternativa de transporte de bajo costo y planes corporativos. | **Afectados:** usuarios jóvenes, empresas y el propio equipo. Magnitud media. | **Propuestas:** mostrar la tarifa total y los posibles cargos antes de reservar (hallazgo de la sección 6.3.3); presupuestar la migración de la base de datos antes de que venza el crédito de Aiven. |
+| **5. Impacto ambiental** | **Negativo:** las baterías de litio y su disposición final generan residuos electrónicos; los servidores consumen energía. **Positivo:** menos emisiones al reemplazar viajes cortos en automóvil. | **Afectados:** el medio ambiente urbano y las comunidades cercanas a los puntos de disposición. Magnitud media. | **Realizado:** imagen de contenedor reducida (156.85 MB) con construcción en dos etapas. **Propuestas:** política de reciclaje de baterías con un gestor autorizado y mantenimiento para alargar la vida útil de los vehículos. |
+| **6. Enfoque global** | **Negativo:** los datos personales y de ubicación se almacenan en proveedores de nube que pueden estar fuera del Perú, bajo otras legislaciones. | **Afectados:** la privacidad de los usuarios. Magnitud media. | **Realizado:** secretos y credenciales fuera del código, mediante variables de entorno. **Propuestas:** guardar solo los datos necesarios, usar conexiones cifradas (HTTPS) y revisar la ubicación geográfica de los servidores. |
+| **7. Revelación de peligros y responsabilidad** | **Riesgo:** una versión defectuosa o una vulnerabilidad no comunicada puede dañar a los usuarios y a la confianza en el producto. | **Afectados:** usuarios y equipo. Magnitud alta si no se informa. | **Realizado:** el equipo reportó que la rama `main` del backend no compilaba, la corrigió mediante el Pull Request #2 y documentó las 6 pruebas que siguen fallando (secciones 6.2.2 y 7.1.2); SonarQube detectó un hallazgo de seguridad (CSRF), que se evaluó con justificación técnica (API sin estado con JWT, sin cookies de sesión). Los resultados de EXP-04 se reportan con su límite: los vehículos están simulados. Los tokens de acceso del pipeline son temporales y se revocan al cerrar la entrega. |
+
+*Fuente: Elaboración propia, con el formato del Anexo F del enunciado del trabajo final.*
+
 ## Conclusiones
+
+**Conclusiones del producto y del modelo de negocio**
+
 - El proyecto de micromovilidad eléctrica compartida responde a necesidades reales de movilidad en áreas urbanas peruanas: congestión, tiempos de traslado elevados, y demanda por alternativas más económicas y sostenibles. La combinación de scooters, bicicletas y motos eléctricas gestionadas desde una única plataforma web representa una propuesta con alto potencial de adopción, especialmente en segmentos juveniles y corporativos.
 - La identificación de dos segmentos prioritarios —jóvenes universitarios y empresas con planes de suscripción— es coherente con los hallazgos cualitativos. Los primeros buscan conveniencia, bajo costo y métodos de pago locales (Yape/Plin); las empresas buscan soluciones de movilidad para colaboradores y valoran la previsibilidad de costos y la imagen de sostenibilidad. Esta segmentación favorece estrategias de adquisición y retención diferenciadas.
 - La propuesta de combinar pago por uso (desbloqueo + tarifa por minuto) con pases diarios, mensuales y corporativos ofrece una mezcla adecuada para equilibrar ingresos inmediatos y recurrentes. Los precios sugeridos y el descuento universitario crean incentivos para adopción temprana y fidelización. No obstante, la rentabilidad dependerá de la tasa de utilización por vehículo (objetivo mínimo: 4–5 viajes/día) y de una gestión eficiente de costos operativos (mantenimiento, recarga, logística).
 - Las funciones críticas —búsqueda en tiempo real (GPS/IoT), mapa interactivo, reservas con temporizador y desbloqueo digital (QR/PIN/IoT)— están correctamente priorizadas. Estas funcionalidades garantizan una experiencia simple y confiable desde la web, mientras que el desbloqueo digital y la gestión remota son componentes esenciales para control y seguridad de la flota.
 
-  
+### Conclusiones y recomendaciones
+
+**Conclusiones del ciclo de verificación, validación y experimentación**
+
+- **Calidad del backend:** el backend compila y supera las 8 pruebas de aceptación BDD con Karate, tanto en local como contra el servicio desplegado. El análisis estático con SonarQube no encontró errores de fiabilidad ni de mantenibilidad (0 y 0), con 1.4 % de duplicación y un único hallazgo de seguridad evaluado y justificado. La cobertura de pruebas unitarias no se midió (0.0 %), y 6 de 79 pruebas siguen fallando; es la principal deuda técnica.
+- **Pipeline:** el pipeline de Jenkins construye, prueba, analiza y publica el backend en 11 minutos. Es un pipeline de entrega validado por pruebas de aceptación, no por la suite completa de pruebas unitarias, y se ejecuta de forma manual.
+- **Experimentos:** de los cinco experimentos planificados se ejecutó EXP-04. Los 35 desbloqueos medidos respondieron en menos de 5 s (media de 1.68 s y percentil 95 de 2.35 s), con lo que la hipótesis H-06 se confirma para la parte de software. Los vehículos están simulados, por lo que falta validar la latencia con hardware real. EXP-01, EXP-02, EXP-03 y EXP-05 siguen pendientes porque requieren las capacidades de medición de las historias US-57 a US-64.
+- **Validación con usuarios:** las entrevistas y la evaluación heurística confirman que la propuesta se entiende y despierta interés, pero señalan que las opciones de registro, la información de precios y seguridad y los mensajes de las reservas deben mejorar. El número de entrevistas realizadas es menor al que pide el enunciado.
+- **Responsabilidad profesional:** el equipo documentó con transparencia los defectos hallados, las pruebas que fallan y los límites de cada resultado, en lugar de omitirlos.
+
+**Recomendaciones y hoja de ruta**
+
+1. Corregir las 6 pruebas que fallan e incorporar JaCoCo para medir la cobertura y activar un Quality Gate estricto.
+2. Implementar las historias US-59 y US-62 para registrar eventos y duraciones dentro del producto, y repetir EXP-04 con hardware IoT real.
+3. Ejecutar EXP-01 (usabilidad del flujo de reserva) con cinco participantes y construir US-57, US-58, US-60 y US-61 para habilitar EXP-02 y EXP-03.
+4. Completar las entrevistas de validación por segmento y corregir los problemas de severidad 3 de la evaluación heurística.
+5. Versionar el `Jenkinsfile`, configurar el disparo automático con un *webhook* cuando Jenkins sea accesible y evaluar un servidor de integración continua alojado.
+6. Migrar la base de datos de producción antes de que venza el crédito de prueba (24/11/2026) y revisar el plan de hospedaje del backend.
+7. Realizar una auditoría de accesibilidad WCAG y definir la política de gestión de baterías antes de un lanzamiento real.
+
+
+### Video App Validation
+
+> **Pendiente de completar por el equipo:** documentar la evaluación de la aplicación mediante la prueba con usuarios usando Firebase App Distribution, con captura del video, enlace en Microsoft Stream y duración. Si esta prueba no se realiza, el informe debe indicarlo explícitamente.
+
+### Video About-the-Team
+
+> **Pendiente de completar por el equipo:** resumen de los aspectos más relevantes del video, con la pauta de secuencias (hh:mm:ss de inicio de cada una), un cuadro representativo, el enlace en Microsoft Stream y el testimonio ante cámara de cada integrante sobre las actividades realizadas, el logro de los resultados del curso (*outcomes*) y las competencias desarrolladas.
+
+## Bibliografía
 
 <ul>
   <li>Alexander, I., & Beus-Dukic, L. (2009). <em>Discovering Requirements: How to Specify Products and Services</em>. Wiley.</li>
@@ -5698,3 +6023,14 @@ Los resultados de cada experimento se registran en una Learning Card una vez eje
 <a href="https://www.canva.com/design/DAGzltc5qz0/jV9yXK8Nme4XSOk6AUhFgg/edit" target="_blank" rel="noopener">Presentación de Canvas</a>
 
 <a href="https://www.figma.com/design/6R0aWHPQEpwX8DyWLrCHmd/Open-Source-2025-2?t=moMeoEwSHQRhgL2O-0" target="_blank" rel="noopener">Figma</a>
+
+### Anexo A. Videos de Exposiciones
+
+**Tabla A.1. Videos de exposición por entrega**
+
+| Entrega | Título del video | Enlace en Microsoft Stream |
+| --- | --- | --- |
+| Avance 1 | Pendiente | Pendiente |
+| Trabajo Parcial | Pendiente | Pendiente |
+| Avance 2 | Pendiente | Pendiente |
+| Trabajo Final | upc-pre-202610-1asi07323-expo-tbn | Pendiente |
