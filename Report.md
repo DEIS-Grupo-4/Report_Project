@@ -3563,7 +3563,7 @@ Respuesta `404 Not Found` si las credenciales no corresponden a una cuenta.
 
 #### Despliegue del servicio
 
-El backend (Spring Boot, empaquetado con el `Dockerfile` del repositorio) se despliega como **Web Service en Render** (plan Free, runtime Docker) y utiliza una base de datos **MySQL 8 administrada en Aiven**. La configuración sensible (URL, usuario y contraseña de la base de datos, `JWT_SECRET`) se inyecta mediante variables de entorno de Render y no se almacena en el repositorio. Al iniciar, Hibernate crea el esquema (`ddl-auto=update`) y se cargan datos demo (vehículos y planes).
+El backend (Spring Boot, empaquetado con el `Dockerfile` del repositorio) se despliega como **Web Service en Render** (plan Free, runtime Docker) y utiliza una base de datos **MySQL 8 administrada en Aiven**. La conexión a la base de datos (URL, usuario y contraseña) se inyecta mediante variables de entorno de Render. El secreto de firma de los tokens JWT, en cambio, tiene un valor por defecto escrito en `application.properties` (propiedad `authorization.jwt.secret`); debe sustituirse en producción mediante la variable de entorno `AUTHORIZATION_JWT_SECRET`, lo que queda como mejora pendiente. Al iniciar, Hibernate crea el esquema (`ddl-auto=update`) y se cargan datos demo (vehículos y planes).
 
 - **URL pública del API:** https://backend-weride-2wpb.onrender.com
 - **Swagger UI:** https://backend-weride-2wpb.onrender.com/swagger-ui/index.html
@@ -3600,7 +3600,7 @@ El backend (Spring Boot, empaquetado con el `Dockerfile` del repositorio) se des
 <ol>
   <li>Creación de la base de datos MySQL 8 en Aiven y obtención de sus datos de conexión (host, puerto, usuario, contraseña, base <code>defaultdb</code>, SSL requerido).</li>
   <li>Creación de un Web Service en Render conectado al repositorio de GitHub, con runtime Docker y plan Free.</li>
-  <li>Configuración de variables de entorno en Render: <code>SPRING_DATASOURCE_URL</code>, <code>SPRING_DATASOURCE_USERNAME</code>, <code>SPRING_DATASOURCE_PASSWORD</code>, <code>JWT_SECRET</code>, <code>PORT</code> y <code>JAVA_TOOL_OPTIONS</code> (límite de memoria de la JVM). Ningún secreto se almacena en el repositorio.</li>
+  <li>Configuración de variables de entorno en Render: <code>SPRING_DATASOURCE_URL</code>, <code>SPRING_DATASOURCE_USERNAME</code>, <code>SPRING_DATASOURCE_PASSWORD</code>, <code>PORT</code> y <code>JAVA_TOOL_OPTIONS</code> (límite de memoria de la JVM). Las credenciales de la base de datos no se almacenan en el repositorio; el secreto JWT sí tiene un valor por defecto en <code>application.properties</code> (mejora pendiente).</li>
   <li>Build de la imagen con el Dockerfile (Maven + JDK) y arranque del servicio. Hibernate crea el esquema en MySQL (<code>ddl-auto=update</code>) y se cargan datos demo (vehículos y planes).</li>
   <li>Verificación: el servicio queda en estado <em>Live</em>, Swagger UI responde y los endpoints de autenticación (<code>sign-up</code> / <code>sign-in</code>) devuelven 201 y 200 respectivamente.</li>
 </ol>
@@ -5090,7 +5090,7 @@ La entrega continua busca que cada versión que supera las validaciones de calid
 - **Entrega basada en una versión identificable:** los cambios se conservan en Git y pueden asociarse con un commit revisable antes de publicar la aplicación.
 - **Validación antes de entregar:** se deben ejecutar las pruebas unitarias y de integración descritas en el capítulo VI. Los escenarios Karate se ejecutan contra una instancia levantada del backend y su resultado se revisa antes de aceptar la versión candidata.
 - **Empaquetado reproducible:** el "Dockerfile" utiliza una etapa de construcción con Maven y Java 24 y una etapa de ejecución con Java 24. Esto evita depender de que el servidor de despliegue tenga instalado localmente el entorno de desarrollo.
-- **Separación entre código y configuración:** la URL de base de datos, las credenciales y el secreto de JWT deben configurarse mediante variables de entorno del entorno de ejecución; no deben incorporarse como valores sensibles en el artefacto.
+- **Separación entre código y configuración:** la URL de base de datos, las credenciales y el secreto de JWT deben configurarse mediante variables de entorno del entorno de ejecución. En el estado actual del proyecto esto se cumple para la base de datos (`DB_URL`, `DB_USERNAME`, `DB_PASSWORD`), pero no para el secreto JWT, que tiene un valor por defecto en `application.properties`.
 - **Criterio de promoción:** una versión se considera candidata a entrega cuando la compilación termina correctamente, las pruebas requeridas han sido revisadas y la configuración necesaria para ejecutarla está disponible. Un resultado fallido debe corregirse antes de continuar.
 
 ### 7.2.2. Continuous Delivery Pipeline Components
@@ -5100,7 +5100,7 @@ La entrega continua busca que cada versión que supera las validaciones de calid
 | **Selección de versión** | Se identifica el commit que se desea entregar y se verifica que pertenezca a la rama correspondiente al flujo de trabajo del equipo. | Git y GitHub | Código fuente identificable y revisable. |
 | **Build y pruebas** | Se compila el backend y se ejecutan las pruebas unitarias y de integración. La suite BDD se ejecuta contra una instancia disponible de la API. | Maven, JUnit 5, Spring Boot Test y Karate | Compilación correcta y resultados de pruebas revisados. |
 | **Empaquetado** | El "Dockerfile" construye el JAR y lo incorpora a una imagen de contenedor basada en Java 24. | Maven y Docker | Imagen del backend preparada para su ejecución. |
-| **Configuración del entorno** | Se comprueba la disponibilidad de las variables de entorno requeridas, entre ellas la conexión a MySQL y la configuración segura del token JWT. | Configuración del entorno de hospedaje | Artefacto listo para iniciarse en el entorno de destino. |
+| **Configuración del entorno** | Se comprueba la disponibilidad de las variables de entorno requeridas, entre ellas la conexión a MySQL; la configuración segura del token JWT es una mejora pendiente. | Configuración del entorno de hospedaje | Artefacto listo para iniciarse en el entorno de destino. |
 | **Preparación para publicación** | Se identifica la versión que puede promoverse al entorno desplegado y se conserva el resultado de las validaciones realizadas. | GitHub y la plataforma de despliegue | Versión candidata lista para el proceso de despliegue descrito en 7.3. |
 | **Verificación de entrega** | Una vez iniciada la versión, se comprueba que la API responda a la verificación de salud y que sus endpoints principales estén disponibles. | Endpoint "/health" y Swagger UI | Evidencia de que la versión se inició y responde. |
 
@@ -5134,7 +5134,7 @@ El despliegue continuo automatiza la publicación del backend de WeRide en un en
 **Practices:**
 
 - **Despliegue desde el repositorio:** Render está conectado al repositorio de GitHub del backend; cada cambio en la rama configurada puede disparar una nueva construcción y despliegue.
-- **Configuración por variables de entorno:** las credenciales y parámetros sensibles no se escriben en el código. La conexión a la base de datos (`SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`) y el secreto de firma de tokens (`JWT_SECRET`) se definen como variables de entorno en Render y sustituyen a los valores de `application.properties`.
+- **Configuración por variables de entorno:** las credenciales y parámetros sensibles no se escriben en el código. La conexión a la base de datos (`SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`) se definen como variables de entorno en Render y sustituyen a los valores de `application.properties`. El secreto de firma de tokens JWT conserva el valor por defecto de `application.properties`; sustituirlo mediante `AUTHORIZATION_JWT_SECRET` es una mejora pendiente.
 - **Ajuste de memoria para el plan gratuito:** el servicio corre con 512 MB de RAM, por lo que se configura `JAVA_TOOL_OPTIONS=-Xmx350m -XX:+UseSerialGC` para limitar el consumo de la JVM.
 - **Verificación posterior al despliegue:** tras cada despliegue se comprueba la disponibilidad del servicio con el endpoint público `/health` y se valida la documentación en Swagger UI.
 - **Entorno local equivalente:** el mismo `Dockerfile` y un `docker-compose.yml` (backend + MySQL) permiten reproducir localmente el entorno de ejecución, de modo que las pruebas de la sección 6.1.3 se ejecutan contra el mismo tipo de contenedor que se despliega.
@@ -5145,7 +5145,7 @@ El despliegue continuo automatiza la publicación del backend de WeRide en un en
 | --- | --- | --- | --- |
 | **Trigger** | Un cambio llega a la rama del repositorio conectada a Render. | GitHub | Render detecta el cambio. |
 | **Build de imagen** | Render ejecuta el `Dockerfile`: compila el proyecto con Maven y genera el `.jar`. | Docker + Maven | Imagen del backend lista. |
-| **Inyección de configuración** | Se aplican las variables de entorno del servicio (base de datos, `JWT_SECRET`, `PORT=8080`, opciones de JVM). | Render | Contenedor configurado para producción. |
+| **Inyección de configuración** | Se aplican las variables de entorno del servicio (base de datos, `PORT=8080`, opciones de JVM). | Render | Contenedor configurado para producción. |
 | **Despliegue** | Render inicia el contenedor y lo expone con una URL pública HTTPS. | Render | Servicio en línea. |
 | **Conexión a la base de datos** | El backend se conecta a MySQL en Aiven y Hibernate actualiza el esquema (`ddl-auto=update`). | Aiven for MySQL | Tablas disponibles en la base de datos de producción. |
 | **Verificación** | Se consulta `/health` y la documentación Swagger UI del servicio. | Navegador / Swagger UI | Servicio verificado. |
@@ -5195,11 +5195,29 @@ El despliegue continuo automatiza la publicación del backend de WeRide en un en
 
 
 
+### 7.3.3. Estado del despliegue y ejecución local (25/11/2026)
+
+Al preparar la entrega final se comprobó el estado real del despliegue en la nube y se encontraron los siguientes hechos:
+
+- **Servicio en Render:** el servicio *Backend-WeRide* (plan Free, runtime Docker) tiene como despliegue activo el commit `d513b79`, de hace aproximadamente un mes. El despliegue del commit `7077d29` (fusión del Pull Request #2 del 11/11/2026) aparece como **fallido** tras 19 minutos; su registro ya no está disponible por el periodo de retención de Render, por lo que **no se pudo determinar la causa**. En consecuencia, el servicio publicado no corresponde al código más reciente de la rama `main`. Las pruebas BDD del 23/11/2026 (sección 7.3.2) se ejecutaron contra el servicio que estaba activo en ese momento.
+- **Base de datos en Aiven:** el servicio MySQL `mysql-18917c20` aparece como *Powered off* y la cuenta indica que el periodo de prueba de la plataforma terminó. Los registros de la aplicación en Render muestran `UnknownHostException` para el servidor de la base de datos, por lo que el backend no puede iniciar y `/health` deja de responder.
+- **Detección:** el monitoreo de la sección 7.4, que en ese momento sondeaba la URL de Render, mostró la disponibilidad en **CAÍDO** (código HTTP 0) y dejó disparadas las alertas `BackendNoDisponible` y `BackendLatenciaAlta`.
+
+**Decisión del equipo.** Para no depender de planes de prueba que vencen y mantener las herramientas del curso, el backend se ejecuta ahora de forma local con **Docker Compose** (`monitoring/docker-compose.yml`), con cinco contenedores: MySQL 8.4, el backend (la imagen `aless2212/weride-backend:latest` publicada por el pipeline, construida a partir del commit `7077d29`), el sondeo Blackbox Exporter, Prometheus y Grafana. El backend recibe la conexión por las variables `DB_URL`, `DB_USERNAME` y `DB_PASSWORD`, y se une a la red `devops-net` para que Jenkins pueda alcanzarlo.
+
+**Limitaciones y consecuencias:**
+
+- La base de datos local inicia **vacía**: al arrancar, Hibernate crea el esquema y se cargan los datos de los planes, pero los usuarios y registros anteriores no se conservan.
+- El servicio solo está disponible mientras el equipo local y Docker estén encendidos; **ya no hay una URL pública activa**. Las URL de Render y de Swagger citadas en este informe corresponden al periodo en que el servicio estuvo activo.
+- El `Jenkinsfile` de la sección 7.1.2 define `RENDER_URL` con la dirección de Render. Para ejecutar la etapa de pruebas BDD contra el backend local, ese valor debe cambiarse a `http://weride-backend:8080`.
+- **Recomendaciones:** crear una base de datos administrada permanente, investigar y corregir el despliegue fallido de `7077d29` y definir el secreto de firma JWT como variable de entorno (ver sección 7.2).
+
+
 ## 7.4. Continuous Monitoring
 
-El monitoreo continuo permite observar la disponibilidad y la velocidad de respuesta del backend después de su despliegue, detectar fallos que afecten a los usuarios y facilitar el diagnóstico cuando una versión presenta problemas. Para WeRide se usa **Prometheus** (recolección y evaluación de reglas) y **Grafana** (visualización), ejecutados con Docker Compose, y el *Blackbox Exporter* de Prometheus, que consulta desde fuera el endpoint `/health` del servicio publicado en Render. Este enfoque de caja negra no exige modificar el código del backend.
+El monitoreo continuo permite observar la disponibilidad y la velocidad de respuesta del backend después de su despliegue, detectar fallos que afecten a los usuarios y facilitar el diagnóstico cuando una versión presenta problemas. Para WeRide se usa **Prometheus** (recolección y evaluación de reglas) y **Grafana** (visualización), ejecutados con Docker Compose, y el *Blackbox Exporter* de Prometheus, que consulta desde fuera el endpoint `/health` del backend. Este enfoque de caja negra no exige modificar el código del backend. Inicialmente el sondeo apuntaba al servicio de Render; al caer ese servicio (sección 7.3.3), el monitoreo se reconfiguró para observar el backend local (`http://backend:8080/health`).
 
-**Alcance:** el monitoreo mide lo que se observa desde el exterior (disponibilidad, código HTTP, tiempo de respuesta y vigencia del certificado). **No** mide métricas internas de la aplicación (memoria, hilos, consultas a la base de datos), porque el backend aún no expone Spring Boot Actuator; esto se plantea como mejora.
+**Alcance:** el monitoreo mide lo que se observa desde el exterior (disponibilidad, código HTTP y tiempo de respuesta). **No** mide métricas internas de la aplicación (memoria, hilos, consultas a la base de datos), porque el backend aún no expone Spring Boot Actuator; esto se plantea como mejora.
 
 ### 7.4.1. Tools and Practices
 
@@ -5208,18 +5226,18 @@ El monitoreo continuo permite observar la disponibilidad y la velocidad de respu
 | Herramienta | Versión | Uso en el monitoreo |
 | --- | --- | --- |
 | **Prometheus** | 2.55.1 | Consulta el *Blackbox Exporter* cada 30 s, almacena las series de tiempo y evalúa las reglas de alerta. |
-| **Blackbox Exporter** | 0.25.0 | Realiza la petición `GET /health` al backend desplegado y comprueba que responda 200 y que el cuerpo contenga `"status":"UP"`. Expone `probe_success`, `probe_duration_seconds`, `probe_http_status_code` y `probe_ssl_earliest_cert_expiry`. |
-| **Grafana** | 11.3.0 | Muestra el tablero *WeRide - Backend (Render)*, aprovisionado desde archivos (fuente de datos y tablero versionados). |
-| **Docker Compose** | — | Levanta los tres contenedores con un solo comando: `docker compose up -d`. |
+| **Blackbox Exporter** | 0.25.0 | Realiza la petición `GET /health` al backend desplegado y comprueba que responda 200 y que el cuerpo contenga `"status":"UP"`. Expone `probe_success`, `probe_duration_seconds` y `probe_http_status_code`. |
+| **Grafana** | 11.3.0 | Muestra el tablero *WeRide - Backend*, aprovisionado desde archivos (fuente de datos y tablero versionados). |
+| **Docker Compose** | — | Levanta los cinco contenedores (MySQL, backend, Blackbox Exporter, Prometheus y Grafana) con un solo comando: `docker compose up -d`. |
 | **Endpoint `GET /health`** | — | Implementado en `HealthController.java`; devuelve `{"status":"UP","service":"Backend-WeRide"}`. |
-| **Render** | — | Estado del despliegue y registros de la aplicación. |
+| **Registros del contenedor** | — | `docker logs weride-backend` permite revisar el arranque y los errores de la aplicación. |
 
 **Prácticas de monitoreo:**
 
 - **Configuración como código:** los archivos `docker-compose.yml`, `prometheus.yml`, `blackbox.yml`, `alert.rules.yml` y el tablero de Grafana se guardan en la carpeta `monitoring/` del proyecto, de modo que cualquier integrante puede levantar el mismo entorno.
 - **Comprobación después de cada despliegue:** revisar el tablero y confirmar que la disponibilidad vuelva a 1 y que el tiempo de respuesta esté por debajo de 5 s.
 - **Relación con el pipeline:** el pipeline de Jenkins (7.1.2) verifica `/health` antes de ejecutar las pruebas BDD; el monitoreo continúa esa verificación después del despliegue.
-- **Revisión de registros:** ante una alerta, consultar los registros de Render para identificar el motivo.
+- **Revisión de registros:** ante una alerta, consultar los registros de la aplicación para identificar el motivo. Así se identificó, el 25/11/2026, que el backend en Render fallaba por no poder resolver el servidor de base de datos de Aiven.
 - **Trazabilidad de cambios:** relacionar los incidentes con el commit desplegado recientemente.
 
 **Cómo se ejecuta:**
@@ -5232,7 +5250,7 @@ docker compose up -d
 
 ### 7.4.2. Monitoring Pipeline Components
 
-El flujo de monitoreo tiene cuatro componentes: el servicio observado (Render), el sondeo (Blackbox Exporter), el almacenamiento y evaluación (Prometheus) y la visualización (Grafana).
+El flujo de monitoreo tiene cuatro componentes: el servicio observado (el backend), el sondeo (Blackbox Exporter), el almacenamiento y evaluación (Prometheus) y la visualización (Grafana).
 
 **Tabla 7.6. Indicadores monitoreados**
 
@@ -5240,18 +5258,17 @@ El flujo de monitoreo tiene cuatro componentes: el servicio observado (Render), 
 | --- | --- | --- | --- |
 | **Disponibilidad del backend** | `probe_success` | La API no responde o no devuelve `UP`. | Revisar el estado del servicio en Render y los registros de inicio. |
 | **Código HTTP** | `probe_http_status_code` | Respuestas distintas de 200 (por ejemplo, 5xx). | Reproducir la solicitud y revisar los registros. |
-| **Tiempo de respuesta** | `probe_duration_seconds` | Lentitud del servicio; se contrasta con la meta de 5 s de EXP-04. | Revisar si el servicio salió del reposo del plan gratuito o si hay un problema de carga. |
-| **Vigencia del certificado TLS** | `probe_ssl_earliest_cert_expiry` | Certificado próximo a vencer. | Revisar la configuración del dominio en Render. |
+| **Tiempo de respuesta** | `probe_duration_seconds` | Lentitud del servicio; se contrasta con la meta de 5 s de EXP-04. | Revisar la carga del equipo y los registros del contenedor. |
 
 **Evidencia:**
 
 ![Objetivo de Prometheus en estado UP](assets/prometheus-targets.png)
 
-*Figura 7.12. Prometheus: el objetivo `weride-backend-health` en estado UP.*
+*Figura 7.12. Prometheus: el objetivo `weride-backend-health` en estado UP, sondeando `http://backend:8080/health`.*
 
 ![Tablero de Grafana del backend de WeRide](assets/grafana-dashboard.png)
 
-*Figura 7.13. Tablero de Grafana "WeRide - Backend (Render)".*
+*Figura 7.13. Tablero de Grafana "WeRide - Backend": disponibilidad UP, código 200 y tiempo de respuesta en milisegundos.*
 
 ![Tablero de Grafana después de varios minutos](assets/grafana-dashboard-2.png)
 
@@ -5269,13 +5286,12 @@ Las reglas de alerta se definen en `alert.rules.yml` y las evalúa Prometheus ca
 | --- | --- | --- | --- |
 | `BackendNoDisponible` | `probe_success == 0` | 3 min | Alta |
 | `BackendLatenciaAlta` | `probe_duration_seconds > 5` | 3 min | Media |
-| `BackendCertificadoPorVencer` | Certificado vence en menos de 7 días | 10 min | Media |
 
 ![Reglas de alerta en Prometheus](assets/prometheus-alertas.png)
 
 *Figura 7.15. Reglas de alerta cargadas en Prometheus.*
 
-*Nota sobre el plan gratuito de Render:* si el servicio entra en reposo, la primera respuesta puede tardar cerca de un minuto, lo que puede disparar `BackendLatenciaAlta`. Este comportamiento es esperado en el plan gratuito y se considera un hallazgo del monitoreo, no un fallo del código.
+*Incidente detectado:* el 25/11/2026, mientras el sondeo apuntaba a Render, el monitoreo mostró la disponibilidad en CAÍDO (código HTTP 0) y dejó disparadas `BackendNoDisponible` y `BackendLatenciaAlta`. La causa fue la base de datos de Aiven apagada (sección 7.3.3). Tras migrar a la ejecución local, las dos reglas pasaron a estado inactivo y el tablero registró tiempos de respuesta inferiores a 20 ms. Esto demuestra que la detección y las alertas funcionan, aunque no hay un servicio público monitoreado.
 
 La línea base de EXP-04 (35 mediciones del flujo de desbloqueo, media de 1,675.3 ms y percentil 95 de 2,354.1 ms) fundamenta el umbral de 5 s.
 
@@ -5897,8 +5913,8 @@ El resumen aplica las cuatro lentes del marco GEES (Global, Economic, Environmen
 
 | Lente GEES | Indicador / criterio clave | Hallazgo / estado del sistema | Estándar de referencia |
 | --- | --- | --- | --- |
-| **Global** | Tratamiento de datos personales y ubicación; dependencia de proveedores en la nube. | El backend corre en Render y la base de datos MySQL en Aiven. El tratamiento de datos personales se rige por la Ley N.º 29733 (sección de privacidad de los términos y condiciones). Las credenciales y el secreto JWT se configuran como variables de entorno, no en el código. | ISO/IEC 27001 (seguridad de la información) e ISO/IEC 27701 (privacidad) |
-| **Economic** | Costo de operación y continuidad del servicio. | El servicio usa planes gratuitos y créditos de prueba: Render gratuito (reposo tras inactividad, arranque lento) y un crédito de Aiven que vence el 24/11/2026. Mantener el servicio exigiría pasar a un plan de pago o migrar la base de datos. | ISO/IEC 25010 (calidad del software) |
+| **Global** | Tratamiento de datos personales y ubicación; dependencia de proveedores en la nube. | El backend se desplegó en Render y la base de datos MySQL en Aiven; ambos servicios en la nube dejaron de estar disponibles al terminar los periodos de prueba. El tratamiento de datos personales se rige por la Ley N.º 29733 (sección de privacidad de los términos y condiciones). Las credenciales de la base de datos se configuran como variables de entorno; el secreto JWT tiene un valor por defecto en el código, lo que es una mejora de seguridad pendiente. Desde el 25/11/2026 el backend se ejecuta de forma local con Docker Compose. | ISO/IEC 27001 (seguridad de la información) e ISO/IEC 27701 (privacidad) |
+| **Economic** | Costo de operación y continuidad del servicio. | El servicio usa planes gratuitos y créditos de prueba: Render gratuito (reposo tras inactividad, arranque lento) y un periodo de prueba de Aiven que terminó el 25/11/2026 y dejó la base de datos apagada. El backend se ejecuta ahora de forma local con Docker Compose, sin costo; mantener un servicio público exigiría un plan de pago o una base de datos administrada permanente. | ISO/IEC 25010 (calidad del software) |
 | **Environmental** | Eficiencia en el uso de recursos y gestión de baterías. | La imagen del backend pesa 156.85 MB gracias a la construcción en dos etapas. En el servicio físico, la gestión de baterías y de residuos electrónicos de los vehículos aún no está definida y es una acción pendiente. No se midió el consumo energético. | ISO 14001 (gestión ambiental) |
 | **Social** | Accesibilidad, inclusión y confianza del usuario. | Las entrevistas y la evaluación heurística (sección 6.3) detectaron que el registro, la información de seguridad y los mensajes de las reservas necesitan mejoras. La auditoría de accesibilidad con WCAG está pendiente. | WCAG 2.2 (accesibilidad web) |
 
@@ -5918,8 +5934,8 @@ La matriz identifica los riesgos e impactos de WeRide, a quiénes afectan y qué
 | **3. Impacto social y cultural** | **Negativo:** vehículos mal estacionados obstruyen veredas y generan conflictos con peatones. | **Afectados:** peatones y comunidad del entorno. Magnitud media. | **Propuestas:** zonas de estacionamiento definidas en el mapa, sanciones por estacionar fuera de ellas y un canal de reportes de vehículos mal ubicados. |
 | **4. Impacto económico** | **Negativo:** cobros adicionales poco claros afectan a los usuarios; los entrevistados no entendieron el precio total antes de registrarse. La operación depende de planes gratuitos que vencen. **Positivo:** alternativa de transporte de bajo costo y planes corporativos. | **Afectados:** usuarios jóvenes, empresas y el propio equipo. Magnitud media. | **Propuestas:** mostrar la tarifa total y los posibles cargos antes de reservar (hallazgo de la sección 6.3.3); presupuestar la migración de la base de datos antes de que venza el crédito de Aiven. |
 | **5. Impacto ambiental** | **Negativo:** las baterías de litio y su disposición final generan residuos electrónicos; los servidores consumen energía. **Positivo:** menos emisiones al reemplazar viajes cortos en automóvil. | **Afectados:** el medio ambiente urbano y las comunidades cercanas a los puntos de disposición. Magnitud media. | **Realizado:** imagen de contenedor reducida (156.85 MB) con construcción en dos etapas. **Propuestas:** política de reciclaje de baterías con un gestor autorizado y mantenimiento para alargar la vida útil de los vehículos. |
-| **6. Enfoque global** | **Negativo:** los datos personales y de ubicación se almacenan en proveedores de nube que pueden estar fuera del Perú, bajo otras legislaciones. | **Afectados:** la privacidad de los usuarios. Magnitud media. | **Realizado:** secretos y credenciales fuera del código, mediante variables de entorno. **Propuestas:** guardar solo los datos necesarios, usar conexiones cifradas (HTTPS) y revisar la ubicación geográfica de los servidores. |
-| **7. Revelación de peligros y responsabilidad** | **Riesgo:** una versión defectuosa o una vulnerabilidad no comunicada puede dañar a los usuarios y a la confianza en el producto. | **Afectados:** usuarios y equipo. Magnitud alta si no se informa. | **Realizado:** el equipo reportó que la rama `main` del backend no compilaba, la corrigió mediante el Pull Request #2 y documentó las 6 pruebas que siguen fallando (secciones 6.2.2 y 7.1.2); SonarQube detectó un hallazgo de seguridad (CSRF), que se evaluó con justificación técnica (API sin estado con JWT, sin cookies de sesión). Los resultados de EXP-04 se reportan con su límite: los vehículos están simulados. Los tokens de acceso del pipeline son temporales y se revocan al cerrar la entrega. |
+| **6. Enfoque global** | **Negativo:** los datos personales y de ubicación se almacenan en proveedores de nube que pueden estar fuera del Perú, bajo otras legislaciones. | **Afectados:** la privacidad de los usuarios. Magnitud media. | **Realizado:** las credenciales de la base de datos se configuran por variables de entorno. **Pendiente:** el secreto JWT tiene un valor por defecto escrito en `application.properties` y debe moverse a una variable de entorno. **Propuestas:** guardar solo los datos necesarios, usar conexiones cifradas (HTTPS) y revisar la ubicación geográfica de los servidores. |
+| **7. Revelación de peligros y responsabilidad** | **Riesgo:** una versión defectuosa o una vulnerabilidad no comunicada puede dañar a los usuarios y a la confianza en el producto. | **Afectados:** usuarios y equipo. Magnitud alta si no se informa. | **Realizado:** el equipo reportó que la rama `main` del backend no compilaba, la corrigió mediante el Pull Request #2 y documentó las 6 pruebas que siguen fallando (secciones 6.2.2 y 7.1.2); SonarQube detectó un hallazgo de seguridad (CSRF), que se evaluó con justificación técnica (API sin estado con JWT, sin cookies de sesión). El equipo también reporta que el despliegue de la rama `main` en Render falló y que la base de datos en la nube dejó de estar disponible (sección 7.3.3). Los resultados de EXP-04 se reportan con su límite: los vehículos están simulados. Los tokens de acceso del pipeline son temporales y se revocan al cerrar la entrega. |
 
 *Fuente: Elaboración propia, con el formato del Anexo F del enunciado del trabajo final.*
 
