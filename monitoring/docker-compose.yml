@@ -1,4 +1,37 @@
+# Pila local de WeRide: base de datos + backend + monitoreo.
+# Uso:  docker compose up -d
 services:
+  mysql:
+    image: mysql:8.4
+    container_name: weride-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: weride-local
+      MYSQL_DATABASE: weride-db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pweride-local"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks: [default]
+
+  backend:
+    image: aless2212/weride-backend:latest
+    container_name: weride-backend
+    restart: on-failure
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/weride-db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+      DB_USERNAME: root
+      DB_PASSWORD: weride-local
+    ports:
+      - "8080:8080"
+    networks: [default, devops-net]
+
   blackbox:
     image: prom/blackbox-exporter:v0.25.0
     container_name: weride-blackbox
@@ -6,6 +39,7 @@ services:
       - ./blackbox.yml:/etc/blackbox_exporter/config.yml:ro
     ports:
       - "9115:9115"
+    networks: [default]
 
   prometheus:
     image: prom/prometheus:v2.55.1
@@ -17,6 +51,7 @@ services:
       - "9090:9090"
     depends_on:
       - blackbox
+    networks: [default]
 
   grafana:
     image: grafana/grafana:11.3.0
@@ -31,3 +66,11 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+    networks: [default]
+
+volumes:
+  mysql-data:
+
+networks:
+  devops-net:
+    external: true

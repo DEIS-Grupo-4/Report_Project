@@ -18,11 +18,3 @@ groups:
         annotations:
           summary: "El tiempo de respuesta de /health supera 5 s"
           description: "Meta del experimento EXP-04: respuestas por debajo de 5 s."
-
-      - alert: BackendCertificadoPorVencer
-        expr: (probe_ssl_earliest_cert_expiry{job="weride-backend-health"} - time()) < 7 * 24 * 3600
-        for: 10m
-        labels:
-          severity: media
-        annotations:
-          summary: "El certificado TLS vence en menos de 7 días"

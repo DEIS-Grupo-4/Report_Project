@@ -12,7 +12,7 @@ scrape_configs:
       module: [http_health]
     static_configs:
       - targets:
-          - https://backend-weride-2wpb.onrender.com/health
+          - http://backend:8080/health
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
