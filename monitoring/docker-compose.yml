@@ -1,0 +1,33 @@
+services:
+  blackbox:
+    image: prom/blackbox-exporter:v0.25.0
+    container_name: weride-blackbox
+    volumes:
+      - ./blackbox.yml:/etc/blackbox_exporter/config.yml:ro
+    ports:
+      - "9115:9115"
+
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    container_name: weride-prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./alert.rules.yml:/etc/prometheus/alert.rules.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - blackbox
+
+  grafana:
+    image: grafana/grafana:11.3.0
+    container_name: weride-grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=weride-demo
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus

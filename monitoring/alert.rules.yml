@@ -1,0 +1,28 @@
+groups:
+  - name: weride-backend
+    rules:
+      - alert: BackendNoDisponible
+        expr: probe_success{job="weride-backend-health"} == 0
+        for: 3m
+        labels:
+          severity: alta
+        annotations:
+          summary: "El backend de WeRide no responde UP en /health"
+          description: "La comprobación de /health falla desde hace más de 3 minutos."
+
+      - alert: BackendLatenciaAlta
+        expr: probe_duration_seconds{job="weride-backend-health"} > 5
+        for: 3m
+        labels:
+          severity: media
+        annotations:
+          summary: "El tiempo de respuesta de /health supera 5 s"
+          description: "Meta del experimento EXP-04: respuestas por debajo de 5 s."
+
+      - alert: BackendCertificadoPorVencer
+        expr: (probe_ssl_earliest_cert_expiry{job="weride-backend-health"} - time()) < 7 * 24 * 3600
+        for: 10m
+        labels:
+          severity: media
+        annotations:
+          summary: "El certificado TLS vence en menos de 7 días"
