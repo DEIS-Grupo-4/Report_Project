@@ -6,7 +6,7 @@
 
 # <span style="font-size: 30px;">Diseño de Experimentos de Ingeniería de Software (1ASI0732)</span>
 
-## <span style="font-size: 26px;">INFORME DE AV2</span>
+## <span style="font-size: 26px;">INFORME DE TRABAJO FINAL (TB2 – RELEASE REVIEW)</span>
 ## <span style="font-size: 22px;">FACULTAD DE INGENIERÍA DE SOFTWARE</span>
 
 ### <span style="font-size: 22px;">STARTUP: <strong>WeTech</strong></span>
@@ -40,16 +40,8 @@
       <td style="padding: 10px; border: 1px solid #aaa;">U202316162</td>
     </tr>
     <tr>
-      <td style="padding: 10px; border: 1px solid #aaa;">Romero Meza, Jhimy Pool</td>
-      <td style="padding: 10px; border: 1px solid #aaa;">U202321510</td>
-    </tr>
-    <tr>
       <td style="padding: 10px; border: 1px solid #aaa;">Laymito Delgado, Franco Sebastian</td>
       <td style="padding: 10px; border: 1px solid #aaa;">U202311959</td>
-    </tr>
-    <tr>
-      <td style="padding: 10px; border: 1px solid #aaa;">Rosangela Silva Hualpa</td>
-      <td style="padding: 10px; border: 1px solid #aaa;">U20241B885</td>
     </tr>
   </tbody>
 </table>
@@ -110,6 +102,12 @@ El objetivo de esta sección es resumir las modificaciones relevantes que se rea
       <td style="padding: 10px; border: 1px solid #ccc;">12 Nov 2026</td>
       <td style="padding: 10px; border: 1px solid #ccc;">G4 WeTech</td>
       <td style="padding: 10px; border: 1px solid #ccc;">Avance 2 (Sprint Review): pruebas BDD con Karate (6.1.3), análisis estático con SonarQube (6.2), revisión de código (6.2.2), validación y auditoría de UX (6.3 y 6.4), prácticas DevOps (Capítulo VII) y Capítulo VIII de Experiment-Driven Development con el experimento EXP-04 ejecutado. Se corrigió la compilación de la rama main del backend (PR #2).</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ccc; font-weight: bold;">V6.0</td>
+      <td style="padding: 10px; border: 1px solid #ccc;">25 Nov 2026</td>
+      <td style="padding: 10px; border: 1px solid #ccc;">G4 WeTech</td>
+      <td style="padding: 10px; border: 1px solid #ccc;">Trabajo Final (TB2 – Release Review): se completó el pipeline con Jenkins, SonarQube y Docker Hub (7.1 a 7.3), se agregó el monitoreo con Prometheus y Grafana (7.4), se rehizo el Capítulo VIII, se documentó el estado real del despliegue (7.3.3), se agregaron las prácticas TDD, BDD y ATDD (6.1), la sección de responsabilidad profesional con IEEE/ACM, la matriz de evaluación ética y de impacto, y las conclusiones. Se corrigieron afirmaciones inexactas de versiones anteriores y se dejó el equipo en 3 integrantes.</td>
     </tr>
   </tbody>
 </table>
@@ -289,6 +287,34 @@ Se implementaron los agregados principales, la lógica del dominio y las capas i
   - [5.3.1. Evaluaciones según heurísticas](/chapter05.md#533-evaluaciones-según-heurísticas)
 - [5.4. Video About-the-Product](/chapter05.md#54-video-about-the-product)
 
+### [Capítulo VI: Product Verification & Validation](/Report.md#capítulo-vi-product-verification--validation)
+- [6.1. Testing Suites & Validation](/Report.md#61-testing-suites--validation)
+- [6.2. Static Code Analysis](/Report.md#62-static-code-analysis)
+- [6.3. Validation Interviews](/Report.md#63-validation-interviews)
+- [6.4. Auditoría de Experiencias de Usuario](/Report.md#64-auditoría-de-experiencias-de-usuario)
+
+### [Capítulo VII: DevOps Practices](/Report.md#capítulo-vii-devops-practices)
+- [7.1. Continuous Integration](/Report.md#71-continuous-integration)
+- [7.2. Continuous Delivery](/Report.md#72-continuous-delivery)
+- [7.3. Continuous Deployment](/Report.md#73-continuous-deployment)
+- [7.4. Continuous Monitoring](/Report.md#74-continuous-monitoring)
+
+### [Capítulo VIII: Experiment-Driven Development](/Report.md#capítulo-viii-experiment-driven-development)
+- [8.1. Experiment Planning](/Report.md#81-experiment-planning)
+- [8.2. Experiment Design](/Report.md#82-experiment-design)
+- [8.3. Experimentation](/Report.md#83-experimentation)
+- [8.4. Experiment Aftermath & Analysis](/Report.md#84-experiment-aftermath--analysis)
+- [8.5. Continuous Learning](/Report.md#85-continuous-learning)
+- [8.6. To-Be Software Platform Pre-launch](/Report.md#86-to-be-software-platform-pre-launch)
+
+### [Conclusiones](/Report.md#conclusiones)
+- Conclusiones y recomendaciones
+- Video App Validation
+- Video About-the-Team
+
+### [Bibliografía](/Report.md#bibliografía)
+### [Anexos](/Report.md#anexos)
+
 <!-- salto de hoja-->
 <div style="page-break-before: always;"></div>
 
@@ -325,26 +351,17 @@ EAC - Student Outcome 4.
           <li><b>AV1:</b> Realizó reuniones de coordinación equivalentes a las de ciclos anteriores, revisando la planificación del frontend, los bounded contexts y la estructura de datos ya construidos, además de validar junto al equipo la decisión de mantener la arquitectura DDD/CQRS del backend, confirmando su vigencia para el enunciado del curso actual.</li>
                     <li><b>TP:</b> Lideró la elaboración de los artefactos faltantes de Needfinding (As-Is y To-Be Scenario Mapping) y la revisión estructural del informe (corrección de numeración y jerarquía del Capítulo V), asumiendo la responsabilidad de mantener la trazabilidad y coherencia del documento ante el equipo y el docente.</li>
           <li><b>AV2:</b> Incorporó la suite BDD con Karate al repositorio del grupo (8 de 8 escenarios aprobados) mediante el Pull Request #2, revisado por el equipo. Detectó que la rama main no compilaba, la corrigió y dejó documentadas en 6.2.2 las pruebas que aún fallan, en lugar de ocultarlas.</li>
-        </ul>
-        <strong>Romero Meza Jhimy Pool</strong>
-        <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>AV1:</b> Presentó nuevamente ante el equipo los wireframes, mockups y requerimientos originales del proyecto, explicando el flujo de usuario y la arquitectura DDD ya definida, como base para que el nuevo equipo comprendiera el estado real de WeRide antes de continuar su desarrollo.</li>
-          <li><b>TP:</b> [Pendiente]</li>
+          <li><b>TB2:</b> Armó el pipeline de Jenkins con SonarQube y Docker Hub (7.1 y 7.2) y, cuando el servicio de Render y la base de datos de Aiven dejaron de funcionar, montó el entorno local con Docker Compose y lo documentó con transparencia en 7.3.3. Revisó el informe completo y corrigió afirmaciones que no eran ciertas (secreto JWT, versión desplegada y ejecución del pipeline).</li>
         </ul>
         <strong>Giordano Sebastian Trejo Espejo</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Participó en una sesión de planificación equivalente a un Sprint Planning para retomar el proyecto, exponiendo nuevamente el flujo y los requerimientos de funcionalidades clave (como US-24) y el diseño del bounded context de Perfiles, y colaboró en la resolución de inconsistencias detectadas en el informe heredado.</li>
-          <li><b>TP:</b> [Pendiente]</li>
+          <li><b>TB2:</b> Documentó el Capítulo VI (pruebas unitarias y de integración por bounded context con sus capturas, y la línea base de Checkstyle) y las prácticas del Capítulo VII, y unió los capítulos en un solo informe. Registró la evidencia de la entrevista de validación.</li>
         </ul>
         <strong>Franco Sebastian Laymito Delgado</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Coordinó reuniones para retomar las propuestas de diseño ya definidas, participó en la revisión de la planificación del frontend y la estructura de datos, y organizó junto al equipo la verificación del despliegue ya existente del backend.</li>
-          <li><b>TP:</b> [Pendiente]</li>
-        </ul>
-        <strong>Rosangela Silva Hualpa</strong>
-        <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>AV1:</b> Se incorporó al equipo y al proyecto WeRide, revisando la documentación y el código heredado del curso anterior para comprender el estado del producto y poder contribuir a su continuidad en este curso.</li>
-          <li><b>TP:</b> [Pendiente]</li>
+          <li><b>TB2:</b> Dejó actualizada la documentación de arquitectura (diagramas C4 de contenedores y componentes), del diagrama de clases con su diccionario y del diseño de la base de datos (cap. IV), y consolidó la gestión de configuración del software y los enlaces de los repositorios (5.1). Corrigió la versión de Java en la documentación para que coincida con el proyecto.</li>
         </ul>
       </td>
       <td style="border:1px solid #999; padding:8px; vertical-align:top;">
@@ -352,6 +369,7 @@ EAC - Student Outcome 4.
           <li><b>AV1:</b> Retomar el proyecto exigió comunicación clara para transferir conocimiento del equipo anterior al nuevo, evitando que se perdiera contexto técnico o de diseño ya validado.</li>
                     <li><b>TP:</b> La corrección oportuna de inconsistencias de numeración y la documentación transparente de decisiones técnicas (como mantener Java/Spring Boot) evitaron que errores de trazabilidad o decisiones no justificadas afectaran la evaluación del informe.</li>
           <li><b>AV2:</b> El equipo reportó con transparencia que la rama principal no compilaba, la corrigió de forma colaborativa mediante Pull Request y dejó constancia de las pruebas que aún fallan.</li>
+          <li><b>TB2:</b> Para el cierre del proyecto, el equipo prefirió reportar lo que no se logró (aplicación móvil nativa, cuatro de los cinco experimentos, entrevistas incompletas) antes que presentarlo como terminado. Seguimos los códigos de ética de la ACM y la IEEE Computer Society (ver sección de responsabilidad profesional en la Matriz de Evaluación Ética).</li>
         </ul>
       </td>
     </tr>
@@ -367,26 +385,17 @@ EAC - Student Outcome 4.
           <li><b>AV1:</b> Revisó y actualizó la documentación de los capítulos I, II, IV y V, así como los bounded contexts y criterios de aceptación ya redactados, evaluando qué ajustes eran necesarios para alinear el informe heredado con los requisitos del curso actual.</li>
                     <li><b>TP:</b> Evaluó el impacto de mantener la arquitectura Java + Spring Boot ya desplegada en producción frente a migrar a ASP.NET Core, documentando los riesgos técnicos y de cronograma de dicha decisión; además, redactó la sección de Términos y Condiciones (SaaS) considerando el impacto legal y social del tratamiento de datos personales conforme a la Ley N° 29733.</li>
           <li><b>AV2:</b> Ejecutó el análisis estático con SonarQube (0 bugs, 0 code smells, 1.4 % de duplicación) y evaluó con justificación técnica el único hallazgo de seguridad. Ejecutó el experimento EXP-04 (35 mediciones reales del flujo de desbloqueo) e informó sus límites, como el IoT simulado.</li>
-        </ul>
-        <strong>Romero Meza Jhimy Pool</strong>
-        <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>AV1:</b> Revisó la documentación técnica de wireframes, mockups, frontend y backend ya elaborada, evaluando su vigencia y aportando contexto histórico al nuevo equipo sobre las decisiones de diseño tomadas originalmente.</li>
-          <li><b>TP:</b> [Pendiente]</li>
+          <li><b>TB2:</b> Evaluó el impacto de depender de planes gratuitos y créditos de prueba que vencieron, y redactó la matriz de evaluación ética y de impacto (Tabla 8.25) separando lo realizado de lo propuesto. Redactó el análisis del Capítulo VIII y las conclusiones con los límites de cada resultado.</li>
         </ul>
         <strong>Giordano Sebastian Trejo Espejo</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Revisó la documentación técnica de US-05, el módulo de pagos y el bounded context de Perfiles, evaluando su impacto en la propuesta de valor del producto antes de continuar su desarrollo en este curso.</li>
-          <li><b>TP:</b> [Pendiente]</li>
+          <li><b>TB2:</b> Reportó los resultados de las pruebas y del análisis de estilo tal como salieron (incluidas las pruebas que fallan y las 1226 infracciones iniciales de Checkstyle) para evaluar el estado real de la calidad del backend.</li>
         </ul>
         <strong>Franco Sebastian Laymito Delgado</strong>
         <ul style="margin:4px 0 10px; padding-left:20px;">
           <li><b>AV1:</b> Revisó y consolidó la documentación de los capítulos I, III y V, así como la documentación de APIs y arquitectura del dominio, evaluando qué partes del informe anterior debían mantenerse o ajustarse para este curso.</li>
-          <li><b>TP:</b> [Pendiente]</li>
-        </ul>
-               <strong>Rosangela Silva Hualpa</strong>
-        <ul style="margin:4px 0 10px; padding-left:20px;">
-          <li><b>AV1:</b> Se incorporó al análisis documental del proyecto, revisando los capítulos existentes del informe para identificar el impacto y alcance real del producto WeRide antes de aportar en esta nueva etapa.</li>
-          <li><b>TP:</b> [Pendiente]</li>
+          <li><b>TB2:</b> Evaluó qué partes del informe heredado seguían vigentes para el sistema real y las ajustó (arquitectura, base de datos y pruebas), de modo que la documentación describa lo que el producto hace hoy.</li>
         </ul>
       </td>      
       <td style="border:1px solid #999; padding:8px; vertical-align:top;">
@@ -394,6 +403,7 @@ EAC - Student Outcome 4.
           <li><b>AV1:</b> Evaluar qué documentación conservar y qué actualizar permitió al equipo tomar decisiones informadas sobre el alcance real y el impacto del producto en este nuevo ciclo.</li>
                     <li><b>TP:</b> Documentar explícitamente el riesgo de no migrar al stack sugerido por el curso, junto con las condiciones de uso y privacidad del servicio, permitió emitir un juicio informado sobre las implicancias técnicas, legales y sociales del producto WeRide.</li>
           <li><b>AV2:</b> Los resultados se reportan con sus límites (el IoT está simulado en EXP-04) y no se presentan resultados de experimentos que aún no se ejecutaron.</li>
+          <li><b>TB2:</b> La matriz de la Tabla 8.25 y la sección 7.3.3 muestran que el costo y la continuidad del servicio también son parte del impacto: el producto dejó de estar en la nube porque se acabó el periodo de prueba, y el equipo lo comunicó y buscó una alternativa.</li>
         </ul>
       </td>
     </tr>
@@ -401,4 +411,4 @@ EAC - Student Outcome 4.
   </tbody>
 </table>
 
-
+<p style="font-size:13px;margin-top:8px;">Nota: Jhimy Pool Romero Meza y Rosangela Silva Hualpa participaron en entregas anteriores y no forman parte del equipo en esta entrega.</p>
