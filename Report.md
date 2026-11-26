@@ -2414,7 +2414,7 @@ Esta sección define las decisiones y acuerdos fundamentales para el desarrollo,
 | | json-server | Simular una API con `db.json` durante el desarrollo inicial de la Web Application. | https://github.com/typicode/json-server |
 | | Visual Studio Code y WebStorm | Entornos de desarrollo para la Landing Page y la Web Application. | https://code.visualstudio.com · https://www.jetbrains.com/webstorm |
 | | IntelliJ IDEA | Entorno de desarrollo para el backend en Java. | https://www.jetbrains.com/idea |
-| | Docker | Entorno reproducible: el backend incluye `Dockerfile` y `docker-compose.yml`. **[CONFIRMAR si se usa en el flujo de trabajo]** | https://www.docker.com |
+| | Docker | Entorno reproducible: el backend incluye `Dockerfile` y `docker-compose.yml`. Lo usamos para construir la imagen del backend en el pipeline de Jenkins, publicarla en Docker Hub y levantar el entorno local con `docker-compose`. | https://www.docker.com |
 | Software Documentation | Swagger (OpenAPI) | Documentar y probar los endpoints de la RESTful API. | https://swagger.io |
 | | Markdown y Mermaid | Redacción del informe y diagramas de clases en el repositorio. | https://www.markdownguide.org · https://mermaid.js.org |
 | | dbdiagram.io | Diagrama de la base de datos. | https://dbdiagram.io |
@@ -3638,7 +3638,7 @@ El siguiente acuerdo de servicio rige el uso de la plataforma **WeRide** por par
 
 **7. Privacidad de Datos.** El tratamiento de los datos personales del usuario se rige conforme a la Ley N° 29733 - Ley de Protección de Datos Personales del Perú. WeRide no comparte la información personal de sus usuarios con terceros sin su consentimiento, salvo exigencia legal.
 
-**8. Cancelaciones y Reembolsos.** [Pendiente: política de cancelación a definir por el equipo]
+**8. Cancelaciones y Reembolsos.** El usuario puede cancelar una reserva sin costo antes de desbloquear el vehículo. Una vez iniciado el viaje, la reserva ya no se cancela y se cobra el tiempo de uso. Si hubo un cobro por error o el vehículo no pudo usarse por una falla, el usuario puede solicitar el reembolso por los canales de atención y este se devuelve al mismo método de pago con el que se hizo el cobro.
 
 **9. Modificaciones del Servicio.** WeRide se reserva el derecho de modificar, suspender o descontinuar funcionalidades del servicio, notificando a los usuarios con antelación razonable cuando el cambio afecte sus condiciones de uso.
 
@@ -4532,11 +4532,7 @@ La primera ejecución se usa para establecer la línea base de las infracciones 
 | Ejecución | Actividad realizada | Infracciones detectadas | Estado |
 | --- | --- | ---: | --- |
 | Base | Análisis inicial del código existente | 1226 | Diagnóstico |
-| Tanda 1 | Corrección de formato y espacios en blanco | 1034 | [Resultado] |
-| Tanda 2 | Organización de importaciones y llaves | [N] | [Resultado] |
-| Tanda 3 | Corrección de convenciones de nombres | [N] | [Resultado] |
-| Tanda 4 | Corrección de documentación Javadoc | [N] | [Resultado] |
-| Validación final | Ejecución con las reglas definitivas | [N] | [Resultado] |
+| Tanda 1 | Corrección de formato y espacios en blanco | 1034 | 192 infracciones menos que la base |
 
 *Fuente: Reportes de Checkstyle después de ejecutar Maven.*
 
@@ -4544,7 +4540,7 @@ La primera ejecución se usa para establecer la línea base de las infracciones 
 
 *Figura 6.3. Reporte inicial de infracciones de estilo del backend*
 
-> **Pendiente de completar por el equipo:** captura del reporte final de Checkstyle tras corregir las infracciones.
+Solo alcanzamos a completar la primera tanda de correcciones (formato y espacios en blanco), con la que bajamos de 1226 a 1034 infracciones. Las tandas de importaciones, nombres y Javadoc quedaron sin hacer, así que todavía hay infracciones de estilo en el backend y no tenemos un reporte final de Checkstyle.
 
 Como regla de verificación automática se usó el perfil de calidad por defecto de SonarQube para Java (*Sonar way*), que revisa en cada análisis el cumplimiento de buenas prácticas y convenciones del lenguaje.
 
@@ -4801,15 +4797,15 @@ Se indica que el participante comprende la propuesta general de WeRide y encuent
 
 #### 6.4.1.1. Información del grupo auditado
 
-> **Pendiente de completar por el equipo:** grupo, producto, integrantes y enlace del sitio o aplicación evaluados en la auditoría que realizó el Grupo 4 a otro grupo.
+En este ciclo del curso no hicimos una auditoría de experiencia de usuario a otro grupo, así que no tenemos grupo auditado, producto ni integrantes que reportar. La única auditoría que usamos es la que recibió nuestro producto (sección 6.4.2).
 
 #### 6.4.1.2. Cronograma de auditoría realizada
 
-> **Pendiente de completar por el equipo:** fechas y responsables.
+No aplica, porque no se realizó esta auditoría (ver 6.4.1.1).
 
 #### 6.4.1.3. Contenido de auditoría realizada
 
-> **Pendiente de completar por el equipo:** heurísticas evaluadas, observaciones y severidades de la auditoría realizada.
+No aplica, porque no se realizó esta auditoría (ver 6.4.1.1).
 
 ### 6.4.2. Auditoría recibida
 
@@ -4827,7 +4823,7 @@ Se indica que el participante comprende la propuesta general de WeRide y encuent
 
 #### 6.4.2.2. Cronograma de auditoría recibida
 
-> **Pendiente de completar por el equipo:** fecha de la auditoría y fecha en que se entregaron los resultados.
+La auditoría la recibimos en el curso anterior (Desarrollo de Aplicaciones Open Source, sección 7380). El documento de la auditoría no indica la fecha en que se hizo ni en que se entregaron los resultados, por eso no podemos poner fechas exactas.
 
 #### 6.4.2.3. Contenido de auditoría recibida
 
@@ -4858,7 +4854,28 @@ La auditoría evaluó la usabilidad, el diseño inclusivo y la arquitectura de i
 
 Las observaciones de mayor severidad (6, 7 y 12) afectan el flujo principal de reservas. Este flujo se verifica en el nuevo ciclo mediante el experimento **EXP-01** (test de usabilidad del flujo encontrar, reservar y desbloquear), descrito en el Capítulo VIII.
 
-> **Pendiente de completar por el equipo:** indicar, para cada observación, la modificación aplicada en la versión actual o su estado (corregida, en curso o descartada).
+Hicimos el repaso de las 14 observaciones. En este ciclo no modificamos la aplicación web ni la landing: el último commit de esos repositorios es del 14/09/2026, antes de este ciclo. Por eso ninguna observación quedó corregida. Lo que sí hicimos fue verificar por el lado del backend que el flujo de reservas responde (pruebas de la sección 7.1.2), pero eso no arregla los botones inactivos de la interfaz.
+
+**Tabla 6.15. Estado de las observaciones de la auditoría recibida**
+
+| N.° | Observación | Estado |
+| --- | --- | --- |
+| 1 | Landing sin login | No corregida en este ciclo |
+| 2 | Funciones inaccesibles en el login | No corregida en este ciclo |
+| 3 | Interfaz muy limpia, imágenes grandes | No corregida en este ciclo |
+| 4 | Cards amplias; filtros y favoritos no funcionan | No corregida en este ciclo |
+| 5 | No hay datos de bicicletas eléctricas | No corregida en este ciclo |
+| 6 | No permite cancelar reservas | No corregida en este ciclo |
+| 7 | No guarda nuevas reservas desde Booking | No corregida en este ciclo |
+| 8 | Sección "Viaje" inactiva | No corregida en este ciclo |
+| 9 | Botón "Pagar" inactivo | No corregida en este ciclo |
+| 10 | Botones Settings y User inactivos | No corregida en este ciclo |
+| 11 | Sin opciones de traducción | No corregida en este ciclo |
+| 12 | Reservar vehículo inactivo | No corregida en este ciclo |
+| 13 | Botón de reservar en las cards inactivo | No corregida en este ciclo |
+| 14 | "Edit Booking" no funciona | No corregida en este ciclo |
+
+Las observaciones 6, 7 y 12 (severidad 4) son las primeras que habría que atender en el siguiente ciclo.
 
 # Capítulo VII: DevOps Practices
 
@@ -4910,7 +4927,7 @@ Para implementar este entorno, se utilizaron herramientas y prácticas especiali
 
 ### 7.1.2. Build & Test Suite Pipeline Components
 
-El pipeline del backend se define como código en un `Jenkinsfile` y se ejecuta en un servidor Jenkins 2.580.2 que corre en un contenedor Docker del equipo (puerto 8081), junto con SonarQube (puerto 9000) en la red `devops-net`. Cada etapa que usa Maven se ejecuta dentro del contenedor `maven:3.9.11-eclipse-temurin-24`, que coincide con la versión de Java del proyecto. La siguiente tabla resume las etapas y los tiempos de la ejecución #3 del 23/11/2026, que terminó con resultado exitoso en 11 minutos.
+Armamos el pipeline del backend como un `Jenkinsfile` que corre en un Jenkins 2.580.2 levantado en un contenedor Docker (puerto 8081), junto con SonarQube (puerto 9000), ambos en la red `devops-net`. Las etapas que usan Maven corren dentro del contenedor `maven:3.9.11-eclipse-temurin-24`, para tener la misma versión de Java que el proyecto. En la tabla se resumen las etapas y los tiempos de la ejecución #3 del 23/11/2026, que terminó bien en 11 minutos.
 
 | Etapa | Descripción | Herramienta | Resultado (ejecución #3) |
 | --- | --- | --- | --- |
@@ -5191,9 +5208,9 @@ Al preparar la entrega final se comprobó el estado real del despliegue en la nu
 
 ## 7.4. Continuous Monitoring
 
-El monitoreo continuo permite observar la disponibilidad y la velocidad de respuesta del backend después de su despliegue, detectar fallos que afecten a los usuarios y facilitar el diagnóstico cuando una versión presenta problemas. Para WeRide se usa **Prometheus** (recolección y evaluación de reglas) y **Grafana** (visualización), ejecutados con Docker Compose, y el *Blackbox Exporter* de Prometheus, que consulta desde fuera el endpoint `/health` del backend. Este enfoque de caja negra no exige modificar el código del backend. Inicialmente el sondeo apuntaba al servicio de Render; al caer ese servicio (sección 7.3.3), el monitoreo se reconfiguró para observar el backend local (`http://backend:8080/health`).
+El monitoreo continuo sirve para ver si el backend está disponible y qué tan rápido responde una vez desplegado, enterarnos cuando algo falla y tener pistas para encontrar la causa. En WeRide usamos **Prometheus** para recolectar los datos y evaluar las alertas, **Grafana** para verlos en un dashboard, y el *Blackbox Exporter*, que consulta desde afuera el endpoint `/health` del backend. Todo corre con Docker Compose. Elegimos este enfoque porque no obliga a cambiar el código del backend. Al inicio el sondeo apuntaba al servicio de Render, pero como ese servicio se cayó (sección 7.3.3), lo cambiamos para que observe el backend local (`http://backend:8080/health`).
 
-**Alcance:** el monitoreo mide lo que se observa desde el exterior (disponibilidad, código HTTP y tiempo de respuesta). **No** mide métricas internas de la aplicación (memoria, hilos, consultas a la base de datos), porque el backend aún no expone Spring Boot Actuator; esto se plantea como mejora.
+**Alcance:** solo medimos lo que se ve desde afuera: si responde, con qué código HTTP y en cuánto tiempo. No medimos métricas internas como memoria, hilos o consultas a la base de datos, porque el backend todavía no tiene Spring Boot Actuator. Lo dejamos como mejora.
 
 ### 7.4.1. Tools and Practices
 
@@ -5676,7 +5693,7 @@ El pipeline del capítulo VII sostiene el ciclo de vida To-Be: cada cambio del b
 
 Las historias US-57, US-58, US-59, US-60, US-61, US-63 y US-64 permanecen en el Product Backlog To-Be (sección 8.3.2) y no se incluyeron en este sprint.
 
-> **Pendiente de completar por el equipo:** captura del tablero de tareas del sprint y su enlace público, así como la hora y el lugar del *Sprint Planning*.
+No usamos un tablero digital: el seguimiento de las tareas lo llevamos en la tabla del sprint backlog de esta sección y en los commits y Pull Requests del repositorio. Tampoco quedó anotada la hora ni el lugar del Sprint Planning.
 
 #### 8.3.3.2. Implemented To-Be Landing Page Evidence
 
@@ -5690,7 +5707,7 @@ No se implementaron cambios To-Be en la aplicación web. Las historias US-60 (va
 
 No se implementaron cambios To-Be en la aplicación móvil nativa, que proviene de un trabajo de un curso anterior. 
 
-> **Pendiente de completar por el equipo:** enlace al repositorio de la aplicación móvil.
+En este ciclo no desarrollamos una aplicación móvil nativa. La interfaz de usuario del producto es la aplicación web hecha con Angular. Los repositorios son: [Fronted-Weride-DEIS](https://github.com/DEIS-Grupo-4/Fronted-Weride-DEIS), [Landing-Page](https://github.com/DEIS-Grupo-4/Landing-Page) y [Backend-Weride-DEIS](https://github.com/DEIS-Grupo-4/Backend-Weride-DEIS).
 
 #### 8.3.3.5. Implemented To-Be RESTful API and/or Serverless Backend Evidence
 
@@ -5704,7 +5721,7 @@ No se implementaron cambios To-Be en la aplicación móvil nativa, que proviene 
 | DEIS-Grupo-4/Backend-Weride-DEIS | feature/karate-bdd-tests | 80ad3eb | test: add Karate BDD acceptance tests (auth, vehicles) | 2026-11-11 |
 | DEIS-Grupo-4/Backend-Weride-DEIS | main | 7077d29 | Merge pull request #2 from Aless7666/feature/karate-bdd-tests | 2026-11-11 |
 
-> **Pendiente de completar por el equipo:** commit del `Jenkinsfile` en la raíz del repositorio, que se versiona en una rama y un Pull Request propios.
+El `Jenkinsfile` lo configuramos directamente en el job de Jenkins y está completo en la sección 7.1.2. Todavía no lo subimos al repositorio del backend, así que no hay un commit que citar. Es una mejora pendiente.
 
 **Testing Suite Evidence.** Se ejecutaron las pruebas BDD con Karate (8 de 8 escenarios aprobados, secciones 6.1.3 y 7.3) y las pruebas unitarias y de integración (73 de 79 aprobadas; las 6 que fallan están descritas en la sección 7.1.2). Los commits de las pruebas son los de la Tabla 8.18c.
 
@@ -5741,7 +5758,7 @@ No se implementaron cambios To-Be en la aplicación móvil nativa, que proviene 
 
 El historial del backend incluye además commits heredados de la versión del curso anterior, que no se atribuyen al equipo actual. El número de commits no mide el esfuerzo por sí solo: el trabajo de coordinación, entrevistas y revisión no siempre queda en commits. 
 
-> **Pendiente de completar por el equipo:** capturas de la pestaña *Insights* de GitHub de cada repositorio y la interpretación del equipo sobre la distribución del trabajo.
+No incluimos capturas de la pestaña *Insights* de GitHub; usamos el conteo de commits de la tabla anterior. Lo que se ve es que el repositorio del informe concentra casi todo el trabajo reciente del equipo (Franco 33 commits, Alessandro 20 y Giordano 10). En el backend, Jhimy tiene 8 commits, Franco 4 y Alessandro 3, y en el frontend y la landing los pocos commits son de Jhimy. En la tabla no contamos los commits heredados del proyecto del curso anterior.
 
 *Fuente: historial de commits de GitHub.*
 
@@ -5759,13 +5776,13 @@ Las sesiones se graban en video y duran entre 10 y 15 minutos.
 
 #### 8.3.4.2. Registro de Entrevistas
 
-> **Pendiente de completar por el equipo:** registro de las entrevistas To-Be (nombres y apellidos, edad, distrito, fecha, captura del video, enlace y duración en Microsoft Stream, y resumen de cada una). El enunciado pide entre 3 y 5 entrevistas por segmento; el informe indicará exactamente cuántas se realizaron.
+En este ciclo solo hicimos **una** entrevista de validación, el 11/11/2026. El enunciado pide entre 3 y 5 por segmento, así que nos quedamos cortos. No hicimos entrevistas To-Be adicionales.
 
 **Tabla 8.18f. Registro de entrevistas To-Be**
 
 | N.º | Segmento objetivo | Nombres y apellidos | Edad | Distrito | Fecha | Enlace del video | Resumen |
 | ---: | --- | --- | ---: | --- | --- | --- | --- |
-| 1 | Pendiente | Pendiente | — | Pendiente | Pendiente | Pendiente | Pendiente |
+| 1 | Segmento 1: jóvenes universitarios | Ian Figueroa | 21 | San Martín de Porres | 11/11/2026 | Ver sección 6.3 | Entrevista de validación con el diseño de la sección 6.3.1. El detalle y los hallazgos están en 6.3. |
 
 ## 8.4. Experiment Aftermath & Analysis
 
@@ -5867,9 +5884,9 @@ Los resultados de cada experimento se registran en una Learning Card una vez eje
 
 ### 8.6.1. About-the-Product Intro Video
 
-El video *About-the-Product* presenta WeRide a los visitantes de la landing page y a los usuarios de la aplicación. Dura entre 1 y 3 minutos, usa el mismo tono cercano y práctico del producto e incluye, al menos, el testimonio positivo de una persona que participó en las entrevistas de validación.
+El video *About-the-Product* está pensado para mostrar WeRide a quienes visiten la landing page. Debe durar entre 1 y 3 minutos, usar un tono cercano e incluir el testimonio de una persona entrevistada.
 
-**Pauta del video:**
+**Guion previsto:**
 
 | Secuencia | Contenido | Duración aproximada |
 | --- | --- | --- |
@@ -5879,7 +5896,7 @@ El video *About-the-Product* presenta WeRide a los visitantes de la landing page
 | 4 | Testimonio de una persona entrevistada. | 1:50 a 2:15 |
 | 5 | Cierre y llamado a la acción: crear una cuenta. | 2:15 a 2:30 |
 
-> **Pendiente de completar por el equipo:** captura de un cuadro del video, enlace en Microsoft Stream, enlace en YouTube (para incrustarlo en la landing) y duración final.
+No alcanzamos a grabar este video en el ciclo. La pauta de arriba es el guion que seguiríamos para grabarlo.
 
 ### 8.6.2. Resumen usando Gees FrameWork
 
@@ -5908,7 +5925,7 @@ La matriz identifica los riesgos e impactos de WeRide, a quiénes afectan y qué
 | **1. Salud pública y seguridad** | **Negativo:** el uso de scooters aumenta el riesgo de caídas y de accidentes de tránsito, sobre todo sin casco o en horas de poca visibilidad. Una batería en mal estado puede causar incendios. **Positivo:** reemplaza viajes cortos en vehículos motorizados. | **Afectados:** usuarios, peatones y conductores. Magnitud alta por la gravedad posible de un accidente. | **Propuestas:** mostrar las normas de seguridad antes de reservar (un entrevistado lo pidió), recomendar el uso de casco, limitar la velocidad con el módulo IoT y definir un procedimiento de revisión de baterías. |
 | **2. Inclusión y accesibilidad** | **Negativo:** el servicio requiere teléfono inteligente, conexión a internet y lectura de códigos QR; personas con discapacidad visual o motriz podrían quedar excluidas. | **Afectados:** adultos mayores, personas con discapacidad y usuarios sin plan de datos. Magnitud media. | **Propuestas:** mantener interfaces en español (es_419) e inglés (en_US), atributos ARIA y contraste suficiente; realizar una auditoría WCAG; ofrecer otra forma de desbloqueo. La auditoría aún no se ha hecho. |
 | **3. Impacto social y cultural** | **Negativo:** vehículos mal estacionados obstruyen veredas y generan conflictos con peatones. | **Afectados:** peatones y comunidad del entorno. Magnitud media. | **Propuestas:** zonas de estacionamiento definidas en el mapa, sanciones por estacionar fuera de ellas y un canal de reportes de vehículos mal ubicados. |
-| **4. Impacto económico** | **Negativo:** cobros adicionales poco claros afectan a los usuarios; los entrevistados no entendieron el precio total antes de registrarse. La operación depende de planes gratuitos que vencen. **Positivo:** alternativa de transporte de bajo costo y planes corporativos. | **Afectados:** usuarios jóvenes, empresas y el propio equipo. Magnitud media. | **Propuestas:** mostrar la tarifa total y los posibles cargos antes de reservar (hallazgo de la sección 6.3.3); presupuestar la migración de la base de datos antes de que venza el crédito de Aiven. |
+| **4. Impacto económico** | **Negativo:** cobros adicionales poco claros afectan a los usuarios; los entrevistados no entendieron el precio total antes de registrarse. La operación dependió de planes gratuitos que vencieron. **Positivo:** alternativa de transporte de bajo costo y planes corporativos. | **Afectados:** usuarios jóvenes, empresas y el propio equipo. Magnitud media. | **Propuestas:** mostrar la tarifa total y los posibles cargos antes de reservar (hallazgo de la sección 6.3.3); conseguir una base de datos administrada permanente, porque el periodo de prueba de Aiven ya terminó. |
 | **5. Impacto ambiental** | **Negativo:** las baterías de litio y su disposición final generan residuos electrónicos; los servidores consumen energía. **Positivo:** menos emisiones al reemplazar viajes cortos en automóvil. | **Afectados:** el medio ambiente urbano y las comunidades cercanas a los puntos de disposición. Magnitud media. | **Realizado:** imagen de contenedor reducida (156.85 MB) con construcción en dos etapas. **Propuestas:** política de reciclaje de baterías con un gestor autorizado y mantenimiento para alargar la vida útil de los vehículos. |
 | **6. Enfoque global** | **Negativo:** los datos personales y de ubicación se almacenan en proveedores de nube que pueden estar fuera del Perú, bajo otras legislaciones. | **Afectados:** la privacidad de los usuarios. Magnitud media. | **Realizado:** las credenciales de la base de datos se configuran por variables de entorno. **Pendiente:** el secreto JWT tiene un valor por defecto escrito en `application.properties` y debe moverse a una variable de entorno. **Propuestas:** guardar solo los datos necesarios, usar conexiones cifradas (HTTPS) y revisar la ubicación geográfica de los servidores. |
 | **7. Revelación de peligros y responsabilidad** | **Riesgo:** una versión defectuosa o una vulnerabilidad no comunicada puede dañar a los usuarios y a la confianza en el producto. | **Afectados:** usuarios y equipo. Magnitud alta si no se informa. | **Realizado:** el equipo reportó que la rama `main` del backend no compilaba, la corrigió mediante el Pull Request #2 y documentó las 6 pruebas que siguen fallando (secciones 6.2.2 y 7.1.2); SonarQube detectó un hallazgo de seguridad (CSRF), que se evaluó con justificación técnica (API sin estado con JWT, sin cookies de sesión). El equipo también reporta que el despliegue de la rama `main` en Render falló y que la base de datos en la nube dejó de estar disponible (sección 7.3.3). Los resultados de EXP-04 se reportan con su límite: los vehículos están simulados. Los tokens de acceso del pipeline son temporales y se revocan al cerrar la entrega. |
@@ -5928,30 +5945,30 @@ La matriz identifica los riesgos e impactos de WeRide, a quiénes afectan y qué
 
 **Conclusiones del ciclo de verificación, validación y experimentación**
 
-- **Calidad del backend:** el backend compila y supera las 8 pruebas de aceptación BDD con Karate, tanto en local como contra el servicio desplegado. El análisis estático con SonarQube no encontró errores de fiabilidad ni de mantenibilidad (0 y 0), con 1.4 % de duplicación y un único hallazgo de seguridad evaluado y justificado. La cobertura de pruebas unitarias no se midió (0.0 %), y 6 de 79 pruebas siguen fallando; es la principal deuda técnica.
-- **Pipeline:** el pipeline de Jenkins construye, prueba, analiza y publica el backend en 11 minutos. Es un pipeline de entrega validado por pruebas de aceptación, no por la suite completa de pruebas unitarias, y se ejecuta de forma manual.
-- **Experimentos:** de los cinco experimentos planificados se ejecutó EXP-04. Los 35 desbloqueos medidos respondieron en menos de 5 s (media de 1.68 s y percentil 95 de 2.35 s), con lo que la hipótesis H-06 se confirma para la parte de software. Los vehículos están simulados, por lo que falta validar la latencia con hardware real. EXP-01, EXP-02, EXP-03 y EXP-05 siguen pendientes porque requieren las capacidades de medición de las historias US-57 a US-64.
-- **Validación con usuarios:** las entrevistas y la evaluación heurística confirman que la propuesta se entiende y despierta interés, pero señalan que las opciones de registro, la información de precios y seguridad y los mensajes de las reservas deben mejorar. El número de entrevistas realizadas es menor al que pide el enunciado.
-- **Responsabilidad profesional:** el equipo documentó con transparencia los defectos hallados, las pruebas que fallan y los límites de cada resultado, en lugar de omitirlos.
+- **Calidad del backend:** el backend compila y pasa las 8 pruebas de aceptación con Karate, tanto en local como contra el servicio que teníamos desplegado. SonarQube no encontró errores de fiabilidad ni de mantenibilidad, la duplicación es de 1.4 % y el único hallazgo de seguridad (CSRF) lo revisamos y lo justificamos. Lo que más nos falta es la cobertura de pruebas unitarias, que no medimos (0.0 %), y que 6 de las 79 pruebas todavía fallan.
+- **Pipeline:** el pipeline de Jenkins construye, prueba, analiza y publica la imagen del backend en unos 11 minutos. Hay que tener claro que se valida con las pruebas de aceptación y no con toda la suite de pruebas unitarias, y que lo ejecutamos a mano.
+- **Experimentos:** de los cinco experimentos planificados solo ejecutamos EXP-04. Los 35 desbloqueos medidos respondieron en menos de 5 s (media de 1.68 s y percentil 95 de 2.35 s), así que la hipótesis H-06 se cumple para la parte de software. Como los vehículos están simulados, falta probar con hardware real. EXP-01, EXP-02, EXP-03 y EXP-05 quedaron pendientes porque necesitan las historias US-57 a US-64, que todavía no se construyen.
+- **Validación con usuarios:** la entrevista y la evaluación heurística muestran que la propuesta se entiende y llama la atención, pero que hay que mejorar el registro, la información de precios y seguridad, y los mensajes de las reservas. Hicimos menos entrevistas de las que pide el enunciado.
+- **Despliegue y monitoreo:** el backend en Render dejó de funcionar porque se acabó el periodo de prueba de la base de datos en Aiven. Por eso levantamos todo en local con Docker Compose y ahí montamos Prometheus y Grafana. Funciona, pero no es un despliegue permanente.
+- **Responsabilidad profesional:** preferimos dejar escritos los errores que encontramos, las pruebas que fallan y los límites de cada resultado en lugar de esconderlos.
 
 **Recomendaciones y hoja de ruta**
 
-1. Corregir las 6 pruebas que fallan e incorporar JaCoCo para medir la cobertura y activar un Quality Gate estricto.
-2. Implementar las historias US-59 y US-62 para registrar eventos y duraciones dentro del producto, y repetir EXP-04 con hardware IoT real.
-3. Ejecutar EXP-01 (usabilidad del flujo de reserva) con cinco participantes y construir US-57, US-58, US-60 y US-61 para habilitar EXP-02 y EXP-03.
-4. Completar las entrevistas de validación por segmento y corregir los problemas de severidad 3 de la evaluación heurística.
-5. Versionar el `Jenkinsfile`, configurar el disparo automático con un *webhook* cuando Jenkins sea accesible y evaluar un servidor de integración continua alojado.
-6. Migrar la base de datos de producción antes de que venza el crédito de prueba (24/11/2026) y revisar el plan de hospedaje del backend.
-7. Realizar una auditoría de accesibilidad WCAG y definir la política de gestión de baterías antes de un lanzamiento real.
-
+1. Corregir las 6 pruebas que fallan, agregar JaCoCo para medir la cobertura y volver más estricto el Quality Gate.
+2. Mover el secreto JWT a una variable de entorno y subir el `Jenkinsfile` al repositorio del backend.
+3. Implementar US-59 y US-62 para registrar eventos y duraciones dentro del producto, y repetir EXP-04 con hardware IoT real.
+4. Ejecutar EXP-01 (usabilidad del flujo de reserva) con cinco participantes y construir US-57, US-58, US-60 y US-61 para poder hacer EXP-02 y EXP-03.
+5. Completar las entrevistas de validación de cada segmento y corregir los problemas de severidad 3 de la evaluación heurística.
+6. Conseguir una base de datos administrada permanente, revisar por qué falló el despliegue del commit `7077d29` en Render y activar el disparo automático del pipeline con un webhook.
+7. Hacer una auditoría de accesibilidad (WCAG) y definir cómo se gestionarán las baterías antes de un lanzamiento real.
 
 ### Video App Validation
 
-> **Pendiente de completar por el equipo:** documentar la evaluación de la aplicación mediante la prueba con usuarios usando Firebase App Distribution, con captura del video, enlace en Microsoft Stream y duración. Si esta prueba no se realiza, el informe debe indicarlo explícitamente.
+No hicimos la prueba con usuarios usando Firebase App Distribution, porque no tenemos una aplicación móvil nativa en este ciclo. Por eso no hay video de esta parte.
 
 ### Video About-the-Team
 
-> **Pendiente de completar por el equipo:** resumen de los aspectos más relevantes del video, con la pauta de secuencias (hh:mm:ss de inicio de cada una), un cuadro representativo, el enlace en Microsoft Stream y el testimonio ante cámara de cada integrante sobre las actividades realizadas, el logro de los resultados del curso (*outcomes*) y las competencias desarrolladas.
+Este video no está grabado todavía. Cuando lo hagamos, cada integrante hablará ante cámara de lo que hizo, de los resultados del curso que logró y de las competencias que desarrolló.
 
 ## Bibliografía
 
@@ -6010,7 +6027,7 @@ La matriz identifica los riesgos e impactos de WeRide, a quiénes afectan y qué
 
 <a href="https://github.com/DEIS-Grupo-4/Landing-Page" target="_blank" rel="noopener">Repositorio de Landing Page (DEIS)</a>
 
-> **Pendiente de completar por el equipo:** enlace al repositorio de la aplicación móvil nativa, que proviene de un trabajo anterior del curso de desarrollo móvil.
+En este ciclo no se desarrolló una aplicación móvil nativa. Los repositorios del producto están en la sección 8.3.3.4.
 
 <a href="https://www.canva.com/design/DAGzltc5qz0/jV9yXK8Nme4XSOk6AUhFgg/edit" target="_blank" rel="noopener">Presentación de Canvas</a>
 
@@ -6022,7 +6039,7 @@ La matriz identifica los riesgos e impactos de WeRide, a quiénes afectan y qué
 
 | Entrega | Título del video | Enlace en Microsoft Stream |
 | --- | --- | --- |
-| Avance 1 | Pendiente | Pendiente |
-| Trabajo Parcial | Pendiente | Pendiente |
-| Avance 2 | Pendiente | Pendiente |
-| Trabajo Final | upc-pre-202610-1asi0732-9090-wetech-expo-tb2 | Pendiente |
+| Avance 1 | — | No disponible |
+| Trabajo Parcial | — | No disponible |
+| Avance 2 | — | No disponible |
+| Trabajo Final | upc-pre-202610-1asi0732-9090-wetech-expo-tb2 | Se entrega junto con el informe |
