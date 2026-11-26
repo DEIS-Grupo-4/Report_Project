@@ -4093,6 +4093,14 @@ La verificación y validación de WeRide tiene como finalidad comprobar que los 
 En esta etapa, el alcance de las pruebas comprenden los bounded contexts **IAM**, **Plans**, **Booking**, **Trip**, **Notifications**, **Profile**, **Location** y **Travel History**. Las pruebas unitarias se implementan utilizando JUnit 5 y Mockito, lo que permite verificar la lógica de los servicios de aplicación de manera aislada. Para las pruebas de integración y de sistema, se considera la interacción entre los componentes de la aplicación, los endpoints REST y la persistencia de datos en la base de datos. Los escenarios BDD permiten especificar el comportamiento esperado de las funcionalidades mediante criterios comprensibles para los desarrolladores y los responsables del producto. La ejecución y los resultados de cada prueba se registran para demostrar el cumplimiento de los criterios de aceptación correspondientes.
 
 
+### Prácticas TDD, BDD y ATDD
+
+Antes de entrar a cada nivel de prueba, aclaramos hasta dónde llegamos con cada práctica, porque no todas las aplicamos igual.
+
+- **TDD (desarrollo guiado por pruebas):** no lo aplicamos de forma estricta. El backend ya existía del curso anterior y las pruebas unitarias se escribieron sobre ese código, no antes. Lo que sí hicimos fue usar esas pruebas como red de seguridad: cuando corregimos los errores de compilación y de tipos de la rama `main` (Pull Request #2), fuimos corrigiendo hasta que las pruebas dejaron de fallar y dejamos anotadas las 6 que siguen fallando (sección 6.2.2).
+- **BDD (desarrollo guiado por comportamiento):** sí lo aplicamos. Los escenarios de Karate están escritos en Gherkin (`Given-When-Then`) y cubren registro, inicio de sesión y gestión de vehículos (sección 6.1.3). Se ejecutan en el pipeline de Jenkins (sección 7.1.2).
+- **ATDD (desarrollo guiado por pruebas de aceptación):** lo aplicamos solo en parte. Los criterios de aceptación de las historias de usuario (sección 3.2) ya vienen en formato Dado/Cuando/Entonces y los escenarios de Karate siguen ese mismo formato. Lo que no hicimos fue escribir las pruebas de aceptación junto con el product owner antes de implementar cada historia.
+
 ### 6.1.1. Core Entities Unit Tests.
 
 Las pruebas unitarias tienen como objetivo verificar el comportamiento de los servicios de aplicación de los bounded contexts mencionados, de manera independiente de la base de datos y de otros componentes externos. En el backend de WeRide se utilizan mocks que permiten controlar las respuestas de las dependencias para después comprobar los resultados de cada operación.
@@ -5932,6 +5940,16 @@ La matriz identifica los riesgos e impactos de WeRide, a quiénes afectan y qué
 
 *Fuente: Elaboración propia, con el formato del Anexo F del enunciado del trabajo final.*
 
+### Responsabilidad profesional y sociedades profesionales
+
+Como equipo tomamos como referencia el *Código de Ética y Conducta Profesional* de la ACM (2018) y el *Código de Ética y Práctica Profesional de la Ingeniería de Software* de la ACM y la IEEE Computer Society (Gotterbarn et al., 1999). La ACM y la IEEE Computer Society son las dos sociedades profesionales más importantes de la computación y de la ingeniería de software, y sus códigos son los que sirven de base a la profesión. De esos códigos nos quedamos con tres ideas que sí pudimos aplicar en este trabajo:
+
+- **Ser honestos con lo que se reporta.** Corregimos afirmaciones del informe que no eran ciertas (por ejemplo, que el secreto JWT venía de una variable de entorno, o que Render tenía desplegada la última versión) y dejamos escritas las pruebas que fallan, el hallazgo de seguridad de SonarQube y los límites del experimento EXP-04.
+- **No presentar como hecho lo que no se hizo.** En el informe separamos lo realizado de lo propuesto, y lo que no logramos (aplicación móvil nativa, cuatro de los cinco experimentos, la mayoría de las entrevistas) aparece como no realizado.
+- **Pensar en las personas afectadas por el producto.** La matriz de la Tabla 8.25 considera a usuarios, peatones y comunidad, y los términos y condiciones tratan los datos personales según la Ley N.º 29733.
+
+También reconocemos que la profesión nos exige seguir aprendiendo. En este curso tuvimos que aprender herramientas nuevas para nosotros (Jenkins, SonarQube, Karate, Prometheus y Grafana) y, cuando el servicio en la nube dejó de funcionar, buscar una alternativa local con Docker Compose.
+
 ## Conclusiones
 
 **Conclusiones del producto y del modelo de negocio**
@@ -5973,6 +5991,10 @@ Este video no está grabado todavía. Cuando lo hagamos, cada integrante hablar�
 ## Bibliografía
 
 <ul>
+  <li>Association for Computing Machinery. (2018). <em>ACM Code of Ethics and Professional Conduct</em>. Recuperado de: <a href="https://www.acm.org/code-of-ethics" target="_blank" rel="noopener">https://www.acm.org/code-of-ethics</a></li>
+  <li>Gotterbarn, D., Miller, K., & Rogerson, S. (1999). <em>Software Engineering Code of Ethics and Professional Practice</em> (versión 5.2). ACM e IEEE Computer Society. Recuperado de: <a href="https://www.computer.org/education/code-of-ethics" target="_blank" rel="noopener">https://www.computer.org/education/code-of-ethics</a></li>
+  <li>Beck, K. (2003). <em>Test-Driven Development: By Example</em>. Addison-Wesley.</li>
+  <li>Adzic, G. (2011). <em>Specification by Example: How Successful Teams Deliver the Right Software</em>. Manning.</li>
   <li>Alexander, I., & Beus-Dukic, L. (2009). <em>Discovering Requirements: How to Specify Products and Services</em>. Wiley.</li>
   <li>Cohn, M. (2004). <em>User Stories Applied: For Agile Software Development</em>. Addison-Wesley.</li>
   <li>Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1994). <em>Design Patterns: Elements of Reusable Object-Oriented Software</em>. Addison-Wesley.</li>
