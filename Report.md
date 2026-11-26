@@ -84,18 +84,6 @@ Buscamos transformar la movilidad urbana en Lima  ofreciendo un transporte rápi
     </tr>
     <tr>
       <td style="padding: 10px; border: 1px solid #aaa;">
-        Romero Meza, Jhimy Pool<br>
-        <span style="font-size:11px; color:#555;">(U202321510)</span>
-      </td>
-      <td style="padding: 10px; border: 1px solid #aaa; text-align:center;">
-        <img src="assets/Integrantes/JhimyRomeroMeza.jpg" alt="Foto de Jhimy" style="max-width:80px; border-radius:6px;">
-      </td>
-      <td style="padding: 10px; border: 1px solid #aaa; text-align: justify;">
-        Estudiante de Ingeniería de Software (5to ciclo). Se destaca por su responsabilidad, compromiso y disposición constante para colaborar. Cuenta con conocimientos previos en tecnología y en el desarrollo de proyectos, demostrando iniciativa y capacidad de aprendizaje autónomo.
-      </td>
-    </tr>
-    <tr>
-      <td style="padding: 10px; border: 1px solid #aaa;">
         Franco Sebastian Laymito Delgado<br>
         <span style="font-size:11px; color:#555;">(U202311959)</span>
       </td>
@@ -104,18 +92,6 @@ Buscamos transformar la movilidad urbana en Lima  ofreciendo un transporte rápi
       </td>
       <td style="padding: 10px; border: 1px solid #aaa; text-align: justify;">
         Estudiante de Ingeniería de Software en la Universidad Peruana de Ciencias Aplicadas (UPC). Destaca por sus sólidos conocimientos en el desarrollo con Python, tecnologías de desarrollo web (HTML, CSS y JavaScript), gestión de bases de datos como MongoDB y análisis con Power BI. Posee habilidades analíticas para la resolución de problemas de complejidad algorítmica y estructuras de datos, aportando compromiso, capacidad técnica y trabajo en equipo.
-      </td>
-    </tr>
-    <tr>
-      <td style="padding: 10px; border: 1px solid #aaa;">
-        Silva Hualpa, Rosangela<br>
-        <span style="font-size:11px; color:#555;">(U20241B885)</span>
-      </td>
-      <td style="padding: 10px; border: 1px solid #aaa; text-align:center;">
-        <img src="assets/Integrantes/Rosangela-Silva.jpeg" alt="Foto de Arnold" style="max-width:80px; border-radius:6px;">
-      </td>
-      <td style="padding: 10px; border: 1px solid #aaa; text-align: justify;">
-        Mi nombre es Rosangela Silva y estoy cursando la carrera de Ingeniería de Software en la Universidad Peruana de Ciencias Aplicadas. Tengo interés en seguir desarrollándome en el área de tecnología y adquirir experiencia a través de la participación en diferentes proyectos. Me gustaría enfocarme en el desarrollo y la creación de soluciones de software, aportando mis conocimientos, aprendiendo junto a mi equipo y asumiendo responsabilidades que contribuyan al cumplimiento de los objetivos del proyecto.
       </td>
     </tr>
   </tbody>
